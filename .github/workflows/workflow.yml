@@ -1,0 +1,23 @@
+name: Build & Test
+
+on:
+    push:
+        branches: [ main ]
+    pull_request:
+        branches: [ main ]
+
+jobs:
+    build:
+        runs-on: macos-latest
+
+        steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v4
+
+        - name: Set Specific Xcode Version
+          uses: sudo xcode-select -s /Applications/Xcode_16.3.app/Contents/Developer
+
+        - name: Start Xcode Build & Tests
+          uses: |
+            xcodebuild clean test -project Retrospective.xcodeproj -scheme Retrospective -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.4'
+
