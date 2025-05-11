@@ -6,12 +6,16 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct RetrospectiveApp: App {
+    let persistenceManager = PersistenceManager()
+
     var body: some Scene {
         WindowGroup {
             ContentView()
         }
+        .modelContext(persistenceManager.mainContext)
     }
 }
