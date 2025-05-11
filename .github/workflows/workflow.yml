@@ -17,6 +17,9 @@ jobs:
         - name: Set Specific Xcode Version
           run: sudo xcode-select -s /Applications/Xcode_16.1.app/Contents/Developer
 
+        - name: List Available Simulators
+          run: xcrun simctl list
+
         - name: Start Xcode Build & Tests
           run: |
             xcodebuild clean test -project Retrospective.xcodeproj \
