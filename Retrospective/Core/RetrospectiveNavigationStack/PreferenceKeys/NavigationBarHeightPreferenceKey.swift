@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-/// <#Description#>
 struct NavigationBarHeightPreferenceKey: PreferenceKey {
     static let defaultValue: CGFloat? = nil
 

@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-/// <#Description#>
 struct NavigationTitlePreferenceKey: PreferenceKey {
     static let defaultValue: String? = nil
 

@@ -7,19 +7,24 @@
 
 import SwiftUI
 
-/// <#Description#>
+/// 사용자 지정 네비게이션 스택 뷰로, 사용자 정의 툴바 및 네비게이션 타이틀을 설정할 수 있습니다.
+/// - Note: 기본 NavigationStack의 네비게이션 바를 사용자 정의 툴바와 타이틀 영역으로 대체합니다.
 struct RetrospectiveNavigationStack<Root>: View where Root: View {
-
+    
+    /// 사용자 지정 네비게이션 바에 표시될 타이틀입니다.
     @State private var navigationTitle: String? = nil
+    /// 사용자 지정 네비게이션 바의 높이를 나타냅니다.
     @State private var navigationBarHeight: CGFloat? = nil
+    /// 네비게이션 바의 좌측 툴바 레이아웃을 설정합니다.
     @State private var leadingToolbar: ToolBarLayout? = nil
+    /// 네비게이션 바의 우측 툴바 레이아웃을 설정합니다.
     @State private var trailingToolbar: ToolBarLayout? = nil
 
-    /// <#Description#>
+    /// 사용자 지정 네비게이션 바 아래에 표시될 루트 콘텐츠 뷰입니다.
     private let root: Root
 
-    /// <#Description#>
-    /// - Parameter root: <#root description#>
+    /// RetrospectiveNavigationStack을 초기화합니다.
+    /// - Parameter root: 네비게이션 스택의 루트 콘텐츠를 반환하는 클로저
     init(root: () -> Root) {
         self.root = root()
     }
@@ -27,117 +32,63 @@ struct RetrospectiveNavigationStack<Root>: View where Root: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                HStack(spacing: 0) {
-                    if let leadingToolbar = leadingToolbar {
-                        HStack(spacing: leadingToolbar.spacing) {
-                            leadingToolbar.toolBarProvider
-                        }
-                    }
-                    Spacer()
-                    if let trailingToolbar = trailingToolbar {
-                        HStack(spacing: trailingToolbar.spacing) {
-                            trailingToolbar.toolBarProvider
-                        }
-                    }
-                }
-                .overlay {
-                    if let navigationTitle = navigationTitle {
-                        Text(navigationTitle)
-                            .font(.title3)
-                            .fontWeight(.bold)
-                    }
-                }
-                .frame(height: navigationBarHeight ?? 44)
-                .frame(maxWidth: .infinity)
-                .padding(.horizontal)
-                .padding(.bottom, 4)
-                .background(.white)
+                navigationBar
 
-                Divider()
-
-                VStack(spacing: 0) {
-                    Spacer(minLength: 0)
-                    root
-                    Spacer(minLength: 0)
-                }
+                navigationContent
             }
             .toolbarVisibility(.hidden, for: .navigationBar)
             .navigationBarBackButtonHidden()
         }
-
-        .onPreferenceChangeOnMainActor(NavigationTitlePreferenceKey.self) { title in
+        .onPreferenceChangeMainActor(NavigationTitlePreferenceKey.self) { title in
             navigationTitle = title
         }
-        .onPreferenceChangeOnMainActor(LeadingToolBarPreferenceKey.self) { toolbar in
+        .onPreferenceChangeMainActor(LeadingToolBarPreferenceKey.self) { toolbar in
             leadingToolbar = toolbar
         }
-        .onPreferenceChangeOnMainActor(TrailingToolBarPreferenceKey.self) { toolbar in
+        .onPreferenceChangeMainActor(TrailingToolBarPreferenceKey.self) { toolbar in
             trailingToolbar = toolbar
         }
     }
 }
 
-extension View {
+extension RetrospectiveNavigationStack {
 
-    /// <#Description#>
-    /// - Parameter title: <#title description#>
-    /// - Returns: <#description#>
-    func retrospectiveNavigationTitle(_ title: String) -> some View {
-        self.preference(key: NavigationTitlePreferenceKey.self, value: title)
-    }
-
-
-    /// <#Description#>
-    /// - Parameters:
-    ///   - spacing: <#spacing description#>
-    ///   - content: <#content description#>
-    /// - Returns: <#description#>
-    func retrospectiveLeadingToolBar(
-        spacing: CGFloat = 10,
-        @ViewBuilder _ content: @escaping () -> some View
-    ) -> some View {
-        self.preference(
-            key: LeadingToolBarPreferenceKey.self,
-            value: ToolBarLayout(spacing: spacing, toolBarProvider: AnyView(content()))
-        )
-    }
-
-    /// <#Description#>
-    /// - Parameters:
-    ///   - spacing: <#spacing description#>
-    ///   - content: <#content description#>
-    /// - Returns: <#description#>
-    func retrospectiveTrailingToolbar(
-        spacing: CGFloat = 10,
-        @ViewBuilder _ content: @escaping () -> some View
-    ) -> some View {
-        self.preference(
-            key: TrailingToolBarPreferenceKey.self,
-            value: ToolBarLayout(spacing: spacing, toolBarProvider: AnyView(content()))
-        )
-    }
-}
-
-
-extension View {
-
-    /// <#Description#>
-    /// - Parameters:
-    ///   - key: <#key description#>
-    ///   - action: <#action description#>
-    /// - Returns: <#description#>
-    func onPreferenceChangeOnMainActor<K>(
-        _ key: K.Type = K.self,
-        perform action: @escaping (K.Value) -> Void
-    ) -> some View where K: PreferenceKey, K.Value: Equatable {
-        self.onPreferenceChange(key) { value in
-            Task { @MainActor in
-                action(value)
+    @ViewBuilder
+    var navigationBar: some View {
+        HStack(spacing: 0) {
+            if let leadingToolbar = leadingToolbar {
+                HStack(spacing: leadingToolbar.spacing) {
+                    leadingToolbar.toolBarProvider
+                }
+            }
+            Spacer()
+            if let trailingToolbar = trailingToolbar {
+                HStack(spacing: trailingToolbar.spacing) {
+                    trailingToolbar.toolBarProvider
+                }
             }
         }
+        .overlay {
+            if let navigationTitle = navigationTitle {
+                Text(navigationTitle)
+                    .font(.title3)
+                    .fontWeight(.bold)
+            }
+        }
+        .frame(height: navigationBarHeight ?? 44)
+        .frame(maxWidth: .infinity)
+        .padding(.horizontal)
+        .padding(.bottom, 4)
+        .background(.white)
+
+        Divider()
+    }
+
+    var navigationContent: some View {
+        root
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
-
 
 
 #Preview {
@@ -165,6 +116,7 @@ extension View {
         }
         .retrospectiveTrailingToolbar {
             RetrospectiveToolBarItem(.asset("filter")) { }
+                .padding()
         }
         .retrospectiveNavigationTitle("Our Camp Diary")
     }
@@ -211,6 +163,7 @@ extension View {
             ForEach(1...100, id: \.self) { _ in
                 Text("Hello, RetrospectiveNavigationStack!")
             }
+            .frame(maxWidth: .infinity)
         }
         .retrospectiveLeadingToolBar {
             RetrospectiveToolBarItem(.symbol("chevron.left")) { }
