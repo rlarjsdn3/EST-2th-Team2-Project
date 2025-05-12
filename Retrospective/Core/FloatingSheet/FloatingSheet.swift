@@ -9,29 +9,31 @@ import SwiftUI
 
 struct FloatingSheet<Content>: View where Content: View {
 
-    ///
+    /// 사용자가 드래그할 때, 처음 드래그 위치와 이후 드래그 위치의 차이를 저장하는 상태 변수입니다.
     @State private var dragOffsetX: CGFloat = 0.0
     @State private var dragOffsetY: CGFloat = 0.0
-    ///
+    /// 드래그 동작 중 최초 드래그 정보를 저장하는 상태 변수입니다.
     @State private var previousGesture: DragGesture.Value?
-    ///
+    /// 현재 사용자가 드래그 중인지 여부를 나타내는 상태 변수입니다.
     @State private var isDragging: Bool = false
 
-    ///
+    /// 플로팅 시트가 표시되는 상태를 제어하는 바인딩 값입니다.
     @Binding var isPresented: Bool
+    /// 시트가 닫힐 때 실행할 클로저
     private let onDismiss: (() -> Void)?
     private let content: Content
 
-    ///
+    /// 플로팅 시트의 모서리 반경을 지정하는 상수입니다.
     private let cornerRadius: Double = 24
-    ///
+    /// 플로팅 시트의 애니메이션 지속 시간을 지정하는 상수입니다.
     private let animationDuration: Double = 0.25
 
 
-    /// <#Description#>
+    /// 플로팅 시트를 초기화하는 생성자입니다.
     /// - Parameters:
-    ///   - isPresented: <#isPresented description#>
-    ///   - content: <#content description#>
+    ///   - isPresented: 시트의 표시 여부를 제어하는 바인딩 값입니다.
+    ///   - onDismiss: 시트가 닫힐 때 실행할 클로저입니다.
+    ///   - content: 시트에 표시할 콘텐츠를 제공하는 클로저입니다.
     init(
         isPresented: Binding<Bool>,
         onDismiss: (() -> Void)? = nil,
@@ -51,7 +53,7 @@ struct FloatingSheet<Content>: View where Content: View {
                     .cornerRadius(.background, radius: cornerRadius)
                     .background {
                         RoundedRectangle(cornerRadius: cornerRadius)
-                            .shadow(radius: 8, x: 3, y: 3)
+                            .defaultShadow()
                     }
                     .transition(
                         .asymmetric(
