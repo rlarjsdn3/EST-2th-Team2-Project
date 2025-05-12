@@ -35,3 +35,37 @@ extension Color {
         )
     }
 }
+
+
+extension Color {
+
+    /// Color의 빨간색(Red) 구성 요소를 0 ~ 255 범위의 값으로 반환합니다.
+    /// - Returns: Red 구성 요소 값 (0 ~ 255)
+    var red: Double {
+        var red: CGFloat = 0
+        UIColor(self).getRed(&red, green: nil, blue: nil, alpha: nil)
+        return red * 255.0
+    }
+
+    /// Color의 초록색(Green) 구성 요소를 0 ~ 255 범위의 값으로 반환합니다.
+    /// - Returns: Green 구성 요소 값 (0 ~ 255)
+    var green: Double {
+        var green: CGFloat = 0
+        UIColor(self).getRed(nil, green: &green, blue: nil, alpha: nil)
+        return green * 255.0
+    }
+
+    /// Color의 파란색(Blue) 구성 요소를 0 ~ 255 범위의 값으로 반환합니다.
+    /// - Returns: Blue 구성 요소 값 (0 ~ 255)
+    var blue: Double {
+        var blue: CGFloat = 0
+        UIColor(self).getRed(nil, green: nil, blue: &blue, alpha: nil)
+        return blue * 255.0
+    }
+
+    /// Color의 RGB(Red, Green, Blue) 구성 요소를 0 ~ 255 범위의 값으로 반환합니다.
+    /// - Returns: (red: Double, green: Double, blue: Double) 형식의 RGB 값 튜플
+    func rgbComponents() -> (red: Double, green: Double, blue: Double) {
+        (self.red, self.green, self.blue)
+    }
+}

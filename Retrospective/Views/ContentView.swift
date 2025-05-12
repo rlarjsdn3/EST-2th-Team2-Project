@@ -59,6 +59,9 @@ struct ContentView: View {
             .padding(.vertical, 4)
             .padding(.horizontal, 4)
         }
+        .onAppear {
+
+        }
     }
 }
 
