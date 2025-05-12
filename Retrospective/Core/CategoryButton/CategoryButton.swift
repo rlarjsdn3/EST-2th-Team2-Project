@@ -8,10 +8,16 @@
 import SwiftUI
 
 struct CategoryButton: View {
-    @State var isCategoryOn: Bool = false
+    @Binding var isCategoryOn: Bool
 
-    let category: String
-    let categoryColor: Color
+    var category: String
+    var categoryColor: Color
+
+    init(isCategoryOn: Binding<Bool>, category: String, categoryColor: Color) {
+        self._isCategoryOn = isCategoryOn
+        self.category = category
+        self.categoryColor = categoryColor
+    }
 
     var body: some View {
         Button {
@@ -31,17 +37,18 @@ struct CategoryButton: View {
 }
 
 #Preview {
-    @Previewable @State var categoryName: String = "카테고리"
-    @Previewable @State var categoryColor: Color = .blue
+    @Previewable @State var isCategoryOn1: Bool = false
+    @Previewable @State var isCategoryOn2: Bool = false
+    @Previewable @State var isCategoryOn3: Bool = false
+    @Previewable @State var isCategoryOn4: Bool = false
 
     ScrollView(.horizontal) {
         HStack(spacing: 10) {
-            CategoryButton(category: categoryName, categoryColor: categoryColor)
-            CategoryButton(category: categoryName, categoryColor: categoryColor)
-            CategoryButton(category: categoryName, categoryColor: categoryColor)
-            CategoryButton(category: categoryName, categoryColor: categoryColor)
+            CategoryButton(isCategoryOn: $isCategoryOn1, category: "카테고리", categoryColor: .blue)
+            CategoryButton(isCategoryOn: $isCategoryOn2, category: "카테고리", categoryColor: .green)
+            CategoryButton(isCategoryOn: $isCategoryOn3, category: "카테고리", categoryColor: .red)
+            CategoryButton(isCategoryOn: $isCategoryOn4, category: "카테고리", categoryColor: .yellow)
         }
-        .presentationDetents([.height(150), .fraction(0.8)])
     }
     .scrollIndicators(.hidden)
 }
