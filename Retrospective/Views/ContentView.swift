@@ -58,6 +58,9 @@ struct ContentView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.vertical, 4)
             .padding(.horizontal, 4)
+
+            TabBarView()
+
         }
     }
 }
