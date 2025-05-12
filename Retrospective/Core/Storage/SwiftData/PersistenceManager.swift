@@ -19,7 +19,7 @@ final class PersistenceManager {
 
     private let container: ModelContainer = {
         let schema = Schema([
-            Item.self
+            Diary.self, Category.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema)
 
@@ -42,7 +42,7 @@ extension PersistenceManager {
     /// Preview에서 실제 데이터 없이도 UI를 미리볼 수 있습니다.
     static let previewContainer: ModelContainer = {
         let schema = Schema([
-            Item.self
+            Diary.self, Category.self
         ])
         let modelConfiguration = ModelConfiguration(
             schema: schema,
@@ -55,7 +55,7 @@ extension PersistenceManager {
                 configurations: [modelConfiguration]
             )
 
-            Item.mock.forEach(container.mainContext.insert(_:))
+            Diary.mock.forEach(container.mainContext.insert(_:))
 
             return container
         } catch {

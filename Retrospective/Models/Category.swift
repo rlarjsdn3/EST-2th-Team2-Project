@@ -71,4 +71,26 @@ final class Category {
         self.green = green
         self.blue = blue
     }
+    
+    /// 카테고리 모델의 편의 초기화 메서드입니다.
+    /// - Parameters:
+    ///   - name: 카테고리의 고유 이름
+    ///   - color: 카테고리의 색상 (Color 객체)
+    /// - Note: Color 객체에서 RGB 값을 추출하여 각 구성 요소(red, green, blue)로 설정됩니다.
+    convenience init(name: String, color: Color) {
+        let rgb = color.rgbComponents()
+        self.init(name: name, red: rgb.red, green: rgb.green, blue: rgb.blue)
+    }
+}
+
+
+extension Category {
+
+    static let mock: [Category] = [
+        .init(name: "음식", color: .cyan),
+        .init(name: "운동", color: .mint),
+        .init(name: "일상", color: .orange),
+        .init(name: "휴식", color: .purple),
+        .init(name: "기타", color: .pink),
+    ]
 }
