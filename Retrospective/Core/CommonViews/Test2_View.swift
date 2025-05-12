@@ -11,7 +11,7 @@ struct Test2_View: View {
     var body: some View {
         ZStack {
             Rectangle()
-                .foregroundStyle(.red)
+                .foregroundStyle(.brown)
             Text("Search")
                 .foregroundStyle(.white)
         }

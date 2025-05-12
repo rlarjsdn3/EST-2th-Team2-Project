@@ -23,22 +23,22 @@ struct TabBarView: View {
             TabView(selection: $selected) {
                 Group {
                     NavigationStack {
-                        Test1_View()
+                        ContentView() //HomeView() 넣어주세요
                     }
                     .tag(Tab.home)
 
                     NavigationStack {
-                        Test2_View()
+                        Test2_View()// searchView() 넣어주세요
                     }
                     .tag(Tab.search)
 
                     NavigationStack {
-                        Test3_View()
+                        Test3_View()// statistiView() 넣어주세요
                     }
                     .tag(Tab.statistic)
 
                     NavigationStack {
-                        Test4_View()
+                        Test4_View()// settingView() 넣어주세요
                     }
                     .tag(Tab.setting)
                 }
@@ -128,7 +128,7 @@ struct TabBarView: View {
 
     struct  HomeView: View {
         var body: some View {
-            Test1_View()// Homeview() 넣어주세요
+            ContentView()// Homeview() 넣어주세요
 
         }
     }
