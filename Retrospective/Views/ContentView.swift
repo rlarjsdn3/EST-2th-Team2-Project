@@ -14,6 +14,8 @@ struct ContentView: View {
         VStack {
             Button("FloatingSheet") {
                 isPresented.toggle()
+                
+                
             }
         }
         .padding()
@@ -58,6 +60,7 @@ struct ContentView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.vertical, 4)
             .padding(.horizontal, 4)
+
         }
     }
 }
