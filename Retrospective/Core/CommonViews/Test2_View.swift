@@ -14,8 +14,10 @@ struct Test2_View: View {
                 .foregroundStyle(.brown)
             Text("Search")
                 .foregroundStyle(.white)
+
         }
         .ignoresSafeArea(.all)
+
     }
 }
 

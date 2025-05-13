@@ -14,8 +14,14 @@ struct Test3_View: View {
                 .foregroundStyle(.blue)
             Text("statistics")
                 .foregroundStyle(.white)
+
         }
         .ignoresSafeArea(.all)
+        Text("ssㄴㅁㅁ")
+        Text("ssㄴㅁㅁ")
+        Text("ssㄴㅁㅁ")
+        Text("ssㄴㅁㅁ")
+        Text("ssㄴㅁㅁ")
     }
 }
 
