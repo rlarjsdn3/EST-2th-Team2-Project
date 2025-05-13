@@ -22,7 +22,7 @@ struct ContentView: View {
             TabView(selection: $selected) {
                 Group {
                     NavigationStack {
-                        Test1_View() //TODO: HomeView() 넣어주세요
+                        CategoryManagementView() //TODO: HomeView() 넣어주세요
                     }
                     .tag(Tab.home)
 
@@ -47,6 +47,7 @@ struct ContentView: View {
             tabBar
                 .padding(.bottom, -10)
         }
+        .ignoresSafeArea(.keyboard)
     }
 
 
@@ -63,7 +64,7 @@ struct ContentView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 30)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.label)
 
                 }
             }
@@ -125,7 +126,7 @@ struct ContentView: View {
 
     struct  HomeView: View {
         var body: some View {
-            Test1_View()//TODO: HomeView() 넣어주세요
+            CategoryManagementView()//TODO: HomeView() 넣어주세요
 
         }
     }
