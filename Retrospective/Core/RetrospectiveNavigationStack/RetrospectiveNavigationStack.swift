@@ -27,7 +27,7 @@ struct RetrospectiveNavigationStack<Root>: View where Root: View {
 
     /// RetrospectiveNavigationStack을 초기화합니다.
     /// - Parameter root: 네비게이션 스택의 루트 콘텐츠를 반환하는 클로저
-    init(root: () -> Root) {
+    init(@ViewBuilder root: () -> Root) {
         self.root = root()
     }
 

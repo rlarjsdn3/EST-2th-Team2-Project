@@ -29,7 +29,7 @@ extension ShapeStyle where Self == Color {
     static var appLightPeach: Color {
         .init(
             light: Color(r: 247.0, g: 232.0, b: 212.0),
-            dark: Color(r: 247.0, g: 232.0, b: 212.0)
+            dark: Color(r: 32.0, g: 32.0, b: 32.0)
         )
     }
 

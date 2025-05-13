@@ -36,10 +36,8 @@ struct ContentView: View {
                     }
                     .tag(Tab.statistic)
 
-                    NavigationStack {
-                        Test4_View()// settingView() 넣어주세요
-                    }
-                    .tag(Tab.setting)
+                    StatisticsView()
+                        .tag(Tab.setting)
                 }
                 .toolbar(.hidden, for: .tabBar)
 
