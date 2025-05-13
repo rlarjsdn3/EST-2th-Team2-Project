@@ -62,7 +62,7 @@ struct ContentView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 30)
-                        .foregroundStyle(.label)
+                        .foregroundStyle(.black)
 
                 }
             }

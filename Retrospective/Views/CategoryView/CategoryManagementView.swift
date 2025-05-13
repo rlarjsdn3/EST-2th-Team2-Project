@@ -17,7 +17,7 @@ struct CategoryManagementView: View {
                 .retrospectiveLeadingToolBar {
                     RetrospectiveToolBarItem(.symbol("chevron.left")) { }
                 }
-                .retrospectiveNavigationTitle("카테고리 설정")
+                .retrospectiveNavigationTitle("카테고리 관리")
                 .retrospectiveNavigationBarColor(.appLightPeach)
         }
     }
