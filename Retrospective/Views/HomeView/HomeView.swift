@@ -23,7 +23,6 @@ struct HomeView: View {
         }
     }
 
-
     var filteredDiaries: [Diary] {
         guard !filteringCategories.isEmpty else { return allDiaries }
 
@@ -75,34 +74,7 @@ struct HomeView: View {
                 }
                 .padding(.horizontal, 20)
 
-                ScrollView {
-                    LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
-                        ForEach(groupedByMonthAndDay.keys.sorted(by: { isDescending ? $0 > $1 : $0 < $1 }), id: \.self) { monthKey in
-                            if let days = groupedByMonthAndDay[monthKey] {
-
-                                Section(header: MonthHeader(title: monthKey)) {
-                                    ForEach(days.keys.sorted(by: { isDescending ? $0 > $1 : $0 < $1 }), id: \.self) { dayKey in
-                                        if let diaries = days[dayKey] {
-                                            Section(header: DayHeader(title: dayKey)) {
-                                                ForEach(diaries) { diary in
-                                                    VStack(alignment: .leading) {
-                                                        CardUIView(diary: diary)
-                                                    }
-
-
-                                                    .padding(.vertical, 4)
-                                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                                    .background(Color.gray.opacity(0.05))
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
+                CardScrollView(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
             }
             .background(Color.appLightPeach)
             .padding(.horizontal)
@@ -119,38 +91,6 @@ struct HomeView: View {
                     FilterSelectView(filteringCategories: $filteringCategories)
                 }
             }
-        }
-    }
-}
-
-struct MonthHeader: View {
-    let title: String
-    var body: some View {
-        HStack {
-
-            Text(title)
-                .foregroundStyle(Color.secondary)
-                .font(.title)
-
-
-            Spacer()
-
-        }
-        .frame(maxWidth: .infinity)
-        .background(Color.appLightPeach)
-    }
-}
-
-struct DayHeader: View {
-    let title: String
-    var body: some View {
-        HStack {
-            Text(title)
-                .foregroundStyle(Color.secondary)
-                .font(.title3)
-
-
-            Spacer()
         }
     }
 }
