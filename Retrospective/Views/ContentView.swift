@@ -18,6 +18,7 @@ struct ContentView: View {
 
     ///탭바 커스텀을 위해 탭바의 고정된 자리 삭제
     var body: some View {
+<<<<<<< HEAD
         ZStack(alignment: .bottom) {
             TabView(selection: $selected) {
                 Group {
@@ -146,6 +147,109 @@ struct ContentView: View {
         var body: some View {// settingView() 넣어주세요
             Test4_View()
         }
+=======
+        RetrospectiveNavigationStack {
+            VStack {
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+                Text("Hello, RetrospectiveNavigationStack!")
+            }
+            .retrospectiveLeadingToolBar {
+                RetrospectiveToolBarItem(.symbol("chevron.left")) { }
+            }
+            .retrospectiveTrailingToolbar {
+                RetrospectiveToolBarItem(.asset("filter")) { }
+            }
+            .retrospectiveNavigationTitle("Our Camp Diary")
+        }
+
+//        VStack {
+//            Button("FloatingSheet") {
+//                isPresented.toggle()
+//                
+//                
+//            }
+//        }
+//        .padding()
+//        .floatingSheet(isPresented: $isPresented, onDismiss: { print("dismissed") }) {
+//            VStack(alignment: .leading, spacing: 8) {
+//                Text("Marget Caplitalization")
+//                    .font(.title2)
+//                    .fontWeight(.bold)
+//
+//                Text("As of February 3rd, US Time")
+//                    .font(.footnote)
+//                    .foregroundStyle(.secondary)
+//
+//                VStack {
+//                    Text("Stock Price * Shares Outstanding")
+//                        .font(.headline)
+//                        .foregroundStyle(.secondary)
+//                }
+//                .frame(maxWidth: .infinity, alignment: .center)
+//                .padding(.horizontal)
+//                .padding(.vertical, 16)
+//                .cornerRadius(Color(UIColor.systemGray6), radius: 16)
+//                .padding(.top, 24)
+//
+//                Text("Market capitalization represents the total value of a company's stock. It helps compare the size of companies in the stock market")
+//                    .font(.footnote)
+//                    .fontWeight(.semibold)
+//                    .padding(.top, 24)
+//
+//                Button { }
+//                label: {
+//                    Text("Confirm")
+//                        .fontWeight(.bold)
+//                        .foregroundStyle(.white)
+//                }
+//                .frame(maxWidth: .infinity)
+//                .padding(.vertical, 14)
+//                .cornerRadius(.blue, radius: 14)
+//                .padding(.top, 12)
+//
+//            }
+//            .frame(maxWidth: .infinity, alignment: .leading)
+//            .padding(.vertical, 4)
+//            .padding(.horizontal, 4)
+//
+//        }
+>>>>>>> 118e57546f1085533407c5fafaa954fd4e4f115d
     }
 }
 
