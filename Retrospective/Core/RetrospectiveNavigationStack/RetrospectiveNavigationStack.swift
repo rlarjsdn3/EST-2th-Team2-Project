@@ -19,6 +19,8 @@ struct RetrospectiveNavigationStack<Root>: View where Root: View {
     @State private var leadingToolbar: ToolBarLayout? = nil
     /// 네비게이션 바의 우측 툴바 레이아웃을 설정합니다.
     @State private var trailingToolbar: ToolBarLayout? = nil
+    /// 사용자 지정 네비게이션 바의 배경색을 설정합니다.
+    @State private var navigationBarColor: Color? = nil
 
     /// 사용자 지정 네비게이션 바 아래에 표시될 루트 콘텐츠 뷰입니다.
     private let root: Root
@@ -47,6 +49,9 @@ struct RetrospectiveNavigationStack<Root>: View where Root: View {
         }
         .onPreferenceChangeMainActor(TrailingToolBarPreferenceKey.self) { toolbar in
             trailingToolbar = toolbar
+        }
+        .onPreferenceChangeMainActor(NavigationBarColorPreferenceKey.self) { color in
+            navigationBarColor = color
         }
     }
 }
@@ -79,7 +84,7 @@ extension RetrospectiveNavigationStack {
         .frame(maxWidth: .infinity)
         .padding(.horizontal)
         .padding(.bottom, 4)
-        .background(.white)
+        .background(navigationBarColor ?? .clear)
 
         Divider()
     }
@@ -119,6 +124,7 @@ extension RetrospectiveNavigationStack {
                 .padding()
         }
         .retrospectiveNavigationTitle("Our Camp Diary")
+        .retrospectiveNavigationBarColor(.appLightPeach)
     }
 }
 

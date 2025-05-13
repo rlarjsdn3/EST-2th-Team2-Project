@@ -46,4 +46,11 @@ extension View {
             value: ToolBarLayout(spacing: spacing, toolBarProvider: AnyView(content()))
         )
     }
+    
+    /// 사용자 지정 내비게이션 바 색상을 설정합니다.
+    /// - Parameter color: 내비게이션 바에 적용할 색상입니다.
+    /// - Returns: 지정된 내비게이션 바 색상 프리퍼런스가 적용된 뷰
+    func retrospectiveNavigationBarColor(_ color: Color) -> some View {
+        self.preference(key: NavigationBarColorPreferenceKey.self, value: color)
+    }
 }
