@@ -19,12 +19,14 @@ struct FloatingSheet<Content>: View where Content: View {
 
     /// 플로팅 시트가 표시되는 상태를 제어하는 바인딩 값입니다.
     @Binding var isPresented: Bool
+    /// 플로팅 시트가 바닥으로부터 떨어진 거리 값입니다.
+    private let bottomOffset: CGFloat
     /// 시트가 닫힐 때 실행할 클로저
     private let onDismiss: (() -> Void)?
     private let content: Content
 
     /// 플로팅 시트의 모서리 반경을 지정하는 상수입니다.
-    private let cornerRadius: Double = 24
+    private let cornerRadius: Double = 30
     /// 플로팅 시트의 애니메이션 지속 시간을 지정하는 상수입니다.
     private let animationDuration: Double = 0.25
 
@@ -32,14 +34,17 @@ struct FloatingSheet<Content>: View where Content: View {
     /// 플로팅 시트를 초기화하는 생성자입니다.
     /// - Parameters:
     ///   - isPresented: 시트의 표시 여부를 제어하는 바인딩 값입니다.
+    ///   - bottomOffset: 시트가 바닥으로부터 떨어져 있는지 나타내는 값입니다.
     ///   - onDismiss: 시트가 닫힐 때 실행할 클로저입니다.
     ///   - content: 시트에 표시할 콘텐츠를 제공하는 클로저입니다.
     init(
         isPresented: Binding<Bool>,
+        bottomOffset: CGFloat = 10,
         onDismiss: (() -> Void)? = nil,
         content: () -> Content
     ) {
         self._isPresented = isPresented
+        self.bottomOffset = bottomOffset
         self.onDismiss = onDismiss
         self.content = content()
     }
@@ -62,7 +67,8 @@ struct FloatingSheet<Content>: View where Content: View {
                         )
                     )
                     .padding()
-                    .safeAreaPadding(.bottom)
+                    .padding(.horizontal, 10)
+                    .safeAreaPadding(.bottom, bottomOffset)
                     .offset(x: dragOffsetX, y: dragOffsetY)
                     .scaleEffect(isDragging ? CGSize(width: 0.95, height: 0.95) : CGSize(width: 1.0, height: 1.0))
                     .animation(.smooth(duration: animationDuration), value: dragOffsetX)

@@ -41,15 +41,15 @@ struct StatisticsView: View {
                     .padding(.top, 20)
                     .padding(.horizontal)
             }
-            .floatingSheet(isPresented: $isPresentDateRangePicker) {
-                DateRangeSelectionView(
-                    isPresented: $isPresentDateRangePicker,
-                    periodSelection: $periodSelection,
-                    dateRange: $dateRange
-                )
-            }
             .retrospectiveNavigationTitle("통계")
             .retrospectiveNavigationBarColor(.appLightPeach)
+        }
+        .floatingSheet(isPresented: $isPresentDateRangePicker) {
+            DateRangeSelectionView(
+                isPresented: $isPresentDateRangePicker,
+                periodSelection: $periodSelection,
+                dateRange: $dateRange
+            )
         }
     }
 }
@@ -86,6 +86,8 @@ extension StatisticsView {
             }
         }
         .background(.appLightPeach)
+        .contentMargins(.bottom, 80, for: .scrollContent)
+        .scrollIndicators(.hidden)
     }
 
     var categoryDetailCardView: some View {

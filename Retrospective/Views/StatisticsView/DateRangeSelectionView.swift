@@ -74,7 +74,7 @@ struct DateRangeSelectionView: View {
                             Text(dateSelection?.nextWeek?.formatted(.yyyyMMdd) ?? "Nil")
                                 .offset(x: 15)
                         }
-                        .font(.title3)
+                        .font(.headline)
                     case .month:
                         Text(dateSelection?.formatted(.yyyyMM) ?? "Nil")
                             .font(.largeTitle)
