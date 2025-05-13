@@ -27,4 +27,5 @@ struct Test3_View: View {
 
 #Preview {
     Test3_View()
+        .modelContainer(PersistenceManager.previewContainer)
 }

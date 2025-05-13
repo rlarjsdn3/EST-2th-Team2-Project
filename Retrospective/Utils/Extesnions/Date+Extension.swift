@@ -8,6 +8,13 @@
 import Foundation
 
 extension Date {
+    
+    /// <#Description#>
+    var weekRange: Range<Date>? {
+        guard let startOfWeek = startOfWeek,
+              let endOfWeek = endOfWeek else { return nil }
+        return startOfWeek ..< endOfWeek.addingDayInterval(1)
+    }
 
     /// 현재 날짜가 속한 주의 시작일과 종료일을 튜플로 반환합니다.
     /// - Returns: 주의 시작일 (`startOfWeek`)과 종료일 (`endOfWeek`)을 포함하는 튜플
@@ -50,6 +57,36 @@ extension Date {
 
 extension Date {
 
+    /// <#Description#>
+    var monthRange: Range<Date>? {
+        guard let startOfMonth = self.startOfMonth,
+              let endOfMonth = self.endOfMonth
+        else { return nil }
+        // 범위에 마지막 일자가 포함되지 않으므로 1일(day)을 더합니다.
+        return startOfMonth ..< endOfMonth.addingTimeInterval(1)
+    }
+
+    var startAndEndOfMonth: (startOfMonth: Date?, endOfMonth: Date?) {
+        (startOfMonth, endOfMonth)
+    }
+
+    /// <#Description#>
+    var startOfMonth: Date? {
+        let gregorian = Calendar(identifier: .gregorian)
+        guard let startOfMonth = gregorian.date(from: gregorian.dateComponents([.year, .month], from: self)) else { return nil }
+        return startOfMonth
+    }
+
+    /// <#Description#>
+    var endOfMonth: Date? {
+        let gregorian = Calendar(identifier: .gregorian)
+
+        guard let startOfMonth = self.startOfMonth,
+              let endOfMonth = gregorian.date(byAdding: DateComponents(month: +1, day: -1), to: self.startOfMonth!)
+        else { return nil }
+        return endOfMonth
+    }
+
     /// 현재 날짜에서 다음 달로 이동한 날짜를 반환합니다.
     /// - Returns: 현재 날짜로부터 정확히 한 달 뒤의 날짜
     var nextMonth: Date? {
@@ -64,6 +101,41 @@ extension Date {
         let gregorian = Calendar(identifier: .gregorian)
         guard let previousMonth = gregorian.date(byAdding: .month, value: -1, to: self) else { return nil }
         return previousMonth
+    }
+}
+
+extension Date {
+
+    /// 지정된 연, 월, 일을 사용하여 Date 인스턴스를 생성합니다.
+    /// - Parameters:
+    ///   - year: 생성할 날짜의 연도입니다.
+    ///   - month: 생성할 날짜의 월입니다. (1 ~ 12)
+    ///   - day: 생성할 날짜의 일입니다. (1 ~ 해당 월의 최대 일수)
+    /// - Returns: 지정된 날짜를 나타내는 Date 인스턴스입니다. 날짜가 유효하지 않은 경우 nil을 반환합니다.
+    init?(year: Int, month: Int, day: Int) {
+        let dateComponent = DateComponents(year: year, month: month, day: day)
+        guard let date = Calendar.current.date(from: dateComponent) else { return nil }
+        self = date
+    }
+}
+
+
+extension Date {
+
+    /// <#Description#>
+    /// - Parameter interval: <#interval description#>
+    func addingDayInterval(_ interval: TimeInterval) -> Date {
+        self.addingTimeInterval(interval * 86_400)
+    }
+
+    /// <#Description#>
+    /// - Parameters:
+    ///   - lhs: <#lhs description#>
+    ///   - rhs: <#rhs description#>
+    /// - Returns: <#description#>
+    @available(*, deprecated, renamed: "addingDayInterval")
+    static func + (lhs: Date, rhs: TimeInterval) -> Date {
+        lhs.addingTimeInterval(rhs * 86_400)
     }
 }
 
