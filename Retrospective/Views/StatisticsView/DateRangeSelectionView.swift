@@ -95,7 +95,7 @@ struct DateRangeSelectionView: View {
                 Text("확인")
                     .font(.title2)
                     .fontWeight(.semibold)
-                    .foregroundStyle(.background)
+                    .foregroundStyle(.label)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 14)
                     .background(.appSkyBlue2)

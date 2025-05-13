@@ -29,7 +29,7 @@ struct CircleButton: View {
         } label: {
             Image(systemName: systemName)
                 .font(.title)
-                .foregroundStyle(.background)
+                .foregroundStyle(.label)
                 .padding()
                 .background(.appSkyBlue2, in: .circle)
 
