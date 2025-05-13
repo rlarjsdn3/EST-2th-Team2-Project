@@ -27,7 +27,7 @@ struct ContentView: View {
                     .tag(Tab.home)
 
                     NavigationStack {
-                        Test2_View()// searchView() 넣어주세요
+                        WritingView()// searchView() 넣어주세요
                     }
                     .tag(Tab.search)
 
@@ -131,7 +131,7 @@ struct ContentView: View {
 
     struct SearchView: View {
         var body: some View {
-            Test2_View()// searchView() 넣어주세요
+            WritingView()// searchView() 넣어주세요
         }
     }
 

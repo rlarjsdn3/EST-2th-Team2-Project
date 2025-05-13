@@ -9,10 +9,9 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-/*  TODO: navigationbar 뒤로가기, 새 글 등록하기 버튼 기능 추가
- TODO: 제목 작성하고 엔터 누르면 내용으로 커서가 옮겨져야 하는데 안됨 (왜 되다가 안되냐)
- TODO: 글 등록 버튼 비활성화일 때 색 다르게 조정하려고 했는데 적용이 안되네
- ⭐️ TODO: 4. CRUD
+/*
+ TODO: 글 등록 버튼 비활성화일 때 색을 다르게 조정하려고 했는데 적용이 안되네
+ ⭐️ TODO: CRUD
  */
 
 struct WritingView: View {
@@ -21,8 +20,15 @@ struct WritingView: View {
 
     @Environment(\.modelContext) var modelContext
 
-    /// 저장된 카테고리 목록을 이름순으로 가져옴
-    @Query(sort: \Category.name) private var categories: [Category]
+    /// 저장된 카테고리 목록을 가져옴
+    @Query var allCategories: [Category]
+
+    //    var filteredCategories: [Category] {
+    //
+    //    }
+
+    /// 저장된 다이어리 목록을 가져옴
+    @Query private var diary: [Diary]
 
     @State var isCategoryOnArray: [Bool] = Array(repeating: false, count: 4)
 
@@ -57,15 +63,12 @@ struct WritingView: View {
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
                         .focused($focused, equals: .title)
-//                        .submitLabel(.next)
+                    //                        .submitLabel(.next)
                         .onAppear {
                             focused = .title
                             /// 다이어리를 작성할 때 키보드가 올라온 상태에서 키보드 밖 화면을 누르면 키보드가 내려감
                             UIApplication.shared.hideKeyboard()
                         }
-//                        .onSubmit {
-//                            focused = .content
-//                        }
                         .foregroundColor(.label)
                         .font(.title3)
                         .fontWeight(.bold)
@@ -78,7 +81,6 @@ struct WritingView: View {
 
                     TextEditor(text: $content)
                         .customTextEditor(placeholder: placeholder, text: $content)
-//                        .focused($focused, equals: .content)
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 20)
@@ -87,59 +89,69 @@ struct WritingView: View {
                     /// 카테고리 버튼
                     ScrollView(.horizontal) {
                         HStack(spacing: 10) {
+                            /// ⭐️ 저장된 카테고리 목록을 보여줌
+//                            ForEach (allCategories) {category in
+//                                CategoryButton(isCategoryOn: .constant(true), category: category.name, categoryColor: category.color)
+//                            }
+                            // 카테고리가 어떻게 나오나 보려고 그냥 임의값 넣어두고 표시함
                             CategoryButton(isCategoryOn: $isCategoryOnArray[1], category: "카테고리", categoryColor: .green)
                             CategoryButton(isCategoryOn: $isCategoryOnArray[2], category: "카테고리", categoryColor: .red)
                             CategoryButton(isCategoryOn: $isCategoryOnArray[3], category: "카테고리", categoryColor: .yellow)
+                            }
+                            .presentationDetents([.height(150), .fraction(0.8)])
                         }
-                        .presentationDetents([.height(150), .fraction(0.8)])
-                    }
-                    .scrollIndicators(.hidden)
+                        .scrollIndicators(.hidden)
 
-                    // TODO: 버튼 클릭 시 filter 선택 뷰 FloatingSheet present
-                    Button {
+                        // TODO: 버튼 클릭 시 filter 선택 뷰 FloatingSheet present
+                        Button {
 
-                    } label: {
-                        Image(systemName: "plus")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 18, height: 18)
-                            .foregroundColor(.label)
-                            .padding(.leading, 5)
+                        } label: {
+                            Image(systemName: "plus")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 18, height: 18)
+                                .foregroundColor(.label)
+                                .padding(.leading, 5)
+                        }
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 25)
+                }
+                .background(.appSkyBlue)
+                .cornerRadius(30)
+                .padding(.horizontal, 15)
+                .padding(.top, 15)
+                .padding(.bottom, 65)
+                /// 뒤로 가기 버튼
+                .retrospectiveLeadingToolBar {
+                    RetrospectiveToolBarItem(.symbol("chevron.left")) {
+                        dismiss() // 안먹힘
                     }
                 }
-                .padding(.horizontal, 20)
-                .padding(.bottom, 25)
-            }
-            .background(.appSkyBlue)
-            //.frame(width: 300)
-            .cornerRadius(30)
-            .padding(.horizontal, 15)
-            .padding(.top, 15)
-            .padding(.bottom, 65)
-            /// 뒤로 가기 버튼
-            .retrospectiveLeadingToolBar {
-                RetrospectiveToolBarItem(.symbol("chevron.left")) {
-                    dismiss()
-                }
-            }
-            /// 새 글 등록하기 버튼
-            .retrospectiveTrailingToolbar {
-                RetrospectiveToolBarItem(.symbol("checkmark")) {
-                    // ⭐️ TODO: categories 부분 수정하기
-                    // 근데 이렇게 데이터를 삽입 하는 게 맞나..?
-//                    let diary = Diary(title: title, contents: content, categories: [.mock[0]])
-//                    modelContext.insert(diary)
-                }
-                /// 제목과 내용 둘 중에 하나라도 비어있으면 등록 버튼 비활성화
+                /// ⭐️ 다이어리 추가 버튼
+                .retrospectiveTrailingToolbar {
+                    RetrospectiveToolBarItem(.symbol("checkmark")) {
+                        //                        addDiary()
+                        dismiss() // 이것도 안먹힘
+                    }
+                    /// 제목과 내용 둘 중에 하나라도 비어있으면 등록 버튼 비활성화
                     .disabled(title.isEmpty || content.isEmpty)
+                }
+                .retrospectiveNavigationTitle("Our Camp Diary")
+//                .retrospectiveNavigationBarColor(.appLightPeach)
             }
-            .retrospectiveNavigationTitle("Our Camp Diary")
-//            .retrospectiveNavigationBarColor(.appLightPeach)
+            .background(.appLightPeach)
         }
-        .background(.appLightPeach)
-    }
+
+        /// ⭐️ 다이어리 추가 메서드
+        /// 선택한 카테고리만 넘겨주어야 하는데, categories 쪽을 이렇게 하는 건지 모르겠다.
+        //    private func addDiary() {
+        //        let newDiary = Diary(title: title, contents: content, categories: categories)
+        //        modelContext.insert(newDiary)
+        //    }
 }
 
+/// 텍스트 에디터 커스텀 스타일
 struct CustomTextEditorStyle: ViewModifier {
     let placeholder: String
 
@@ -188,4 +200,3 @@ extension TextEditor {
 #Preview {
     WritingView()
 }
-
