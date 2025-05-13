@@ -10,6 +10,7 @@ import SwiftUI
 extension ShapeStyle where Self == Color {
 
     /// 주요 글자색
+    /// - Note: 주석 미완성
     static var label: Color {
         .init(UIColor.label)
     }
@@ -61,7 +62,7 @@ extension ShapeStyle where Self == Color {
 
     /// 월/날짜 구분 선 및 글씨색
     /// - Note: 주석 미완성
-    static var appDarkGray: Color {
+    static var appLightGray: Color {
         .init(
             light: Color(r: 176.0, g: 176.0, b: 176.0),
             dark: Color(r: 176.0, g: 176.0, b: 176.0)
@@ -70,7 +71,7 @@ extension ShapeStyle where Self == Color {
 
     /// 일반 텍스트용 (기본 텍스트)
     /// - Note: 주석 미완성
-    @available(*, deprecated, renamed: "label")
+    @available(*, deprecated, renamed: "appLabel")
     static var appLabel: Color {
         .init(
             light: Color(r: 51.0, g: 51.0, b: 51.0),
@@ -81,7 +82,7 @@ extension ShapeStyle where Self == Color {
     /// 안눌린 버튼 등
     /// - Note: 주석 미완성
     @available(*, deprecated, renamed: "secondary")
-    static var appSecondary: Color {
+    static var appSsecondary: Color {
         .init(
             light: Color(r: 136.0, g: 136.0, b: 136.0),
             dark: Color(r: 136.0, g: 136.0, b: 136.0)
@@ -89,3 +90,70 @@ extension ShapeStyle where Self == Color {
     }
 }
 
+
+#Preview {
+    Grid {
+        GridRow {
+            ZStack {
+                Color.label
+                Text("label")
+                    .foregroundStyle(.background)
+            }
+            .frame(width: 100, height: 100)
+
+            ZStack {
+                Color.secondary
+                Text("secondary")
+                    .foregroundStyle(.background)
+            }
+            .frame(width: 100, height: 100)
+
+            ZStack {
+                Color.appBlue
+                Text("appBlue")
+                    .foregroundStyle(.background)
+            }
+            .frame(width: 100, height: 100)
+        }
+
+        GridRow {
+            ZStack {
+                Color.appSkyBlue
+                Text("appSkyBlue")
+                    .foregroundStyle(.label)
+            }
+            .frame(width: 100, height: 100)
+
+            ZStack {
+                Color.appSkyBlue2
+                Text("appSkyBlue2")
+                    .foregroundStyle(.label)
+            }
+            .frame(width: 100, height: 100)
+
+            ZStack {
+                Color.appLightSkyBlue
+                Text("appLightSkyBlue")
+                    .foregroundStyle(.label)
+            }
+            .frame(width: 100, height: 100)
+        }
+
+        GridRow {
+            ZStack {
+                Color.appLightPeach
+                Text("appLightPeach")
+                    .foregroundStyle(.label)
+            }
+            .frame(width: 100, height: 100)
+
+            ZStack {
+                Color.appLightGray
+                Text("appLightGray")
+                    .foregroundStyle(.background)
+            }
+            .frame(width: 100, height: 100)
+        }
+    }
+    .font(.callout)
+}
