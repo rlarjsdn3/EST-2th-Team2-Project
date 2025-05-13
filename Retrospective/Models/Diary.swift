@@ -39,31 +39,42 @@ final class Diary {
 
 extension Diary {
 
-    static let mock: [Diary] = [
-        Diary(
-            title: "임의 침묵",
-            contents: "님은 갔습니다. 아아, 사랑하는 나의 님은 갔습니다. 푸른 산빛을 깨치고 단풍나무 숲을 향하여 난 작은 길을 걸어서, 차마 떨치고 갔습니다.",
-            categories: [.mock[0], .mock[1], .mock[2]]
-        ),
-        Diary(
-            title: "진달래꽃",
-            contents: "나 보기가 역겨워 가실 때에는 말없이 고이보내 드리우리다. 영변에 약산 진달래꽃 아름 따다 가실 길에 뿌리우리다.",
-            categories: [.mock[1], .mock[3], .mock[4]]
-        ),
-        Diary(
-            title: "두 다리 매(투 호크스)의 할이버지(라코타 족)",
-            contents: "위대한 정령께서는 당신에게 두 개의 귀를 주셨지만, 입은 하나만 주셨다. 그것은 당신이 말하는 것보다 두 배나 많이 귀 기울여 들으라는 뜻이다.",
-            categories: []
-        ),
-        Diary(
-            title: "흰 방패(워파헤바) 추장이 한 말",
-            contents: "나는 늙었다. 그것은 사실이다. 그러나 사실을 똑바로 바라보지 못할 만큼 늙지는 않았다. 당신들이 나를 늙은 바보에 불과하다고 말해도 좋다. 나는 백 번이라도 얼굴 붉은 늙은 바보가 되고 싶지, 당신들처럼 얼굴 흰 도둑놈이 되고 싶진 않다.",
-            categories: [.mock[0],.mock[3]]
-        ),
-        Diary(
-            title: "어떻게 공기를 사고판단 말인가",
-            contents: "우리가 어떻게 공기를 사고팔 수 있단 말인가? 대지의 따뜻함을 어떻게 사고판단 말인가? 우리로서는 상상하기조차 어려운 일이다. 부드러운 공기와 재잘거리는 시냇물을 우리가 어떻게 소유할 수 있으며, 또한 소유하지도 않은 것을 어떻게 사고팔 수 있단 말인가?",
-            categories: [.mock[2], .mock[4]],
+    /// Random mock 데이터 생성기입니다.
+    /// 추후, 시연 가능한 데이터 생성기로 대체될 예정입니다.
+    /// 대체 시, 밑의 Date Extenstion도 제거 바랍니다.
+    static let mock: [Diary] = (1...20).map { i in
+        let base = "Diary Test \(i)"
+        let repeatCount = Int.random(in: 10...30)
+        let randomContents = Array(repeating: base, count: repeatCount).joined(separator: " ")
+
+        let categoryCount = Int.random(in: 1...4)
+        let randomCategories = Category.mock.shuffled().prefix(categoryCount)
+
+        return Diary(
+            title: "Diary Test \(i)",
+            contents: randomContents,
+            categories: Array(randomCategories),
+            createdDate: Date.random(
+                from: DateComponents(calendar: .current, year: 2024, month: 12, day: 1),
+                to: DateComponents(calendar: .current, year: 2025, month: 05, day: 3)
+            )
         )
-    ]
+    }
+
+
+}
+
+/// Random Mock 데이터 생성기에서 사용하는 랜덤 날짜 선택기입니다.
+/// Random 데이터 생성기가 대체될 때, 같이 제거해주세요.
+extension Date {
+    static func random(from start: DateComponents, to end: DateComponents) -> Date {
+        let calendar = Calendar.current
+        guard let startDate = calendar.date(from: start),
+              let endDate = calendar.date(from: end) else {
+            return .now
+        }
+        let interval = endDate.timeIntervalSince(startDate)
+        let randomOffset = TimeInterval.random(in: 0...interval)
+        return startDate.addingTimeInterval(randomOffset)
+    }
 }
