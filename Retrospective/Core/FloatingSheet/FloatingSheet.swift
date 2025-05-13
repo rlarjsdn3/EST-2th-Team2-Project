@@ -39,7 +39,7 @@ struct FloatingSheet<Content>: View where Content: View {
     ///   - content: 시트에 표시할 콘텐츠를 제공하는 클로저입니다.
     init(
         isPresented: Binding<Bool>,
-        bottomOffset: CGFloat = 10,
+        bottomOffset: CGFloat = 100,
         onDismiss: (() -> Void)? = nil,
         content: () -> Content
     ) {

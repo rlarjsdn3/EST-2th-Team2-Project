@@ -102,7 +102,7 @@ extension StatisticsView {
                         .fontWeight(.bold)
                     Spacer()
                     Text("\(data.count)개")
-                    Text(format: "(%.1f%%)", data.rate * 100)
+                    Text(data.ratePercentage)
                         .font(.caption)
                         .fontWeight(.light)
                 }
