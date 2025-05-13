@@ -18,7 +18,6 @@ struct ContentView: View {
 
     ///탭바 커스텀을 위해 탭바의 고정된 자리 삭제
     var body: some View {
-<<<<<<< HEAD
         ZStack(alignment: .bottom) {
             TabView(selection: $selected) {
                 Group {
@@ -147,56 +146,9 @@ struct ContentView: View {
         var body: some View {// settingView() 넣어주세요
             Test4_View()
         }
-=======
-        RetrospectiveNavigationStack {
-            VStack {
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-                Text("Hello, RetrospectiveNavigationStack!")
-            }
-            .retrospectiveLeadingToolBar {
-                RetrospectiveToolBarItem(.symbol("chevron.left")) { }
-            }
-            .retrospectiveTrailingToolbar {
-                RetrospectiveToolBarItem(.asset("filter")) { }
-            }
-            .retrospectiveNavigationTitle("Our Camp Diary")
-        }
+    }
+}
+
 
 //        VStack {
 //            Button("FloatingSheet") {
@@ -249,9 +201,8 @@ struct ContentView: View {
 //            .padding(.horizontal, 4)
 //
 //        }
->>>>>>> 118e57546f1085533407c5fafaa954fd4e4f115d
-    }
-}
+
+
 
 #Preview {
     ContentView()
