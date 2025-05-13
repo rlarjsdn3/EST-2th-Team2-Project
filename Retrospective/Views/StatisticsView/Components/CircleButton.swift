@@ -31,7 +31,7 @@ struct CircleButton: View {
                 .font(.title)
                 .foregroundStyle(.background)
                 .padding()
-                .background(.appLightPeach, in: .circle)
+                .background(.appSkyBlue2, in: .circle)
 
         }
 

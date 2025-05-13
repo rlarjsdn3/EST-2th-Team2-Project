@@ -24,19 +24,22 @@ struct ContentView: View {
     var body: some View {
         ZStack(alignment: .bottom) {
             TabView(selection: $selected) {
-                CategoryManagementView() //TODO: HomeView() 넣어주세요
-                    .tag(Tab.home)
+                Group {
+                    CategoryManagementView() //TODO: HomeView() 넣어주세요
+                        .tag(Tab.home)
 
-                Test2_View()// searchView() 넣어주세요
-                    .tag(Tab.search)
+                    Test2_View()// searchView() 넣어주세요
+                        .tag(Tab.search)
 
-                StatisticsView()
-                    .tag(Tab.statistic)
-                
-                StatisticsView()
-                    .tag(Tab.setting)
+                    StatisticsView()
+                        .tag(Tab.statistic)
 
+                    StatisticsView()
+                        .tag(Tab.setting)
+                }
+                .toolbar(.hidden, for: .tabBar)
             }
+            
 
             tabBar
                 .padding(.bottom, -10)

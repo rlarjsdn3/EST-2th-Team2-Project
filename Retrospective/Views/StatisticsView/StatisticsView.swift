@@ -101,8 +101,8 @@ extension StatisticsView {
                     Text("\(data.name)")
                         .fontWeight(.bold)
                     Spacer()
-                    Text("\(data.count)")
-                    Text(String(format: "(%.1f%%)", data.rate * 100))
+                    Text("\(data.count)개")
+                    Text(format: "(%.1f%%)", data.rate * 100)
                         .font(.caption)
                         .fontWeight(.light)
                 }

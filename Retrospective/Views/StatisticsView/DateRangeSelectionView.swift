@@ -98,6 +98,7 @@ struct DateRangeSelectionView: View {
                     .foregroundStyle(.background)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 14)
+                    .background(.appSkyBlue2)
                     .cornerRadius(.appLightPeach, radius: 18)
             }
             .padding(.top, 60)
