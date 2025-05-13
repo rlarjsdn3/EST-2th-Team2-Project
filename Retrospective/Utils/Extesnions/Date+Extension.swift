@@ -69,6 +69,21 @@ extension Date {
 
 extension Date {
 
+    /// 지정된 연, 월, 일을 사용하여 Date 인스턴스를 생성합니다.
+    /// - Parameters:
+    ///   - year: 생성할 날짜의 연도입니다.
+    ///   - month: 생성할 날짜의 월입니다. (1 ~ 12)
+    ///   - day: 생성할 날짜의 일입니다. (1 ~ 해당 월의 최대 일수)
+    /// - Returns: 지정된 날짜를 나타내는 Date 인스턴스입니다. 날짜가 유효하지 않은 경우 nil을 반환합니다.
+    init?(year: Int, month: Int, day: Int) {
+        let dateComponent = DateComponents(year: year, month: month, day: day)
+        guard let date = Calendar.current.date(from: dateComponent) else { return nil }
+        self = date
+    }
+}
+
+extension Date {
+
     /// 날짜 형식을 정의하는 열거형입니다.
     enum Format: String {
         /// 연도와 월을 "yyyy. MM" 형식으로 표현합니다. (예: "2024. 01")
