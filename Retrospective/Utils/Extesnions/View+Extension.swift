@@ -40,3 +40,23 @@ extension View {
         shadow(color: color, radius: radius, x: x, y: y)
     }
 }
+
+
+extension View {
+
+    /// 지정된 PreferenceKey의 값이 변경될 때 메인 스레드에서 동기적으로 동작하는 클로저를 실행합니다.
+    /// - Parameters:
+    ///   - key: PreferenceKey 타입으로, 변경 사항을 감지할 키 타입
+    ///   - action: Preference 값 변경 시 실행할 클로저. MainActor에서 동기적으로 실행됩니다.
+    /// - Returns: Preference 변경 감지 및 MainActor에서 클로저를 실행하는 새로운 뷰
+    func onPreferenceChangeMainActor<K>(
+        _ key: K.Type = K.self,
+        perform action: @escaping (K.Value) -> Void
+    ) -> some View where K: PreferenceKey, K.Value: Equatable {
+        self.onPreferenceChange(key) { value in
+            Task { @MainActor in
+                action(value)
+            }
+        }
+    }
+}
