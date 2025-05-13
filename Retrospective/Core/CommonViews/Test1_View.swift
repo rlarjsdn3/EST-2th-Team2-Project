@@ -9,17 +9,14 @@ import SwiftUI
 
 struct Test1_View: View {
     var body: some View {
-        ZStack {
-            Rectangle()
-                .foregroundStyle(.green)
-            Text("Home1")
-                .foregroundStyle(.white)
-        }
-        .ignoresSafeArea(.all)
 
+            VStack{
+				Text("ddsd")
+
+            }
+        }
     }
 
-}
 
 #Preview {
     Test1_View()
