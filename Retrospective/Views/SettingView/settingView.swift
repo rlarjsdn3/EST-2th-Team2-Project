@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct settingView: View {
+    @Environment(\.dismiss) var dismiss: DismissAction
+
     var body: some View {
         RetrospectiveNavigationStack {
             ZStack {
@@ -51,9 +53,6 @@ struct settingView: View {
                 }
                 .padding(.top, 50)
 
-            }
-            .retrospectiveLeadingToolBar {
-                RetrospectiveToolBarItem(.symbol("chevron.left")) { }
             }
             .retrospectiveNavigationTitle("설정")
             .retrospectiveNavigationBarColor(.appLightPeach)
