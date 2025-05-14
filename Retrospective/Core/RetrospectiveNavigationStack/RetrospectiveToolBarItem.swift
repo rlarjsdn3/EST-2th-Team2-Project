@@ -53,7 +53,7 @@ struct RetrospectiveToolBarItem: View {
                 kind.image
                     .font(config.symbolFont)
                     .fontWeight(.semibold)
-                    .foregroundStyle(.label)
+                    .foregroundStyle(config.symbolTint)
             }
         }
     }
@@ -94,17 +94,21 @@ extension RetrospectiveToolBarItem {
         /// 툴바 아이템의 시스템 폰트를 지정합니다.
         /// - Note: 아이템의 `Kind`가 `symbol`인 경우에만 적용됩니다.
         let symbolFont: Font
-        
+        ///
+        let symbolTint: Color
+
         /// 구성 설정을 초기화합니다.
         /// - Parameters:
         ///   - buttonSize: 툴바 아이템의 크기 (기본값: 30x30)
         ///   - symbolFont: 툴바 아이템의 시스템 폰트 (기본값: title2)
         init(
             buttonSize: CGSize = .init(width: 30, height: 30),
-            symbolFont: Font = .title2
+            symbolFont: Font = .title2,
+            symbolTint: Color = .label
         ) {
             self.buttonSize = buttonSize
             self.symbolFont = symbolFont
+            self.symbolTint = symbolTint
         }
     }
 }

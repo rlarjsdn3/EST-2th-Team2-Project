@@ -15,7 +15,7 @@ extension ModelContext {
     /// - Parameter model: 저장할 모델 객체
     func insert<T>(andSave model: T) where T: PersistentModel {
         insert(model)
-        saveChanges()
+        save(onFailure: nil)
     }
 
     /// mainContext에 모델을 삭제한 후, 곧바로 저장합니다.
@@ -24,13 +24,18 @@ extension ModelContext {
     /// - Parameter model: 삭제할 모델 객체
     func delete<T>(andSave model: T) where T: PersistentModel {
         delete(model)
-        saveChanges()
+        save(onFailure: nil)
     }
 
-    private func saveChanges() {
+    /// 변경된 컨텍스트를 데이터베이스에 저장합니다.
+    ///
+    /// - Parameter failure: 저장이 실패할 경우 호출될 클로저입니다.
+    /// - Note: 저장 중 에러가 발생하면 해당 에러 메시지가 콘솔에 출력됩니다.
+    func save(onFailure failure: (() -> Void)? = nil) {
         do {
             try save()
         } catch {
+            failure?()
             print(error.localizedDescription)
         }
     }
