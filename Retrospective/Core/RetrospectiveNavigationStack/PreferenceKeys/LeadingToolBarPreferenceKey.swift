@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-/// <#Description#>
 struct LeadingToolBarPreferenceKey: PreferenceKey {
     static let defaultValue: ToolBarLayout? = nil
     
