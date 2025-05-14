@@ -28,13 +28,13 @@ struct ContentView: View {
                     CategoryView() //TODO: HomeView() 넣어주세요
                         .tag(Tab.home)
 
-                    CategoryTestView()// searchView() 넣어주세요
+                    SearchView() // searchView() 넣어주세요
                         .tag(Tab.search)
 
                     StatisticsView()
                         .tag(Tab.statistic)
 
-                    SettingView()
+                    WritingView(diary: .mock[0])
                         .tag(Tab.setting)
                 }
                 .toolbar(.hidden, for: .tabBar)
@@ -58,10 +58,8 @@ struct ContentView: View {
             } label: {
                 VStack(alignment:.center) {
                     Image(systemName: "house")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 30)
-                        .foregroundStyle(.label)
+                        .font(.title)
+                        .foregroundStyle(selected == .home ? .label : .secondary.opacity(0.55))
                 }
             }
             Spacer()
@@ -72,10 +70,8 @@ struct ContentView: View {
             } label: {
                 VStack(alignment:.center) {
                     Image(systemName: "magnifyingglass")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 30)
-                        .foregroundStyle(.label)
+                        .font(.title)
+                        .foregroundStyle(selected == .search ? .label : .secondary.opacity(0.55))
                 }
             }
             Spacer()
@@ -86,10 +82,8 @@ struct ContentView: View {
             } label: {
                 VStack(alignment:.center) {
                     Image(systemName: "chart.pie")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 30)
-                        .foregroundStyle(.label)
+                        .font(.title)
+                        .foregroundStyle(selected == .statistic ? .label : .secondary.opacity(0.55))
                 }
             }
             Spacer()
@@ -100,49 +94,18 @@ struct ContentView: View {
             } label: {
                 VStack(alignment:.center) {
                     Image(systemName: "gearshape")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 30)
-                        .foregroundStyle(.label)
+                        .font(.title)
+                        .foregroundStyle(selected == .setting ? .label : .secondary.opacity(0.55))
                 }
 
             }
             Spacer()
 
         }
-
         .frame(width: 350 , height: 80)
         .background(.background)
         .clipShape(RoundedRectangle(cornerRadius: 30))
         .shadow(color: .black.opacity(0.33), radius: 15, x: 5, y: 5)
-
-    }
-
-    ///다른뷰에서 불러올때 사용
-
-    struct  HomeView: View {
-        var body: some View {
-            CategoryView()//TODO: HomeView() 넣어주세요
-
-        }
-    }
-
-    struct SearchView: View {
-        var body: some View {
-            Test2_View()// searchView() 넣어주세요
-        }
-    }
-
-    struct statisticView: View {
-        var body: some View {
-            Test3_View()// statistiView() 넣어주세요
-        }
-    }
-
-    struct SettingView: View {
-        var body: some View {// settingView() 넣어주세요
-           settingView()
-        }
     }
 }
 

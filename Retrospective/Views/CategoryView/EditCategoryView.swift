@@ -76,13 +76,13 @@ struct EditCategoryView: View {
                         sliderView(value: $b, label: "Blue", color: .blue)
                     }
 
-                    RoundedRectButton(title: "저장") {
-                        let rgb = editedColor.rgbComponents()
-                        category.name = editedName
-                        category.setColor(red: rgb.red, green: rgb.green, blue: rgb.blue)
-                        dismiss()
-                    }
-                    .padding([.top, .horizontal])
+//                    RoundedRectButton(title: "저장") {
+//                        let rgb = editedColor.rgbComponents()
+//                        category.name = editedName
+//                        category.setColor(red: rgb.red, green: rgb.green, blue: rgb.blue)
+//                        dismiss()
+//                    }
+//                    .padding([.top, .horizontal])
 
                     Spacer()
                 }
@@ -95,8 +95,14 @@ struct EditCategoryView: View {
                     RetrospectiveToolBarItem(.symbol("chevron.left")) {
                         dismiss()
                     }
-
-
+                }
+                .retrospectiveTrailingToolbar {
+                    RetrospectiveToolBarItem(.symbol("checkmark")) {
+                        let rgb = editedColor.rgbComponents()
+                        category.name = editedName
+                        category.setColor(red: rgb.red, green: rgb.green, blue: rgb.blue)
+                        dismiss()
+                    }
                 }
 
             }

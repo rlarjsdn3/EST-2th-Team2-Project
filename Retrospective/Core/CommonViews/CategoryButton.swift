@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+#warning("카테고리 버튼")
 struct CategoryButton: View {
 
     @State private var isCategoryOn: Bool = false
