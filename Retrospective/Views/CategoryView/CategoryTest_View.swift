@@ -27,23 +27,7 @@ struct Test2_View: View {
             VStack(spacing: -20) {
                 /// 새 카테고리 입력 필드
                 HStack{
-                    HStack {
-                        Image(systemName: "magnifyingglass")
-                            .foregroundStyle(.secondary)
-                        TextField("카테고리 이름 작성해주세요.", text: $newCategoryName)
-                    }
-                    .padding()
-                    .frame(width: .infinity, height: 40)
-                    .background(
-                        RoundedRectangle(cornerRadius: 18)
-                            .fill(Color.appSkyBlue.opacity(0.5)) // 내부 배경색
-
-                    )
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 18)
-                            .stroke(Color.appLightGray.opacity(0.5), lineWidth: 1) // 테두리 색상 및 두께
-                    )
-                    .padding()
+                    CustomTextField(placeholder: "카테고리 이름을 작성해주세요.", text: $newCategoryName)
 
                     Button(action: {
                         addCategory()

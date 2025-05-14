@@ -14,7 +14,7 @@ import SwiftUI
 //  }
 
 struct CustomTextField: View {
-    var Placeholder: String
+    var placeholder: String
     @Binding var text: String
 
 
@@ -23,10 +23,10 @@ struct CustomTextField: View {
             HStack {
                 Image(systemName: "magnifyingglass")
                     .foregroundStyle(.secondary)
-                TextField(Placeholder, text: $text)
+                TextField(placeholder, text: $text)
             }
             .padding()
-            .frame(width: .infinity, height: 40)
+            .frame(width: .infinity, height: 45)
             .background(
                 RoundedRectangle(cornerRadius: 18)
                     .fill(Color.appLightGray.opacity(0.33)) // 내부 배경색
@@ -46,7 +46,7 @@ struct CustomTextField: View {
             @State private var nameInput: String = ""
 
             var body: some View {
-                CustomTextField(Placeholder: "이름을 입력해주세요", text: $nameInput)
+                CustomTextField(placeholder: "이름을 입력해주세요", text: $nameInput)
                     .modelContainer(PersistenceManager.previewContainer)
             }
         }
