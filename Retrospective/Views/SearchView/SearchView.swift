@@ -19,6 +19,7 @@ import SwiftUI
 struct SearchView: View {
     
     @State var isPresentedFilterSelectView: Bool = false
+    @State var isPresentedWritingView: Bool = false
     @State var isDescending: Bool = true
     @State var filteringCategories: Set<String> = []
     @State var searchText: String = ""
@@ -71,10 +72,10 @@ struct SearchView: View {
     
     var currentSearchScopeText: String {
         switch (searchingInTitle, searchingInContents) {
-        case (true, true): return "제목 + 내용"
-        case (true, false): return "제목만"
-        case (false, true): return "내용만"
-        default: return "검색 안 함"
+        case (true, true): return "제목 + 내용 "
+        case (true, false): return "제목만 "
+        case (false, true): return "내용만 "
+        default: return "검색범위 선택"
         }
     }
     
@@ -106,17 +107,19 @@ struct SearchView: View {
                             searchingInContents = true
                         }
                     } label: {
-                        Label(currentSearchScopeText, systemImage: "line.3.horizontal.decrease.circle")
-                            .foregroundStyle(Color.label)
-                            .padding()
-                            .background(Color.gray.opacity(0.1))
-                            .cornerRadius(8)
+                        HStack(spacing: 0) {
+                            Text(currentSearchScopeText)
+                            Image(systemName: "arrowtriangle.down")
+                        }
+
                     }
-                    
+                    .foregroundStyle(Color.label)
                 }
+                .padding()
                 .background(Color.appLightGray.opacity(0.33))
                 .clipShape(RoundedRectangle(cornerRadius: 18))
-                
+                .padding(.top, hSizeClass == .regular ? 20 : 0)
+
                 HStack {
                     ScrollView(.horizontal) {
                         HStack {
@@ -135,12 +138,12 @@ struct SearchView: View {
                     } label: {
                         if isDescending {
                             HStack(spacing: 0) {
-                                Text("최신순")
+                                Text("최신순 ")
                                 Image(systemName: "arrowtriangle.down")
                             }
                         } else {
                             HStack(spacing: 0) {
-                                Text("오래된순")
+                                Text("오래된순 ")
                                 Image(systemName: "arrowtriangle.up")
                             }
                         }
@@ -154,12 +157,10 @@ struct SearchView: View {
                 if searchText.isEmpty {
                     VStack {
                         Image(systemName: "magnifyingglass")
-                            .font(.largeTitle)
-                            .bold()
-                        Text("검색어를 입력해주세요!")
-                            .font(.largeTitle)
-                            .bold()
+                        Text("\n검색어를 입력해주세요!")
                     }
+                    .font(.largeTitle)
+                    .bold()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .foregroundStyle(Color.secondary)
                     
@@ -172,7 +173,7 @@ struct SearchView: View {
                 }
                 
             }
-            .padding(.horizontal)
+            .padding(.horizontal, hSizeClass == .regular ? 30 : 15)
             .background(Color.appLightPeach)
             .floatingSheet(isPresented: $isPresentedFilterSelectView) {
                 FilterSelectView(filteringCategories: $filteringCategories, isPresentedFilterSelectView: $isPresentedFilterSelectView)
@@ -186,8 +187,13 @@ struct SearchView: View {
                 }
             }
             .retrospectiveTrailingToolbar {
-                RetrospectiveToolBarItem(.symbol("plus")) { }
+                RetrospectiveToolBarItem(.symbol("plus")) {
+                    isPresentedWritingView = true
+                }
             }
+            .navigationDestination(isPresented: $isPresentedWritingView, destination: {
+                WritingView(diary: nil)
+            })
         }
     }
 }
