@@ -17,39 +17,41 @@ import SwiftData
 import SwiftUI
 
 struct SearchView: View {
-
-    @State var filterSelectViewPresented: Bool = false
+    
+    @State var isPresentedFilterSelectView: Bool = false
     @State var isDescending: Bool = true
     @State var filteringCategories: Set<String> = []
     @State var searchText: String = ""
-
+    
     @State var searchingInTitle: Bool = true
     @State var searchingInContents: Bool = false
-
+    
     @Query var allDiaries: [Diary]
     @Query var allCategories: [Category]
+
+    @Environment(\.horizontalSizeClass) var hSizeClass
 
     var filteredCategories: [Category] {
         return allCategories.filter { category in
             filteringCategories.contains(category.name)
         }
     }
-
+    
     var filteredDiaries: [Diary] {
         guard !filteringCategories.isEmpty else { return allDiaries }
-
+        
         return allDiaries.filter { diary in
             // 하나라도 겹치면 통과
             let categoryNames = diary.categories.map { $0.name }
             return !filteringCategories.isDisjoint(with: categoryNames)
         }
     }
-
+    
     var searchedDiaries: [Diary] {
         return filteredDiaries.filter { diary in
             let isSearchedInTitle = diary.title.localizedCaseInsensitiveContains(searchText)
             let isSearchedInContents = diary.contents.localizedCaseInsensitiveContains(searchText)
-
+            
             switch (searchingInTitle, searchingInContents) {
             case (true, true):
                 return isSearchedInTitle || isSearchedInContents
@@ -62,11 +64,11 @@ struct SearchView: View {
             }
         }
     }
-
+    
     var groupedByMonthAndDay: [String: [String: [Diary]]] {
         searchedDiaries.groupByMonthAndDay()
     }
-
+    
     var currentSearchScopeText: String {
         switch (searchingInTitle, searchingInContents) {
         case (true, true): return "제목 + 내용"
@@ -75,24 +77,59 @@ struct SearchView: View {
         default: return "검색 안 함"
         }
     }
-
+    
     var body: some View {
-        NavigationStack {
+        RetrospectiveNavigationStack {
             VStack {
-
+                
+                HStack {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundStyle(Color.secondary)
+                        .bold()
+                    
+                    TextField("Search", text: $searchText, prompt: Text("Search")
+                        .foregroundStyle(Color.secondary))
+                    
+                    Menu {
+                        Button("제목만") {
+                            searchingInTitle = true
+                            searchingInContents = false
+                        }
+                        
+                        Button("내용만") {
+                            searchingInTitle = false
+                            searchingInContents = true
+                        }
+                        
+                        Button("제목 + 내용") {
+                            searchingInTitle = true
+                            searchingInContents = true
+                        }
+                    } label: {
+                        Label(currentSearchScopeText, systemImage: "line.3.horizontal.decrease.circle")
+                            .foregroundStyle(Color.label)
+                            .padding()
+                            .background(Color.gray.opacity(0.1))
+                            .cornerRadius(8)
+                    }
+                    
+                }
+                .background(Color.appLightGray.opacity(0.33))
+                .clipShape(RoundedRectangle(cornerRadius: 18))
+                
                 HStack {
                     ScrollView(.horizontal) {
                         HStack {
                             ForEach (filteredCategories, id: \.self ) {category in
-                                CategoryButton(category: category.name, categoryColor: category.color, alwaysShowCategoryHighlight: true) { }
 
+                                CategoryButton(category: category.name, categoryColor: category.color, alwaysShowCategoryHighlight: true) { }
 
                             }
                         }
                         .padding(.vertical, 5)
-
+                        
                     }
-
+                    
                     Button {
                         isDescending.toggle()
                     } label: {
@@ -107,40 +144,12 @@ struct SearchView: View {
                                 Image(systemName: "arrowtriangle.up")
                             }
                         }
-
+                        
                     }
+                    .foregroundStyle(Color.label)
+                    .padding(.horizontal, 15)
                 }
-
-                HStack {
-                    Image(systemName: "magnifyingglass")
-                        .foregroundStyle(Color.secondary)
-                        .bold()
-
-                    TextField("Search", text: $searchText, prompt: Text("Search")
-                        .foregroundStyle(Color.secondary))
-
-                    Menu {
-                        Button("제목만") {
-                            searchingInTitle = true
-                            searchingInContents = false
-                        }
-
-                        Button("내용만") {
-                            searchingInTitle = false
-                            searchingInContents = true
-                        }
-
-                        Button("제목 + 내용") {
-                            searchingInTitle = true
-                            searchingInContents = true
-                        }
-                    } label: {
-                        Label(currentSearchScopeText, systemImage: "line.3.horizontal.decrease.circle")
-                            .padding()
-                            .background(Color.gray.opacity(0.1))
-                            .cornerRadius(8)
-                    }
-                }
+                .padding(.top, 5)
 
                 if searchText.isEmpty {
                     VStack {
@@ -153,26 +162,31 @@ struct SearchView: View {
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .foregroundStyle(Color.secondary)
-
+                    
                 } else {
-                    CardScrollView(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
-                }
-
-            }
-            .background(Color.appLightPeach)
-            .padding(.horizontal)
-            .toolbar {
-
-                ToolbarItem(placement: .topBarLeading) {
-                    Button("Two") {
-                        filterSelectViewPresented = true
+                    if hSizeClass == .regular {
+                        CardScrollViewForPad(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
+                    } else {
+                        CardScrollView(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
                     }
                 }
+                
             }
-            .sheet(isPresented: $filterSelectViewPresented) {
-                NavigationStack {
-                    FilterSelectView(filteringCategories: $filteringCategories)
+            .padding(.horizontal)
+            .background(Color.appLightPeach)
+            .floatingSheet(isPresented: $isPresentedFilterSelectView) {
+                FilterSelectView(filteringCategories: $filteringCategories, isPresentedFilterSelectView: $isPresentedFilterSelectView)
+                //                    .presentationDetents([.height(200), .fraction(0.7)])
+            }
+            .retrospectiveNavigationTitle("Our Camp Diary")
+            .retrospectiveNavigationBarColor(.appLightPeach)
+            .retrospectiveLeadingToolBar {
+                RetrospectiveToolBarItem(.symbol("slider.horizontal.3")) {
+                    isPresentedFilterSelectView = true
                 }
+            }
+            .retrospectiveTrailingToolbar {
+                RetrospectiveToolBarItem(.symbol("plus")) { }
             }
         }
     }

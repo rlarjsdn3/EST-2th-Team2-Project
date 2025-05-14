@@ -15,83 +15,52 @@ struct CardUIView: View {
     let diary: Diary
 
     var body: some View {
-        VStack(alignment: .trailing, spacing: 0) {
+        VStack(alignment: .trailing) {
+            Button {
+                print("hi") // TODO: 연결 필요.
+            } label: {
 
-            HStack {
-                Text(diary.title)
-                    .foregroundStyle(Color.label)
-                    .font(.title2)
-                    .lineLimit(1)
+                VStack(alignment: .trailing, spacing: 0) {
 
-                Spacer()
+                    HStack {
+                        Text(diary.title)
+                            .foregroundStyle(Color.label)
+                            .font(.title2)
+                            .bold()
+                            .lineLimit(1)
 
-                Button {
+                        Spacer()
 
-                } label: {
-                    Image(systemName: "square.and.pencil")
-                        .foregroundStyle(Color.label)
-                        .font(.title2)
-                }
-
-                Button {
-                    deleteAlert = true
-
-                } label: {
-                    Image(systemName: "trash")
-                        .foregroundStyle(Color.label)
-                        .font(.title2)
-                }
-
-
-            }
-            .padding()
-            .background {
-                UnevenRoundedRectangle(topLeadingRadius: 20, topTrailingRadius: 20)
-                    .fill(Color.appSkyBlue2)
-            }
-
-            Rectangle()
-                .stroke(Color.appLightGray ,style: StrokeStyle(lineWidth: 2, lineCap: .round, dash: [4, 10]))
-                .frame(height: 1)
-
-            HStack {
-                Text(diary.contents)
-                    .foregroundStyle(Color.label)
-                    .lineLimit(7)
+                    }
                     .padding()
+                    .background {
+                        UnevenRoundedRectangle(topLeadingRadius: 20, topTrailingRadius: 20)
+                            .fill(Color.appSkyBlue2)
+                    }
 
-                Spacer()
-            }
-            .background {
-                UnevenRoundedRectangle(bottomLeadingRadius: 20, bottomTrailingRadius: 20)
-                    .fill(Color.appSkyBlue)
+                    Divider()
+
+                    HStack {
+                        Text(diary.contents)
+                            .multilineTextAlignment(.leading)
+                            .foregroundStyle(Color.label)
+                            .lineLimit(7)
+                            .padding()
+
+                        Spacer()
+                    }
+                    .background {
+                        UnevenRoundedRectangle(bottomLeadingRadius: 20, bottomTrailingRadius: 20)
+                            .fill(Color.appSkyBlue)
+                    }
+                }
             }
 
-            // 카테고리 캡슐 갯수 제한 필요할 듯.
-            HStack {
+            ChipLayout {
                 ForEach (diary.categories) { category in
                     CategoryButton(category: category.name, categoryColor: category.color, alwaysShowCategoryHighlight: true) { }
                 }
             }
-            .padding(.vertical, 10)
-
-        }
-        .alert("경고창", isPresented: $deleteAlert) {
-            Button(role: .destructive) {
-                modelContext.delete(diary)
-
-                    do {
-                        try modelContext.save()
-                    } catch {
-                        print("삭제 실패: \(error)")
-                    }
-
-            } label: {
-                Text("삭제하기")
-            }
-
-        } message: {
-            Text("정말로 삭제하시겠습니까?")
         }
     }
     
