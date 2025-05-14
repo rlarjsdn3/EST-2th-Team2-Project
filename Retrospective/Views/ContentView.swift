@@ -130,7 +130,7 @@ struct ContentView: View {
 
     struct SearchView: View {
         var body: some View {
-            WritingView()// searchView() 넣어주세요
+            Test2_View()// searchView() 넣어주세요
         }
     }
 

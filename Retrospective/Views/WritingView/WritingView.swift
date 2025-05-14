@@ -49,41 +49,54 @@ struct WritingView: View {
     var body: some View {
         RetrospectiveNavigationStack {
             VStack(spacing: 10) {
-                VStack {
-                    /// 현재 날짜 출력
-                    HStack {
-                        Text(Date.now.formatted(.dateTime.year().month().day()))
-                            .foregroundColor(.secondary)
-                            .padding(.leading, 19)
+                VStack(alignment: .trailing, spacing: 0) {
+                    VStack {
+                        /// 현재 날짜 출력
+                        HStack {
+                            Text(Date.now.formatted(.dateTime.year().month().day()))
+                                .foregroundColor(.secondary)
+                                .padding(.leading, 19)
 
-                        Spacer()
+                            Spacer()
+                        }
+
+                        TextField("제목", text: $title)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled()
+                            .focused($focused, equals: .title)
+                            .onAppear {
+                                focused = .title
+                                /// 다이어리를 작성할 때 키보드가 올라온 상태에서 키보드 밖 화면을 누르면 키보드가 내려감
+                                UIApplication.shared.hideKeyboard()
+                            }
+                            .foregroundColor(.label)
+                            .font(.title2)
+                            .fontWeight(.semibold)
+                            .frame(height: 35)
+                            .padding(.horizontal, 19)
+                            .lineLimit(1)
+                    }
+                    .padding(.vertical)
+                    .background {
+                        UnevenRoundedRectangle(topLeadingRadius: 20, topTrailingRadius: 20)
+                            .fill(Color.appSkyBlue2)
                     }
 
-                    TextField("제목", text: $title)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled()
-                        .focused($focused, equals: .title)
-                    //                        .submitLabel(.next)
-                        .onAppear {
-                            focused = .title
-                            /// 다이어리를 작성할 때 키보드가 올라온 상태에서 키보드 밖 화면을 누르면 키보드가 내려감
-                            UIApplication.shared.hideKeyboard()
-                        }
-                        .foregroundColor(.label)
-                        .font(.title3)
-                        .fontWeight(.bold)
-                        .frame(height: 35)
-                        .padding(.horizontal, 19)
-
                     Divider()
-                        .background(.secondary.opacity(0.33))
-                        .padding(.horizontal, 15)
 
-                    TextEditor(text: $content)
-                        .customTextEditor(placeholder: placeholder, text: $content)
+                    VStack {
+                        TextEditor(text: $content)
+                            .customTextEditor(placeholder: placeholder, text: $content)
+                    }
+                    .padding(.vertical)
+                    .background {
+                        UnevenRoundedRectangle(bottomLeadingRadius: 20, bottomTrailingRadius: 20)
+                            .fill(Color.appSkyBlue)
+                    }
+
                 }
-                .padding(.horizontal, 20)
-                .padding(.top, 20)
+                .padding(.horizontal, 10)
+                .padding(.top, 10)
 
                 HStack {
                     /// 카테고리 버튼
@@ -117,28 +130,24 @@ struct WritingView: View {
                     .padding(.horizontal, 20)
                     .padding(.bottom, 25)
                 }
-                .background(.appSkyBlue)
                 .cornerRadius(30)
                 .padding(.horizontal, 15)
                 .padding(.top, 15)
                 .padding(.bottom, 65)
                 /// 뒤로 가기 버튼
                 .retrospectiveLeadingToolBar {
-                    RetrospectiveToolBarItem(.symbol("chevron.left")) {
-                        dismiss() // 안먹힘
-                    }
+                    RetrospectiveToolBarItem(.symbol("chevron.left")) { }
                 }
                 /// ⭐️ 다이어리 추가 버튼
                 .retrospectiveTrailingToolbar {
                     RetrospectiveToolBarItem(.symbol("checkmark")) {
-                        //                        addDiary()
-                        dismiss() // 이것도 안먹힘
+//                        addDiary()
                     }
                     /// 제목과 내용 둘 중에 하나라도 비어있으면 등록 버튼 비활성화
                     .disabled(title.isEmpty || content.isEmpty)
                 }
                 .retrospectiveNavigationTitle("Our Camp Diary")
-//                .retrospectiveNavigationBarColor(.appLightPeach)
+                .retrospectiveNavigationBarColor(.appLightPeach)
             }
             .background(.appLightPeach)
         }
@@ -165,7 +174,8 @@ struct CustomTextEditorStyle: ViewModifier {
             .background(alignment: .topLeading) {
                 if text.isEmpty {
                     Text(placeholder)
-                        .padding(22)
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 20)
                         .foregroundColor(.secondary.opacity(0.7))
                 }
             }
