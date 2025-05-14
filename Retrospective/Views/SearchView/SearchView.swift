@@ -84,7 +84,7 @@ struct SearchView: View {
                     ScrollView(.horizontal) {
                         HStack {
                             ForEach (filteredCategories, id: \.self ) {category in
-                                CategoryButton(isCategoryOn: .constant(true), category: category.name, categoryColor: category.color)
+                                CategoryButton(category: category.name, categoryColor: category.color, alwaysShowCategoryHighlight: true) { }
 
 
                             }

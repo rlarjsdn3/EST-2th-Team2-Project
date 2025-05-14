@@ -10,30 +10,45 @@ import SwiftUI
 import SwiftData
 
 /*
- TODO: 글 등록 버튼 비활성화일 때 색을 다르게 조정하려고 했는데 적용이 안되네
+ TODO: 글 등록 버튼 비활성화일 때 색을 다르게 조정하려고 했는데 적용이 안되네 ->
+
+```
+ RetrospectiveToolBarItem(.symbol("square.and.pencil")) {
+ }
+ .opactiy((title.isEmpty || content.isEmpty) ? 0.1 : 1.0)
+ ```
+
+ 이런식으로 적용하시면 됩니다~
+
+
+ 혹은 색상을 변경하고 싶으시다면
+
+ ```swift
+ let config = ToolBarConfiguration(symbolTint: .red)
+ RetrospectiveToolBarItem(.symbol("trash"), configuration: config) {
+ }
+ ```
+
+ ToolBarConfiguration 객체를 만든 다음 ToolBarItem에 집어넣으세요~
+
  ⭐️ TODO: CRUD
  */
 
 struct WritingView: View {
-    @State private var title: String = ""
-    @State private var content: String = ""
-
-    @Environment(\.modelContext) var modelContext
 
     /// 저장된 카테고리 목록을 가져옴
-    @Query var allCategories: [Category]
 
     //    var filteredCategories: [Category] {
     //
     //    }
 
     /// 저장된 다이어리 목록을 가져옴
-    @Query private var diary: [Diary]
+    //    @Query private var diary: [Diary]
 
-    @State var isCategoryOnArray: [Bool] = Array(repeating: false, count: 4)
+    //    @State var isCategoryOnArray: [Bool] = Array(repeating: false, count: 4)
 
-    @State private var categoryName: [String] = Array(repeating: "카테고리", count: 4)
-    @State private var categoryColor: Color = .blue
+    //    @State private var categoryName: [String] = Array(repeating: "카테고리", count: 4)
+    //    @State private var categoryColor: Color = .blue
 
     enum FieldType: Hashable {
         case title
@@ -44,7 +59,32 @@ struct WritingView: View {
 
     private let placeholder: String = "내용"
 
+
+
+    @Environment(\.modelContext) var modelContext
     @Environment(\.dismiss) private var dismiss
+
+    @Query var categories: [Category]
+
+    @State private var title: String = ""
+    @State private var content: String = ""
+    @State private var categoriesSelection: [Category] = []
+    @State private var isEditMode: Bool = false
+    ///
+    let diary: Diary?
+
+    @State private var categoryButtons: [CategoryButton] = []
+
+    /// WritingView를 초기화합니다.
+    ///
+    /// - `diary` 매개변수에 `nil`을 전달하면 '새 글 작성' 모드로 동작합니다.
+    /// - 반면, `diary` 매개변수에 기존 `Diary` 객체를 전달하면 '글 편집' 모드로 동작합니다.
+    ///
+    /// - Parameter diary: 작성하거나 편집할 Diary 객체 (nil일 경우 새 글 작성 모드)
+    init(diary: Diary?) {
+        self.diary = diary
+    }
+
 
     var body: some View {
         RetrospectiveNavigationStack {
@@ -102,63 +142,135 @@ struct WritingView: View {
                     /// 카테고리 버튼
                     ScrollView(.horizontal) {
                         HStack(spacing: 10) {
-                            /// ⭐️ 저장된 카테고리 목록을 보여줌
-//                            ForEach (allCategories) {category in
-//                                CategoryButton(isCategoryOn: .constant(true), category: category.name, categoryColor: category.color)
-//                            }
-                            // 카테고리가 어떻게 나오나 보려고 그냥 임의값 넣어두고 표시함
-                            CategoryButton(isCategoryOn: $isCategoryOnArray[1], category: "카테고리", categoryColor: .green)
-                            CategoryButton(isCategoryOn: $isCategoryOnArray[2], category: "카테고리", categoryColor: .red)
-                            CategoryButton(isCategoryOn: $isCategoryOnArray[3], category: "카테고리", categoryColor: .yellow)
+                            ForEach (categoryButtons) { categoryButton in
+                                categoryButton
                             }
-                            .presentationDetents([.height(150), .fraction(0.8)])
                         }
-                        .scrollIndicators(.hidden)
-
-                        // TODO: 버튼 클릭 시 filter 선택 뷰 FloatingSheet present
-                        Button {
-
-                        } label: {
-                            Image(systemName: "plus")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 18, height: 18)
-                                .foregroundColor(.label)
-                                .padding(.leading, 5)
-                        }
+                        .presentationDetents([.height(150), .fraction(0.8)])
                     }
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 25)
-                }
-                .cornerRadius(30)
-                .padding(.horizontal, 15)
-                .padding(.top, 15)
-                .padding(.bottom, 65)
-                /// 뒤로 가기 버튼
-                .retrospectiveLeadingToolBar {
-                    RetrospectiveToolBarItem(.symbol("chevron.left")) { }
-                }
-                /// ⭐️ 다이어리 추가 버튼
-                .retrospectiveTrailingToolbar {
-                    RetrospectiveToolBarItem(.symbol("checkmark")) {
-//                        addDiary()
+                    .scrollIndicators(.hidden)
+
+                    // TODO: 버튼 클릭 시 filter 선택 뷰 FloatingSheet present
+                    Button {
+
+                    } label: {
+                        Image(systemName: "plus")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 18, height: 18)
+                            .foregroundColor(.label)
+                            .padding(.leading, 5)
                     }
-                    /// 제목과 내용 둘 중에 하나라도 비어있으면 등록 버튼 비활성화
-                    .disabled(title.isEmpty || content.isEmpty)
                 }
-                .retrospectiveNavigationTitle("Our Camp Diary")
-                .retrospectiveNavigationBarColor(.appLightPeach)
+                .padding(.horizontal, 20)
+                .padding(.bottom, 25)
             }
-            .background(.appLightPeach)
-        }
+            .cornerRadius(30)
+            .padding(.horizontal, 15)
+            .padding(.top, 15)
+            .padding(.bottom, 65)
+            /// 뒤로 가기 버튼
+            .retrospectiveLeadingToolBar {
+                RetrospectiveToolBarItem(.symbol("chevron.left")) { }
+            }
+            .retrospectiveTrailingToolbar {
+                if isEditMode {
+                    let config = ToolBarConfiguration(symbolTint: .red)
+                    RetrospectiveToolBarItem(.symbol("trash"), configuration: config) {
+                    }
+                    .padding(.trailing, 12)
+                    RetrospectiveToolBarItem(.symbol("checkmark")) {
+                        isEditMode = false
+                    }
+                    .disabled(title.isEmpty || content.isEmpty)
 
-        /// ⭐️ 다이어리 추가 메서드
-        /// 선택한 카테고리만 넘겨주어야 하는데, categories 쪽을 이렇게 하는 건지 모르겠다.
-        //    private func addDiary() {
-        //        let newDiary = Diary(title: title, contents: content, categories: categories)
-        //        modelContext.insert(newDiary)
-        //    }
+                } else {
+                    if let _ = diary {
+                        RetrospectiveToolBarItem(.symbol("square.and.pencil")) {
+                            isEditMode = true
+                        }
+                    } else {
+                        RetrospectiveToolBarItem(.symbol("checkmark")) {
+                            dismiss()
+                            createDiary()
+                        }
+                        .disabled(title.isEmpty || content.isEmpty)
+                    }
+                }
+            }
+            .retrospectiveNavigationTitle("Our Camp Diary")
+            .retrospectiveNavigationBarColor(.appLightPeach)
+        }
+        .background(.appLightPeach)
+        .onAppear {
+            categoryButtons = categories.map { category in
+                CategoryButton(
+                    category: category.name,
+                    categoryColor: category.color,
+                    action: {
+                        if let firstIndex = categoriesSelection.firstIndex(where: { $0.name == category.name }) {
+                            self.categoriesSelection.remove(at: firstIndex)
+                        } else {
+                            self.categoriesSelection.append(category)
+                        }
+                        print(categoriesSelection)
+                })
+            }
+        }
+        .onChange(of: categoriesSelection) { _, _ in
+            withAnimation {
+                self.categoryButtons = categoryButtons.sorted(by: { e1, e2 in
+                    self.categoriesSelection.contains(where: { $0.name == e1.category })
+                    && !self.categoriesSelection.contains(where: { $0.name == e2.category })
+                })
+            }
+        }
+    }
 }
+
+
+// MARK: - Logics
+
+extension WritingView {
+
+    /// 새로운 다이어리를 생성하고 저장합니다.
+    ///
+    /// - 다이어리 객체를 생성하여 지정된 카테고리와 함께 저장합니다.
+    /// - 저장 후 자동으로 컨텍스트가 저장됩니다.
+    func createDiary() {
+        let diary = Diary(
+            title: title,
+            contents: content,
+            categories: categoriesSelection
+        )
+        modelContext.insert(andSave: diary)
+    }
+
+    /// 기존 다이어리를 수정하고 저장합니다.
+    ///
+    /// - 현재 편집 중인 다이어리(`diary`)의 제목과 내용을 수정합니다.
+    /// - 수정된 내용은 자동으로 저장됩니다.
+    /// - 만약 다이어리가 존재하지 않을 경우 아무 작업도 수행하지 않습니다.
+    func updateDiary() {
+        guard let diary else { return }
+        diary.title = title
+        diary.contents = content
+        modelContext.save(onFailure: nil)
+    }
+
+    /// 기존 다이어리를 삭제하고 저장합니다.
+    ///
+    /// - 지정된 다이어리(`diary`)를 데이터베이스에서 삭제합니다.
+    /// - 삭제된 후 자동으로 저장됩니다.
+    /// - 만약 다이어리가 존재하지 않을 경우 아무 작업도 수행하지 않습니다.
+    func deleteDiary() {
+        guard let diary else { return }
+        modelContext.delete(andSave: diary)
+    }
+}
+
+
+
 
 /// 텍스트 에디터 커스텀 스타일
 struct CustomTextEditorStyle: ViewModifier {
@@ -208,5 +320,11 @@ extension TextEditor {
 }
 
 #Preview {
-    WritingView()
+    WritingView(diary: nil)
+        .modelContainer(PersistenceManager.previewContainer)
+}
+
+#Preview {
+    WritingView(diary: .mock[0])
+        .modelContainer(PersistenceManager.previewContainer)
 }

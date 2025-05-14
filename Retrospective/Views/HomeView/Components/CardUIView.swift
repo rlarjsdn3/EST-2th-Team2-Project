@@ -70,7 +70,7 @@ struct CardUIView: View {
             // 카테고리 캡슐 갯수 제한 필요할 듯.
             HStack {
                 ForEach (diary.categories) { category in
-                    CategoryButton(isCategoryOn: .constant(true), category: category.name, categoryColor: category.color)
+                    CategoryButton(category: category.name, categoryColor: category.color, alwaysShowCategoryHighlight: true) { }
                 }
             }
             .padding(.vertical, 10)
