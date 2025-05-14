@@ -11,6 +11,11 @@ struct CategoryButton: View {
 
     @State private var isCategoryOn: Bool = false
 
+    /// 
+    var isOn: Bool {
+        self.isCategoryOn
+    }
+
     /// 카테고리 이름 (버튼 라벨)
     let category: String
 
@@ -45,6 +50,7 @@ struct CategoryButton: View {
 
     var body: some View {
         Button {
+            action()
             isCategoryOn.toggle()
         } label: {
             HStack {
@@ -68,6 +74,10 @@ struct CategoryButton: View {
         }
         .clipShape(RoundedRectangle(cornerRadius: 30))
     }
+}
+
+extension CategoryButton: Identifiable {
+    var id: String { category }
 }
 
 #Preview {

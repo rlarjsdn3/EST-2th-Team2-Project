@@ -73,6 +73,7 @@ struct WritingView: View {
     ///
     let diary: Diary?
 
+    @State private var categoryButtons: [CategoryButton] = []
 
     /// WritingView를 초기화합니다.
     ///
@@ -141,10 +142,8 @@ struct WritingView: View {
                     /// 카테고리 버튼
                     ScrollView(.horizontal) {
                         HStack(spacing: 10) {
-                            ForEach (categories) { category in
-                                CategoryButton(category: category.name, categoryColor: category.color) {
-                                    self.categoriesSelection.append(category)
-                                }
+                            ForEach (categoryButtons) { categoryButton in
+                                categoryButton
                             }
                         }
                         .presentationDetents([.height(150), .fraction(0.8)])
@@ -203,6 +202,29 @@ struct WritingView: View {
             .retrospectiveNavigationBarColor(.appLightPeach)
         }
         .background(.appLightPeach)
+        .onAppear {
+            categoryButtons = categories.map { category in
+                CategoryButton(
+                    category: category.name,
+                    categoryColor: category.color,
+                    action: {
+                        if let firstIndex = categoriesSelection.firstIndex(where: { $0.name == category.name }) {
+                            self.categoriesSelection.remove(at: firstIndex)
+                        } else {
+                            self.categoriesSelection.append(category)
+                        }
+                        print(categoriesSelection)
+                })
+            }
+        }
+        .onChange(of: categoriesSelection) { _, _ in
+            withAnimation {
+                self.categoryButtons = categoryButtons.sorted(by: { e1, e2 in
+                    self.categoriesSelection.contains(where: { $0.name == e1.category })
+                    && !self.categoriesSelection.contains(where: { $0.name == e2.category })
+                })
+            }
+        }
     }
 }
 
