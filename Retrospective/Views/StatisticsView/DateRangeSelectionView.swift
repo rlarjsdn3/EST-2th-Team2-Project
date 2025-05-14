@@ -89,17 +89,8 @@ struct DateRangeSelectionView: View {
             }
             .padding(.vertical)
 
-            Button {
+            RoundedRectButton(title: "확인") {
                 didTapConfirmButton()
-            } label: {
-                Text("확인")
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(.label)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 14)
-                    .background(.appSkyBlue2)
-                    .cornerRadius(.appLightPeach, radius: 18)
             }
             .padding(.top, 60)
         }

@@ -29,12 +29,12 @@ struct CustomTextField: View {
             .frame(width: .infinity, height: 40)
             .background(
                 RoundedRectangle(cornerRadius: 18)
-                    .fill(Color.appSkyBlue.opacity(0.5)) // 내부 배경색
+                    .fill(Color.appLightGray.opacity(0.33)) // 내부 배경색
 
             )
             .overlay(
                 RoundedRectangle(cornerRadius: 18)
-                    .stroke(Color.appLightGray.opacity(0.5), lineWidth: 1) // 테두리 색상 및 두께
+                    .stroke(Color.appLightGray.opacity(0.33), lineWidth: 1) // 테두리 색상 및 두께
             )
             .padding()
         }
