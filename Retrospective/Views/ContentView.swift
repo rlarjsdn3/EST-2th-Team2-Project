@@ -120,30 +120,30 @@ struct ContentView: View {
 
     ///다른뷰에서 불러올때 사용
 
-//    struct  HomeView: View {
-//        var body: some View {
-//            CategoryView()//TODO: HomeView() 넣어주세요
-//
-//        }
-//    }
-//
-//    struct SearchView: View {
-//        var body: some View {
-//            WritingView()// searchView() 넣어주세요
-//        }
-//    }
-//
-//    struct statisticView: View {
-//        var body: some View {
-//            Test3_View()// statistiView() 넣어주세요
-//        }
-//    }
-//
-//    struct SettingView: View {
-//        var body: some View {// settingView() 넣어주세요
-//            Test4_View()
-//        }
-//    }
+    struct  HomeView: View {
+        var body: some View {
+            CategoryView()//TODO: HomeView() 넣어주세요
+
+        }
+    }
+
+    struct SearchView: View {
+        var body: some View {
+            WritingView()// searchView() 넣어주세요
+        }
+    }
+
+    struct statisticView: View {
+        var body: some View {
+            Test3_View()// statistiView() 넣어주세요
+        }
+    }
+
+    struct SettingView: View {
+        var body: some View {// settingView() 넣어주세요
+           settingView()
+        }
+    }
 }
 
 #Preview {

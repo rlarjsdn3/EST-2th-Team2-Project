@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SettingView: View {
+struct settingView: View {
     var body: some View {
         RetrospectiveNavigationStack {
             ZStack {
@@ -65,6 +65,6 @@ struct SettingView: View {
 
 
 #Preview {
-    SettingView()
+    settingView()
         .modelContainer(PersistenceManager.previewContainer)
 }
