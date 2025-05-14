@@ -27,3 +27,14 @@ extension Array where Element == Diary {
         return symbols[(weekday - 1 + 7) % 7]
     }
 }
+
+
+extension Array {
+    
+    /// <#Description#>
+    /// - Parameter convertToArrayImmediately: <#convertToArrayImmediately description#>
+    /// - Returns: <#description#>
+    func prefix(length convertToArrayImmediately: Int) -> Array<Element> {
+        Array(self.prefix(convertToArrayImmediately))
+    }
+}

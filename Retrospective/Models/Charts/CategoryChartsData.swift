@@ -38,9 +38,13 @@ extension CategoryChartsData {
     static let mock: [CategoryChartsData] = [
         .init(name: "A", count: 10, rate: 0.05, color: .blue),
         .init(name: "B", count: 20, rate: 0.1, color: .red),
-        .init(name: "C", count: 30, rate: 0.2, color: .yellow),
-        .init(name: "D", count: 40, rate: 0.25, color: .green),
-        .init(name: "E", count: 50, rate: 0.4, color: .purple),
+        .init(name: "C", count: 30, rate: 0.1, color: .yellow),
+        .init(name: "D", count: 40, rate: 0.1, color: .green),
+        .init(name: "E", count: 50, rate: 0.1, color: .purple),
+        .init(name: "F", count: 60, rate: 0.1, color: .orange),
+        .init(name: "G", count: 70, rate: 0.1, color: .pink),
+        .init(name: "H", count: 80, rate: 0.15, color: .brown),
+        .init(name: "I", count: 90, rate: 0.2, color: .black),
     ]
 }
 

@@ -60,7 +60,7 @@ extension DonutChartsView {
     var legendChipView: some View {
         ChipLayout(horizontalSpacing: 18) {
             Spacer()
-            ForEach(datas) { data in
+            ForEach(datas.prefix(length: 5)) { data in
                 HStack {
                     Circle()
                         .stroke(data.color, lineWidth: 3.5)

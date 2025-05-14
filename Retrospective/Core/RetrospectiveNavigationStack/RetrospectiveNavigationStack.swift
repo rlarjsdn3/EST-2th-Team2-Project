@@ -40,18 +40,18 @@ struct RetrospectiveNavigationStack<Root>: View where Root: View {
             }
             .toolbarVisibility(.hidden, for: .navigationBar)
             .navigationBarBackButtonHidden()
-        }
-        .onPreferenceChangeMainActor(NavigationTitlePreferenceKey.self) { title in
-            navigationTitle = title
-        }
-        .onPreferenceChangeMainActor(LeadingToolBarPreferenceKey.self) { toolbar in
-            leadingToolbar = toolbar
-        }
-        .onPreferenceChangeMainActor(TrailingToolBarPreferenceKey.self) { toolbar in
-            trailingToolbar = toolbar
-        }
-        .onPreferenceChangeMainActor(NavigationBarColorPreferenceKey.self) { color in
-            navigationBarColor = color
+            .onPreferenceChangeMainActor(NavigationTitlePreferenceKey.self) { title in
+                navigationTitle = title
+            }
+            .onPreferenceChangeMainActor(LeadingToolBarPreferenceKey.self) { toolbar in
+                leadingToolbar = toolbar
+            }
+            .onPreferenceChangeMainActor(TrailingToolBarPreferenceKey.self) { toolbar in
+                trailingToolbar = toolbar
+            }
+            .onPreferenceChangeMainActor(NavigationBarColorPreferenceKey.self) { color in
+                navigationBarColor = color
+            }
         }
     }
 }
