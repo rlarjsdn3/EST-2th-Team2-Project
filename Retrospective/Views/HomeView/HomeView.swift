@@ -48,10 +48,7 @@ struct HomeView: View {
                     ScrollView(.horizontal) {
                         HStack {
                             ForEach (filteredCategories, id: \.self ) {category in
-
                                 CategoryButton(category: category.name, categoryColor: category.color, alwaysShowCategoryHighlight: true) { }
-
-
                             }
                         }
                     }

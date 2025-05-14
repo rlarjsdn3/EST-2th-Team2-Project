@@ -16,10 +16,6 @@ struct FilterSelectView: View {
 
     @State private var tempSelection: Set<String> = []
 
-    var categoryNames: [String] {
-        allCategories.map { $0.name }
-    }
-
     var body: some View {
         //        Form {
         VStack(spacing: 0) {
@@ -35,7 +31,7 @@ struct FilterSelectView: View {
             }
 
             List {
-                ForEach(allCategories, id: \.persistentModelID) { category in
+                ForEach(allCategories.sorted { $0.name < $1.name }, id: \.persistentModelID) { category in
                     HStack {
 
                         Circle()
@@ -61,23 +57,16 @@ struct FilterSelectView: View {
                     }
                 }
 
+
             }
             .listStyle(.plain)
             .padding(.bottom, 0)
 
-            Button {
+            RoundedRectButton(title: "확인") {
                 filteringCategories = tempSelection
                 isPresentedFilterSelectView = false
-            } label: {
-                Text("확인")
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(.background)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 10)
-                    .cornerRadius(.appLightGray.opacity(0.33), radius: 18)
-                    .padding(.vertical, 10)
             }
+            .padding(.vertical)
         }
         .frame(maxHeight: 500)
         .onAppear {
