@@ -56,7 +56,7 @@ extension Diary {
             title: "봄의 노래",
             contents: "새싹이 돋아나는 소리, 부드러운 바람이 불어옵니다. 꽃들은 피어나며 향기를 퍼트리고, 나는 그 속에서 미소 지었습니다.",
             categories: [.mock[0], .mock[3]],
-            createdDate: Date(year: 2025, month: 5, day: 11)!
+            createdDate: Date(year: 2025, month: 5, day: 13)!
         ),
         Diary(
             title: "가을의 여운",
