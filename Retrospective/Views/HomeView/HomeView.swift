@@ -53,31 +53,20 @@ struct HomeView: View {
                         }
                     }
 
-                    Button {
-                        isDescending.toggle()
-                    } label: {
-                        if isDescending {
-                            HStack(spacing: 0) {
-                                Text("최신순")
-                                Image(systemName: "arrowtriangle.down")
-                            }
-                        } else {
-                            HStack(spacing: 0) {
-                                Text("오래된순")
-                                Image(systemName: "arrowtriangle.up")
-                            }
-                        }
-
+                    ToggleSortOrder { isDescending in
+                        self.isDescending = isDescending
                     }
-                    .foregroundStyle(Color.label)
                 }
                 .padding(.top, 10)
 
-                if hSizeClass == .regular {
-                    CardScrollViewForPad(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
-                } else {
-                    CardScrollView(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
+                Group {
+                    if hSizeClass == .regular {
+                        CardScrollViewForPad(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
+                    } else {
+                        CardScrollView(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
+                    }
                 }
+//                .animation(.smooth, value: isDescending)
             }
             .padding(.horizontal, hSizeClass == .regular ? 30 : 15)
             .background(Color.appLightPeach)
