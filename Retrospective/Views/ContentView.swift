@@ -28,7 +28,7 @@ struct ContentView: View {
                     CategoryManagementView() //TODO: HomeView() 넣어주세요
                         .tag(Tab.home)
 
-                    SearchView()// searchView() 넣어주세요
+                    SearchView() // searchView() 넣어주세요
                         .tag(Tab.search)
 
                     StatisticsView()
