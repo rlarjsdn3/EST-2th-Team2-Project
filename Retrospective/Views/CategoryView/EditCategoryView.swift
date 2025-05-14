@@ -44,7 +44,7 @@ struct EditCategoryView: View {
                     HStack(alignment: .center){
 
                         TextField("카테고리 이름", text: $editedName)
-                            .font(.system(size: 30, weight: .semibold, design: .default))
+                            .font(.title)
 
                             .multilineTextAlignment(.center)
                             .frame(maxWidth: .infinity, minHeight: 10)
@@ -62,19 +62,20 @@ struct EditCategoryView: View {
                 .background(Color.appLightPeach)
 
 
-                // 미리보기 색상 아이콘
+
                 VStack{
                     Circle()
                         .fill(editedColor)
                         .frame(width: 200, height: 200)
 
 
-                    // 슬라이더 UI
+
                     Group {
                         sliderView(value: $r, label: "Red", color: .red)
                         sliderView(value: $g, label: "Green", color: .green)
                         sliderView(value: $b, label: "Blue", color: .blue)
                     }
+                    .padding()
 
 //                    RoundedRectButton(title: "저장") {
 //                        let rgb = editedColor.rgbComponents()
