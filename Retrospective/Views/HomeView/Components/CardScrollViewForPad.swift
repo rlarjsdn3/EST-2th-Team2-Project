@@ -37,11 +37,12 @@ struct CardScrollViewForPad: View {
 
                                     Section(header: DayHeader(title: dayKey)) {
                                         LazyVGrid(columns: columns, spacing: 0) {
-                                            ForEach(diaries) { diary in
+                                            ForEach(diaries.sorted(by: { $0.title > $1.title })) { diary in
                                                 CardUIView(diary: diary)
                                                     .frame(maxWidth: .infinity, alignment: .leading)
                                                     .background(Color.gray.opacity(0.05))
                                                     .cornerRadius(10)
+                                                    .padding(.vertical, 10)
                                             }
                                         }
                                         .padding(.horizontal)
