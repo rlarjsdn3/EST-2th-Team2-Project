@@ -15,8 +15,6 @@ import SwiftData
  */
 
 struct WritingView: View {
-    @State private var title: String = ""
-    @State private var content: String = ""
 
     @Environment(\.modelContext) var modelContext
 
@@ -28,9 +26,9 @@ struct WritingView: View {
     //    }
 
     /// 저장된 다이어리 목록을 가져옴
-    @Query private var diary: [Diary]
+//    @Query private var diary: [Diary]
 
-    @State var isCategoryOnArray: [Bool] = Array(repeating: false, count: 4)
+//    @State var isCategoryOnArray: [Bool] = Array(repeating: false, count: 4)
 
     @State private var categoryName: [String] = Array(repeating: "카테고리", count: 4)
     @State private var categoryColor: Color = .blue
@@ -44,7 +42,27 @@ struct WritingView: View {
 
     private let placeholder: String = "내용"
 
+
+
     @Environment(\.dismiss) private var dismiss
+
+    @State private var title: String = ""
+    @State private var content: String = ""
+    @State private var categoriesSelection: [Category] = []
+    ///
+    let diary: Diary?
+
+
+    /// WritingView를 초기화합니다.
+    ///
+    /// - `diary` 매개변수에 `nil`을 전달하면 '새 글 작성' 모드로 동작합니다.
+    /// - 반면, `diary` 매개변수에 기존 `Diary` 객체를 전달하면 '글 편집' 모드로 동작합니다.
+    ///
+    /// - Parameter diary: 작성하거나 편집할 Diary 객체 (nil일 경우 새 글 작성 모드)
+    init(diary: Diary?) {
+        self.diary = diary
+    }
+
 
     var body: some View {
         RetrospectiveNavigationStack {
@@ -94,9 +112,9 @@ struct WritingView: View {
 //                                CategoryButton(isCategoryOn: .constant(true), category: category.name, categoryColor: category.color)
 //                            }
                             // 카테고리가 어떻게 나오나 보려고 그냥 임의값 넣어두고 표시함
-                            CategoryButton(isCategoryOn: $isCategoryOnArray[1], category: "카테고리", categoryColor: .green)
-                            CategoryButton(isCategoryOn: $isCategoryOnArray[2], category: "카테고리", categoryColor: .red)
-                            CategoryButton(isCategoryOn: $isCategoryOnArray[3], category: "카테고리", categoryColor: .yellow)
+                            CategoryButton(category: "카테고리", categoryColor: .green) { }
+                            CategoryButton(category: "카테고리", categoryColor: .red) { }
+                            CategoryButton(category: "카테고리", categoryColor: .yellow) { }
                             }
                             .presentationDetents([.height(150), .fraction(0.8)])
                         }
@@ -151,6 +169,16 @@ struct WritingView: View {
         //    }
 }
 
+
+// MARK: - Logics
+
+extension WritingView {
+
+}
+
+
+
+
 /// 텍스트 에디터 커스텀 스타일
 struct CustomTextEditorStyle: ViewModifier {
     let placeholder: String
@@ -198,5 +226,5 @@ extension TextEditor {
 }
 
 #Preview {
-    WritingView()
+    WritingView(diary: .mock[0])
 }
