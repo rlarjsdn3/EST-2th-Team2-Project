@@ -43,12 +43,12 @@ struct WritingView: View {
     //    }
 
     /// 저장된 다이어리 목록을 가져옴
-//    @Query private var diary: [Diary]
+    //    @Query private var diary: [Diary]
 
-//    @State var isCategoryOnArray: [Bool] = Array(repeating: false, count: 4)
+    //    @State var isCategoryOnArray: [Bool] = Array(repeating: false, count: 4)
 
-//    @State private var categoryName: [String] = Array(repeating: "카테고리", count: 4)
-//    @State private var categoryColor: Color = .blue
+    //    @State private var categoryName: [String] = Array(repeating: "카테고리", count: 4)
+    //    @State private var categoryColor: Color = .blue
 
     enum FieldType: Hashable {
         case title
@@ -88,41 +88,54 @@ struct WritingView: View {
     var body: some View {
         RetrospectiveNavigationStack {
             VStack(spacing: 10) {
-                VStack {
-                    /// 현재 날짜 출력
-                    HStack {
-                        Text(Date.now.formatted(.dateTime.year().month().day()))
-                            .foregroundColor(.secondary)
-                            .padding(.leading, 19)
+                VStack(alignment: .trailing, spacing: 0) {
+                    VStack {
+                        /// 현재 날짜 출력
+                        HStack {
+                            Text(Date.now.formatted(.dateTime.year().month().day()))
+                                .foregroundColor(.secondary)
+                                .padding(.leading, 19)
 
-                        Spacer()
+                            Spacer()
+                        }
+
+                        TextField("제목", text: $title)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled()
+                            .focused($focused, equals: .title)
+                            .onAppear {
+                                focused = .title
+                                /// 다이어리를 작성할 때 키보드가 올라온 상태에서 키보드 밖 화면을 누르면 키보드가 내려감
+                                UIApplication.shared.hideKeyboard()
+                            }
+                            .foregroundColor(.label)
+                            .font(.title2)
+                            .fontWeight(.semibold)
+                            .frame(height: 35)
+                            .padding(.horizontal, 19)
+                            .lineLimit(1)
+                    }
+                    .padding(.vertical)
+                    .background {
+                        UnevenRoundedRectangle(topLeadingRadius: 20, topTrailingRadius: 20)
+                            .fill(Color.appSkyBlue2)
                     }
 
-                    TextField("제목", text: $title)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled()
-                        .focused($focused, equals: .title)
-                    //                        .submitLabel(.next)
-                        .onAppear {
-                            focused = .title
-                            /// 다이어리를 작성할 때 키보드가 올라온 상태에서 키보드 밖 화면을 누르면 키보드가 내려감
-                            UIApplication.shared.hideKeyboard()
-                        }
-                        .foregroundColor(.label)
-                        .font(.title3)
-                        .fontWeight(.bold)
-                        .frame(height: 35)
-                        .padding(.horizontal, 19)
-
                     Divider()
-                        .background(.secondary.opacity(0.33))
-                        .padding(.horizontal, 15)
 
-                    TextEditor(text: $content)
-                        .customTextEditor(placeholder: placeholder, text: $content)
+                    VStack {
+                        TextEditor(text: $content)
+                            .customTextEditor(placeholder: placeholder, text: $content)
+                    }
+                    .padding(.vertical)
+                    .background {
+                        UnevenRoundedRectangle(bottomLeadingRadius: 20, bottomTrailingRadius: 20)
+                            .fill(Color.appSkyBlue)
+                    }
+
                 }
-                .padding(.horizontal, 20)
-                .padding(.top, 20)
+                .padding(.horizontal, 10)
+                .padding(.top, 10)
 
                 HStack {
                     /// 카테고리 버튼
@@ -144,56 +157,53 @@ struct WritingView: View {
                     } label: {
                         Image(systemName: "plus")
                             .resizable()
-                                .scaledToFit()
-                                .frame(width: 18, height: 18)
-                                .foregroundColor(.label)
-                                .padding(.leading, 5)
-                        }
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 25)
-                }
-                .background(.appSkyBlue)
-                .cornerRadius(30)
-                .padding(.horizontal, 15)
-                .padding(.top, 15)
-                .padding(.bottom, 65)
-                /// 뒤로 가기 버튼
-                .retrospectiveLeadingToolBar {
-                    RetrospectiveToolBarItem(.symbol("chevron.left")) {
-                        dismiss() // 안먹힘
+                            .scaledToFit()
+                            .frame(width: 18, height: 18)
+                            .foregroundColor(.label)
+                            .padding(.leading, 5)
                     }
                 }
-                .retrospectiveTrailingToolbar {
-                    if isEditMode {
-                        let config = ToolBarConfiguration(symbolTint: .red)
-                        RetrospectiveToolBarItem(.symbol("trash"), configuration: config) {
+                .padding(.horizontal, 20)
+                .padding(.bottom, 25)
+            }
+            .cornerRadius(30)
+            .padding(.horizontal, 15)
+            .padding(.top, 15)
+            .padding(.bottom, 65)
+            /// 뒤로 가기 버튼
+            .retrospectiveLeadingToolBar {
+                RetrospectiveToolBarItem(.symbol("chevron.left")) { }
+            }
+            .retrospectiveTrailingToolbar {
+                if !isEditMode {
+                    let config = ToolBarConfiguration(symbolTint: .red)
+                    RetrospectiveToolBarItem(.symbol("trash"), configuration: config) {
+                    }
+                    .padding(.trailing, 12)
+                    RetrospectiveToolBarItem(.symbol("checkmark")) {
+                        isEditMode = false
+                    }
+                    .disabled(title.isEmpty || content.isEmpty)
+
+                } else {
+                    if let _ = diary {
+                        RetrospectiveToolBarItem(.symbol("square.and.pencil")) {
+                            isEditMode = true
                         }
-                        .padding(.trailing, 12)
+                    } else {
                         RetrospectiveToolBarItem(.symbol("checkmark")) {
-                            isEditMode = false
+                            dismiss()
+                            createDiary()
                         }
                         .disabled(title.isEmpty || content.isEmpty)
-
-                    } else {
-                        if let _ = diary {
-                            RetrospectiveToolBarItem(.symbol("square.and.pencil")) {
-                                isEditMode = true
-                            }
-                        } else {
-                            RetrospectiveToolBarItem(.symbol("checkmark")) {
-                                dismiss()
-                                createDiary()
-                            }
-                            .disabled(title.isEmpty || content.isEmpty)
-                        }
                     }
                 }
-                .retrospectiveNavigationTitle("Our Camp Diary")
-//                .retrospectiveNavigationBarColor(.appLightPeach)
             }
-            .background(.appLightPeach)
+            .retrospectiveNavigationTitle("Our Camp Diary")
+            .retrospectiveNavigationBarColor(.appLightPeach)
         }
+        .background(.appLightPeach)
+    }
 }
 
 
@@ -254,7 +264,8 @@ struct CustomTextEditorStyle: ViewModifier {
             .background(alignment: .topLeading) {
                 if text.isEmpty {
                     Text(placeholder)
-                        .padding(22)
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 20)
                         .foregroundColor(.secondary.opacity(0.7))
                 }
             }
@@ -288,5 +299,10 @@ extension TextEditor {
 
 #Preview {
     WritingView(diary: nil)
+        .modelContainer(PersistenceManager.previewContainer)
+}
+
+#Preview {
+    WritingView(diary: .mock[0])
         .modelContainer(PersistenceManager.previewContainer)
 }

@@ -61,8 +61,7 @@ struct ContentView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 30)
-                        .foregroundStyle(.black)
-
+                        .foregroundStyle(.label)
                 }
             }
             Spacer()
@@ -130,7 +129,7 @@ struct ContentView: View {
 
     struct SearchView: View {
         var body: some View {
-            WritingView(diary: .mock[0])// searchView() 넣어주세요
+            Test2_View()// searchView() 넣어주세요
         }
     }
 
