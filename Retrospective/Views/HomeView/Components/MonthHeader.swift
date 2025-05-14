@@ -12,8 +12,9 @@ struct MonthHeader: View {
         HStack {
 
             Text(title)
-                .foregroundStyle(Color.secondary)
-                .font(.title)
+                .foregroundStyle(Color.label)
+                .font(.largeTitle)
+                .fontWeight(.bold)
 
 
             Spacer()
