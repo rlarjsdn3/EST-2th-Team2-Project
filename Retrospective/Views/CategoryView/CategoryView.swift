@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CategoryView: View {
-
+    @Environment(\.dismiss) private var dismiss
     @State var isCategoryOn: Bool = false
     var body: some View {
         RetrospectiveNavigationStack{
@@ -19,6 +19,11 @@ struct CategoryView: View {
                 }
                 .retrospectiveNavigationTitle("카테고리 관리")
                 .retrospectiveNavigationBarColor(.appLightPeach)
+                .retrospectiveLeadingToolBar {
+                    RetrospectiveToolBarItem(.symbol("chevron.left")) {
+                        dismiss()
+                    }
+                }
         }
     }
 }
