@@ -22,6 +22,6 @@ struct MonthHeader: View {
         }
         .frame(maxWidth: .infinity)
         .background(Color.appLightPeach)
-        .padding(.bottom, 10)
+        .padding(.bottom)
     }
 }

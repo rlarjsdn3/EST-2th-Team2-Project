@@ -17,7 +17,9 @@ struct DayHeader: View {
 
 
             Spacer()
+
+            Divider()
         }
-        .padding(.top, 10)
+        .padding(.bottom)
     }
 }

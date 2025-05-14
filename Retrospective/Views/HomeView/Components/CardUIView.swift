@@ -6,69 +6,72 @@
 //
 
 import SwiftUI
+
 struct CardUIView: View {
 
     @Environment(\.modelContext) private var modelContext
 
+    @State var isPresentedWritingView: Bool = false
     @State var deleteAlert: Bool = false
 
     let diary: Diary
 
     var body: some View {
-        VStack(alignment: .trailing) {
-            Button {
-                print("hi") // TODO: 연결 필요.
-            } label: {
+        NavigationStack {
+            VStack(alignment: .trailing) {
+                Button {
+                    isPresentedWritingView = true
+                } label: {
+                    VStack(alignment: .trailing, spacing: 0) {
 
-                VStack(alignment: .trailing, spacing: 0) {
+                        HStack {
+                            Text(diary.title)
+                                .foregroundStyle(Color.label)
+                                .font(.title2)
+                                .bold()
+                                .lineLimit(1)
 
-                    HStack {
-                        Text(diary.title)
-                            .foregroundStyle(Color.label)
-                            .font(.title2)
-                            .bold()
-                            .lineLimit(1)
+                            Spacer()
 
-                        Spacer()
+                        }
+                        .padding()
+                        .background {
+                            UnevenRoundedRectangle(topLeadingRadius: 20, topTrailingRadius: 20)
+                                .fill(Color.appSkyBlue2)
+                        }
 
-                    }
-                    .padding()
-                    .background {
-                        UnevenRoundedRectangle(topLeadingRadius: 20, topTrailingRadius: 20)
-                            .fill(Color.appSkyBlue2)
-                    }
+                        Divider()
 
-                    Divider()
+                        HStack {
+                            Text(diary.contents)
+                                .multilineTextAlignment(.leading)
+                                .foregroundStyle(Color.label)
+                                .lineLimit(7)
+                                .padding()
 
-                    HStack {
-                        Text(diary.contents)
-                            .multilineTextAlignment(.leading)
-                            .foregroundStyle(Color.label)
-                            .lineLimit(7)
-                            .padding()
-
-                        Spacer()
-                    }
-                    .background {
-                        UnevenRoundedRectangle(bottomLeadingRadius: 20, bottomTrailingRadius: 20)
-                            .fill(Color.appSkyBlue)
+                            Spacer()
+                        }
+                        .background {
+                            UnevenRoundedRectangle(bottomLeadingRadius: 20, bottomTrailingRadius: 20)
+                                .fill(Color.appSkyBlue)
+                        }
                     }
                 }
-            }
 
-            ChipLayout {
-                ForEach (diary.categories) { category in
-                    CategoryButton(category: category.name, categoryColor: category.color, alwaysShowCategoryHighlight: true) { }
+                ChipLayout {
+                    ForEach (diary.categories) { category in
+                        CategoryButton(category: category.name, categoryColor: category.color, alwaysShowCategoryHighlight: true) { }
+                    }
                 }
             }
         }
+        .navigationDestination(isPresented: $isPresentedWritingView, destination: {
+            WritingView(diary: diary)
+        })
     }
-    
 }
 
-
 #Preview {
-
     ScrollView {
         VStack {
             CardUIView(diary: Diary.mock.first!)
@@ -76,5 +79,18 @@ struct CardUIView: View {
             CardUIView(diary: Diary.mock[2])
         }
     }
+    .modelContainer(PersistenceManager.previewContainer)
+}
 
+#Preview {
+    ScrollView {
+        NavigationStack {
+            VStack {
+                ForEach(Diary.mock.prefix(3), id: \.id) { diary in
+                    CardUIView(diary: diary)
+                }
+            }
+        }
+    }
+    .modelContainer(PersistenceManager.previewContainer)
 }
