@@ -44,6 +44,7 @@ struct CardScrollViewForPad: View {
                                                     .padding(.bottom, 20)
                                             }
                                         }
+                                        .padding(.horizontal, 30)
                                         .padding(.vertical, 8)
                                     }
 
@@ -55,5 +56,6 @@ struct CardScrollViewForPad: View {
                 }
             }
         }
+        .contentMargins(.bottom, 80, for: .scrollContent)
     }
 }

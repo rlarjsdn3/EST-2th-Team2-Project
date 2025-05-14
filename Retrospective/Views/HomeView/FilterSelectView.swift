@@ -17,7 +17,6 @@ struct FilterSelectView: View {
     @State private var tempSelection: Set<String> = []
 
     var body: some View {
-        //        Form {
         VStack(spacing: 0) {
             HStack {
                 Text("카테고리를 선택하세요!")
@@ -29,44 +28,58 @@ struct FilterSelectView: View {
                 Spacer()
 
             }
+            .padding(.bottom, 20)
 
             List {
-                ForEach(allCategories.sorted { $0.name < $1.name }, id: \.persistentModelID) { category in
-                    HStack {
+                ForEach(Array(allCategories.sorted { $0.name < $1.name }.enumerated()), id: \.element.persistentModelID) {
+                    index, category in
+                    VStack(spacing: 0) {
+                        HStack {
+                            Circle()
+                                .fill(category.color)
+                                .frame(width: 15, height: 15)
 
-                        Circle()
-                            .fill(category.color)
-                            .frame(width: 15, height: 15)
+                            Text(category.name)
 
-                        Text(category.name)
-                            .padding(10)
+                            Spacer()
 
-                        Spacer()
+                            if tempSelection.contains(category.name) {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .foregroundColor(.blue)
+                            } else {
+                                Image(systemName: "circle")
+                                    .foregroundColor(.gray)
+                            }
+                        }
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            toggle(category.name)
+                        }
 
-                        if tempSelection.contains(category.name) {
-                            Image(systemName: "checkmark.circle.fill")
-                                .foregroundColor(.blue)
+                        if index != allCategories.count - 1 {
+                            Rectangle()
+                                .fill(Color.appLightGray)
+                                .frame(height: 1)
+                                .padding(.vertical, 20)
                         } else {
-                            Image(systemName: "circle")
-                                .foregroundColor(.gray)
+                            Rectangle()
+                                .fill(.clear)
+                                .frame(height: 1)
+                                .padding(.vertical, 20)
                         }
                     }
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        toggle(category.name)
-                    }
                 }
-
-
+                .listRowInsets(EdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15))
+                .listRowSeparator(.hidden)
+                .padding(.horizontal, 10)
             }
             .listStyle(.plain)
-            .padding(.bottom, 0)
 
             RoundedRectButton(title: "확인") {
                 filteringCategories = tempSelection
                 isPresentedFilterSelectView = false
             }
-            .padding(.vertical)
+            .padding(.top, 15)
         }
         .frame(maxHeight: 500)
         .onAppear {

@@ -34,7 +34,7 @@ struct CardUIView: View {
                             Spacer()
 
                         }
-                        .padding()
+                        .padding(12)
                         .background {
                             UnevenRoundedRectangle(topLeadingRadius: 20, topTrailingRadius: 20)
                                 .fill(Color.appSkyBlue2)
@@ -47,7 +47,7 @@ struct CardUIView: View {
                                 .multilineTextAlignment(.leading)
                                 .foregroundStyle(Color.label)
                                 .lineLimit(7)
-                                .padding()
+                                .padding(12)
 
                             Spacer()
                         }
