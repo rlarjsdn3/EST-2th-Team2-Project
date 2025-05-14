@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-struct CategoryManagementView: View {
+struct CategoryView: View {
 
     @State var isCategoryOn: Bool = false
     var body: some View {
         RetrospectiveNavigationStack{
 
-            Test2_View()
+            CategoryTestView()
                 .retrospectiveLeadingToolBar {
                     RetrospectiveToolBarItem(.symbol("chevron.left")) { }
                 }
@@ -24,6 +24,6 @@ struct CategoryManagementView: View {
 }
 
 #Preview {
-    CategoryManagementView()
+    CategoryView()
         .modelContainer(PersistenceManager.previewContainer)
 }
