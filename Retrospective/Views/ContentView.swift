@@ -28,13 +28,13 @@ struct ContentView: View {
                     CategoryManagementView() //TODO: HomeView() 넣어주세요
                         .tag(Tab.home)
 
-                    Test2_View()// searchView() 넣어주세요
+                    SearchView() // searchView() 넣어주세요
                         .tag(Tab.search)
 
                     StatisticsView()
                         .tag(Tab.statistic)
 
-                    StatisticsView()
+                    WritingView(diary: .mock[0])
                         .tag(Tab.setting)
                 }
                 .toolbar(.hidden, for: .tabBar)
