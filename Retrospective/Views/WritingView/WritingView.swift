@@ -10,7 +10,7 @@ import SwiftUI
 import SwiftData
 
 /*
- TODO: 글 등록 버튼 비활성화일 때 색을 다르게 조정하려고 했는데 적용이 안되네 ->
+ 글 등록 버튼 비활성화일 때 색을 다르게 조정하려고 했는데 적용이 안되네 ->
 
 ```
  RetrospectiveToolBarItem(.symbol("square.and.pencil")) {
@@ -18,7 +18,7 @@ import SwiftData
  .opactiy((title.isEmpty || content.isEmpty) ? 0.1 : 1.0)
  ```
 
- 이런식으로 적용하시면 됩니다~
+ 이런식으로 적용하시면 됩니다~ > ⭐️ 요렇게 했는데 안돼요ㅠ
 
 
  혹은 색상을 변경하고 싶으시다면
@@ -30,25 +30,11 @@ import SwiftData
  ```
 
  ToolBarConfiguration 객체를 만든 다음 ToolBarItem에 집어넣으세요~
-
- ⭐️ TODO: CRUD
  */
 
+// TODO: 노션 회의록에 수정해야할 것들 모두 수정
+
 struct WritingView: View {
-
-    /// 저장된 카테고리 목록을 가져옴
-
-    //    var filteredCategories: [Category] {
-    //
-    //    }
-
-    /// 저장된 다이어리 목록을 가져옴
-    //    @Query private var diary: [Diary]
-
-    //    @State var isCategoryOnArray: [Bool] = Array(repeating: false, count: 4)
-
-    //    @State private var categoryName: [String] = Array(repeating: "카테고리", count: 4)
-    //    @State private var categoryColor: Color = .blue
 
     enum FieldType: Hashable {
         case title
@@ -59,7 +45,8 @@ struct WritingView: View {
 
     private let placeholder: String = "내용"
 
-
+    @State private var textfieldTitle: String = ""
+    @State private var textfieldContent: String = ""
 
     @Environment(\.modelContext) var modelContext
     @Environment(\.dismiss) private var dismiss
@@ -70,7 +57,7 @@ struct WritingView: View {
     @State private var content: String = ""
     @State private var categoriesSelection: [Category] = []
     @State private var isEditMode: Bool = false
-    ///
+
     let diary: Diary?
 
     @State private var categoryButtons: [CategoryButton] = []
@@ -100,21 +87,59 @@ struct WritingView: View {
                             Spacer()
                         }
 
-                        TextField("제목", text: $title)
-                            .textInputAutocapitalization(.never)
-                            .autocorrectionDisabled()
-                            .focused($focused, equals: .title)
-                            .onAppear {
-                                focused = .title
-                                /// 다이어리를 작성할 때 키보드가 올라온 상태에서 키보드 밖 화면을 누르면 키보드가 내려감
-                                UIApplication.shared.hideKeyboard()
+                        /// 새 글 작성 모드일 때
+                        if diary == nil {
+                            /// 제목 입력 필드
+                            TextField("제목", text: $title)
+                                .textInputAutocapitalization(.never)
+                                .autocorrectionDisabled()
+                                .focused($focused, equals: .title)
+                                .onAppear {
+                                    focused = .title
+                                    /// 다이어리를 작성할 때 키보드가 올라온 상태에서 키보드 밖 화면을 누르면 키보드가 내려감
+                                    UIApplication.shared.hideKeyboard()
+                                }
+                                .foregroundColor(.label)
+                                .font(.title2)
+                                .fontWeight(.semibold)
+                                .frame(height: 35)
+                                .padding(.horizontal, 19)
+                                .lineLimit(1)
+                        }
+
+                        /// 상세 글 보기 모드일 때
+                        else if (diary != nil && isEditMode == false) {
+                            HStack {
+                                Text(diary!.title)
+                                    .foregroundColor(.label)
+                                    .font(.title2)
+                                    .fontWeight(.semibold)
+                                    .frame(height: 35)
+                                    .padding(.horizontal, 19)
+
+                                Spacer()
                             }
-                            .foregroundColor(.label)
-                            .font(.title2)
-                            .fontWeight(.semibold)
-                            .frame(height: 35)
-                            .padding(.horizontal, 19)
-                            .lineLimit(1)
+                        }
+
+                        /// 글 편집 모드일 때
+                        else if (diary != nil && isEditMode == true) {
+                            TextField("", text: $textfieldTitle)
+                                .focused($focused, equals: .title)
+                                .onAppear {
+                                    focused = .title
+                                    UIApplication.shared.hideKeyboard()
+                                }
+                                .foregroundColor(.label)
+                                .font(.title2)
+                                .fontWeight(.semibold)
+                                .frame(height: 35)
+                                .padding(.horizontal, 19)
+                                .lineLimit(1)
+                        }
+
+                        else {
+                            EmptyView()
+                        }
                     }
                     .padding(.vertical)
                     .background {
@@ -125,15 +150,48 @@ struct WritingView: View {
                     Divider()
 
                     VStack {
-                        TextEditor(text: $content)
-                            .customTextEditor(placeholder: placeholder, text: $content)
+                        /// 새 글 작성 모드일 때
+                        if diary == nil {
+                            TextEditor(text: $content)
+                                .customTextEditor(placeholder: placeholder, text: $content)
+                        }
+
+                        /// 상세 글 보기 모드일 때
+                        else if (diary != nil && isEditMode == false) {
+                            VStack {
+                                Text(diary!.contents)
+                                    .lineSpacing(10)
+                                    .foregroundColor(.label.opacity(0.9))
+                                    .padding(.horizontal, 10)
+                                    .padding(.top, 8)
+                                    .frame(maxHeight: .infinity, alignment: .top)
+                            }
+
+                            HStack {
+                                Spacer()
+
+                                Text("\(diary!.contents.count) / 300")
+                                    .font(.footnote)
+                                    .foregroundColor(.secondary.opacity(0.7))
+                                    .padding(.trailing, 15)
+                            }
+                        }
+
+                        /// 글 편집 모드일 때
+                        else if (diary != nil && isEditMode == true) {
+                            TextEditor(text: $textfieldContent)
+                                .customTextEditor(placeholder: placeholder, text: $content)
+                        }
+
+                        else {
+                            EmptyView()
+                        }
                     }
                     .padding(.vertical)
                     .background {
                         UnevenRoundedRectangle(bottomLeadingRadius: 20, bottomTrailingRadius: 20)
                             .fill(Color.appSkyBlue)
                     }
-
                 }
                 .padding(.horizontal, 10)
                 .padding(.top, 10)
@@ -142,11 +200,30 @@ struct WritingView: View {
                     /// 카테고리 버튼
                     ScrollView(.horizontal) {
                         HStack(spacing: 10) {
-                            ForEach (categoryButtons) { categoryButton in
-                                categoryButton
+                            /// 새 글 작성 모드일 때
+                            if diary == nil {
+                                ForEach (categoryButtons) { categoryButton in
+                                    categoryButton
+                                }
+                            }
+
+                            /// 상세 글 보기 모드일 때
+                            else if (diary != nil && isEditMode == false) {
+                                ForEach (diary!.categories) { category in
+                                    CategoryButton(category: category.name, categoryColor: category.color, alwaysShowCategoryHighlight: true) { }
+                                }
+                            }
+
+                            /// 글 편집 모드일 때
+                            // TODO: 선택된&선택되지않은 카테고리 모두 표시
+                            else if (diary != nil && isEditMode == true) {
+                                ForEach (diary!.categories) { category in
+                                    CategoryButton(category: category.name, categoryColor: category.color) { }
+                                }
                             }
                         }
                         .presentationDetents([.height(150), .fraction(0.8)])
+                        .disabled(diary != nil && isEditMode == false)
                     }
                     .scrollIndicators(.hidden)
 
@@ -171,23 +248,30 @@ struct WritingView: View {
             .padding(.bottom, 65)
             /// 뒤로 가기 버튼
             .retrospectiveLeadingToolBar {
-                RetrospectiveToolBarItem(.symbol("chevron.left")) { }
+                RetrospectiveToolBarItem(.symbol("chevron.left")) {
+                    // TODO: dismiss 구현
+                }
             }
             .retrospectiveTrailingToolbar {
                 if isEditMode {
                     let config = ToolBarConfiguration(symbolTint: .red)
                     RetrospectiveToolBarItem(.symbol("trash"), configuration: config) {
+                        // TODO: 삭제 경고창 띄워주기
+                        deleteDiary()
                     }
                     .padding(.trailing, 12)
                     RetrospectiveToolBarItem(.symbol("checkmark")) {
+                        updateDiary()
                         isEditMode = false
                     }
                     .disabled(title.isEmpty || content.isEmpty)
 
                 } else {
                     if let _ = diary {
-                        RetrospectiveToolBarItem(.symbol("square.and.pencil")) {
+                        RetrospectiveToolBarItem(.symbol("pencil")) {
                             isEditMode = true
+                            self.textfieldTitle = diary!.title
+                            self.textfieldContent = diary!.contents
                         }
                     } else {
                         RetrospectiveToolBarItem(.symbol("checkmark")) {
@@ -198,6 +282,7 @@ struct WritingView: View {
                     }
                 }
             }
+            // TODO: "새 글 작성뷰, 글 상세보기 뷰, 수정 및 삭제 뷰" 마다 다르게 설정하기
             .retrospectiveNavigationTitle("Our Camp Diary")
             .retrospectiveNavigationBarColor(.appLightPeach)
         }
@@ -246,7 +331,7 @@ extension WritingView {
         modelContext.insert(andSave: diary)
     }
 
-    /// 기존 다이어리를 수정하고 저장합니다.
+    /// 기존 다이어리를 수정하고 저장합니다. > ⭐️ 카테고리 수정도 저장되는 거지요?
     ///
     /// - 현재 편집 중인 다이어리(`diary`)의 제목과 내용을 수정합니다.
     /// - 수정된 내용은 자동으로 저장됩니다.
@@ -270,8 +355,6 @@ extension WritingView {
 }
 
 
-
-
 /// 텍스트 에디터 커스텀 스타일
 struct CustomTextEditorStyle: ViewModifier {
     let placeholder: String
@@ -287,7 +370,7 @@ struct CustomTextEditorStyle: ViewModifier {
                 if text.isEmpty {
                     Text(placeholder)
                         .padding(.horizontal, 20)
-                        .padding(.vertical, 20)
+                        .padding(.vertical, 15)
                         .foregroundColor(.secondary.opacity(0.7))
                 }
             }
