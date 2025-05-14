@@ -9,6 +9,8 @@ import SwiftUI
 
 struct DonutChartsView: View {
 
+    @State private var isAnimating: Bool = false
+
     let datas: [CategoryChartsData]
 
     var countOfCategories: Int {
@@ -17,57 +19,92 @@ struct DonutChartsView: View {
 
     var body: some View {
         VStack {
-            ZStack {
-                ForEach(0..<datas.count, id: \.self) { index in
-                    Circle()
-                        .trim(
-                            from: acculmanatedRate(upTo: index),
-                            to: acculmanatedRate(upTo: index) + datas[index].rate
-                        )
-                        .stroke(datas[index].color, lineWidth: 40)
-                        .frame(width: 200, height: 200)
-                        .rotationEffect(.degrees(-90))
+            donutChartsView
+        }
+        .onChange(of: datas, initial: true) { _, _ in
+            isAnimating = false
+            Task.delayed(byTimeInterval: 0.25) {
+                withAnimation(.bouncy) {
+                    isAnimating = true
                 }
             }
-            .overlay {
-                VStack {
-                    Text("Total")
-                        .font(.title3)
-                        .fontWeight(.medium)
-                        .foregroundStyle(.secondary)
-                    Text("\(countOfCategories)")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                }
-            }
-            .padding(50)
+        }
+    }
+}
 
-            ChipLayout(horizontalSpacing: 18) {
-                Spacer()
-                ForEach(datas) { data in
-                    HStack {
-                        Circle()
-                            .stroke(data.color, lineWidth: 3.5)
-                            .frame(width: 10, height: 10)
-                        HStack(alignment: .firstTextBaseline) {
-                            Text(data.name)
-                            Text(data.ratePercentage)
-                                .font(.caption)
-                                .fontWeight(.light)
-                        }
+extension DonutChartsView {
+
+    @ViewBuilder
+    var donutChartsView: some View {
+        ZStack {
+            ForEach(0..<datas.count, id: \.self) { index in
+                Circle()
+                    .trim(
+                        from: fromTrimValue(index),
+                        to: toTrimValue(index)
+                    )
+                    .stroke(datas[index].color, lineWidth: 40)
+                    .frame(width: 200, height: 200)
+                    .rotationEffect(Angle(degrees: isAnimating ? -90 : 45))
+                    .scaleEffect(isAnimating ? 1.0 : 0.0)
+            }
+        }
+        .overlay {
+            totalLabel
+        }
+        .padding(50)
+
+        legendChipView
+    }
+
+    var legendChipView: some View {
+        ChipLayout(horizontalSpacing: 18) {
+            Spacer()
+            ForEach(datas) { data in
+                HStack {
+                    Circle()
+                        .stroke(data.color, lineWidth: 3.5)
+                        .frame(width: 10, height: 10)
+                    HStack(alignment: .firstTextBaseline) {
+                        Text(data.name)
+                        Text(data.ratePercentage)
+                            .font(.caption)
+                            .fontWeight(.light)
                     }
                 }
-                Spacer()
             }
-            .padding(.horizontal)
-            .frame(height: 100)
+            Spacer()
         }
+        .padding(.horizontal)
+        .frame(height: 100)
+    }
+
+    var totalLabel: some View {
+        VStack {
+            Text("Total")
+                .font(.title3)
+                .fontWeight(.medium)
+                .foregroundStyle(.secondary)
+
+            Text("\(countOfCategories)")
+                .font(.title2)
+                .fontWeight(.bold)
+        }
+        .scaleEffect(isAnimating ? 1.0 : 0.0)
     }
 }
 
 // MARK: - Logics
 
 extension DonutChartsView {
+
+    func fromTrimValue(_ index: Int) -> Double {
+        acculmanatedRate(upTo: index)
+    }
+
+    func toTrimValue(_ index: Int) -> Double {
+        acculmanatedRate(upTo: index) + datas[index].rate
+    }
 
     func acculmanatedRate(upTo index: Int) -> Double {
         datas.accumulatedRate(upTo: index)

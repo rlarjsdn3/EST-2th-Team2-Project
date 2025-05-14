@@ -71,7 +71,7 @@ extension StatisticsView {
                 DonutChartsView(datas: chartsDatas)
                     .padding(.horizontal)
                     .padding(.top, 50)
-                    .padding(.bottom, 20)
+                    .padding(.bottom, 10)
 
                 Divider()
 
