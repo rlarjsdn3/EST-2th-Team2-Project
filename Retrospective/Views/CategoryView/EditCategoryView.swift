@@ -44,6 +44,8 @@ struct EditCategoryView: View {
                     HStack(alignment: .center){
 
                         TextField("카테고리 이름", text: $editedName)
+                            .font(.system(size: 30, weight: .semibold, design: .default))
+
                             .multilineTextAlignment(.center)
                             .frame(maxWidth: .infinity, minHeight: 10)
                             .padding(.top, 30)
@@ -82,7 +84,7 @@ struct EditCategoryView: View {
                     }
                     .buttonStyle(.plain)
                     .padding()
-                    .frame(width: 300, height: 60)
+                    .frame(maxWidth: .infinity, maxHeight: 60)
                     .background(Color.appLightGray.opacity(0.3))
                     .foregroundColor(.label)
                     .cornerRadius(15)

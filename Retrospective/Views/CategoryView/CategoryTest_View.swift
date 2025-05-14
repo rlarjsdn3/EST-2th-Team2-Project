@@ -49,7 +49,10 @@ struct Test2_View: View {
                         addCategory()
                     }) {
                         Image(systemName: "plus")
+                            .font(.title3)
+                            .font(.headline)
                     }
+
                     .disabled(newCategoryName.isEmpty)
                     .foregroundStyle(.label)
                 }
@@ -66,10 +69,12 @@ struct Test2_View: View {
                                     .fill(category.color)
                                     .frame(width: 15, height: 15)
                                 Text(category.name)
+                                    .font(.headline)
                                 Spacer()
 
                                 NavigationLink(destination: EditCategoryView(category: category)) {
                                     Image(systemName: "square.and.pencil")
+                                        .font(.title3)
                                         .foregroundStyle(.label)
                                         .padding(.horizontal,20)
                                 }
@@ -79,6 +84,7 @@ struct Test2_View: View {
                                     showingDeleteAlert = true
                                 } label: {
                                     Image(systemName: "trash")
+                                        .font(.title3)
                                 }
                                 .foregroundStyle(.label)
 
