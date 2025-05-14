@@ -60,7 +60,12 @@ struct CardUIView: View {
 
                 ChipLayout {
                     ForEach (diary.categories) { category in
-                        CategoryButton(category: category.name, categoryColor: category.color, alwaysShowCategoryHighlight: true) { }
+                        CategoryButton(
+                            category: category.name,
+                            categoryColor: category.color,
+                            font: .footnote,
+                            alwaysShowCategoryHighlight: true
+                        ) { }
                     }
                 }
             }
@@ -68,6 +73,7 @@ struct CardUIView: View {
         .navigationDestination(isPresented: $isPresentedWritingView, destination: {
             WritingView(diary: diary)
         })
+        .padding(.bottom)
     }
 }
 

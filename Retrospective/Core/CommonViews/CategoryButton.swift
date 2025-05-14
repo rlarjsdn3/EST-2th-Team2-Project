@@ -22,6 +22,9 @@ struct CategoryButton: View {
     /// 카테고리 강조 색상 (선택된 상태에서 표시될 색상)
     let categoryColor: Color
 
+    /// 카테고리 폰트
+    let font: Font
+
     /// 항상 카테고리 강조 색상을 표시할지 여부
     /// - true: `isCategoryOn` 상태와 관계없이 강조 색상 표시
     /// - false: `isCategoryOn`이 true일 때만 강조 색상 표시
@@ -34,16 +37,19 @@ struct CategoryButton: View {
     /// - Parameters:
     ///   - category: 카테고리 이름입니다. (버튼에 표시될 텍스트)
     ///   - categoryColor: 카테고리 강조 색상입니다. (선택된 상태에서 적용될 색상)
+    ///   - font: 카테고리 폰트입니다.
     ///   - alwaysShowCategoryHighlight: 카테고리 강조 색상을 항상 표시할지 여부 (기본값: false)
     ///   - action: 버튼 클릭 시 실행될 동작을 지정하는 클로저입니다.
     init(
         category: String,
         categoryColor: Color,
+        font: Font = .body,
         alwaysShowCategoryHighlight: Bool = false,
         action: @escaping () -> Void
     ) {
         self.category = category
         self.categoryColor = categoryColor
+        self.font = font
         self.alwaysShowCategoryHighlight = alwaysShowCategoryHighlight
         self.action = action
     }
@@ -55,6 +61,7 @@ struct CategoryButton: View {
         } label: {
             HStack {
                 Text("# \(category)")
+                    .font(font)
                     .if(alwaysShowCategoryHighlight) { view in
                         view.foregroundStyle(.label)
                     }
