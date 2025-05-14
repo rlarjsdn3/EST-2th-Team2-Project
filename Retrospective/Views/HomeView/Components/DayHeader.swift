@@ -11,12 +11,15 @@ struct DayHeader: View {
     var body: some View {
         HStack {
             Text(title)
-                .foregroundStyle(Color.secondary)
+                .foregroundStyle(Color.label)
                 .font(.title3)
+                .fontWeight(.bold)
 
 
             Spacer()
+
+            Divider()
         }
-        .padding(.top, 10)
+        .padding(.bottom)
     }
 }

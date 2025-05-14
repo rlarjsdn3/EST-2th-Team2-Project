@@ -7,7 +7,7 @@
 
 import SwiftUI
 ///탭바 구현 코드입니다.
-///주석 처리된 곳에  View넣어주세요 코드 마지막줄 쪽에도 넣어주셔야합니다. 총 두곳에 넣어주시면 됩니다.
+///주석 처리된 곳에  View넣어주세요
 struct ContentView: View {
     ///Tag에서 사용할 탭 열거형
     enum Tab: Hashable {
@@ -25,7 +25,7 @@ struct ContentView: View {
         ZStack(alignment: .bottom) {
             TabView(selection: $selected) {
                 Group {
-                    CategoryManagementView() //TODO: HomeView() 넣어주세요
+                    CategoryView() //TODO: HomeView() 넣어주세요
                         .tag(Tab.home)
 
                     SearchView() // searchView() 넣어주세요
@@ -107,7 +107,6 @@ struct ContentView: View {
         .clipShape(RoundedRectangle(cornerRadius: 30))
         .shadow(color: .black.opacity(0.33), radius: 15, x: 5, y: 5)
     }
-
 }
 
 #Preview {
