@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-/// 카테고리 뷰 만드는 중입니다. 변경 및 삭제 하지 말아 주세요~
+
 struct Test2_View: View {
     /// SwiftData 모델 컨텍스트
     @Environment(\.modelContext) private var context
