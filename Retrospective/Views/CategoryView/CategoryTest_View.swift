@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 
-struct Test2_View: View {
+struct CategoryTestView: View {
     /// SwiftData 모델 컨텍스트
     @Environment(\.modelContext) private var context
 
@@ -152,6 +152,6 @@ struct Test2_View: View {
 }
 
 #Preview {
-    Test2_View()
+    CategoryTestView()
         .modelContainer(PersistenceManager.previewContainer)
 }

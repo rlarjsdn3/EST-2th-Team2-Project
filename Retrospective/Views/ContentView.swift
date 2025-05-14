@@ -7,7 +7,7 @@
 
 import SwiftUI
 ///탭바 구현 코드입니다.
-///주석 처리된 곳에  View넣어주세요 코드 마지막줄 쪽에도 넣어주셔야합니다. 총 두곳에 넣어주시면 됩니다.
+///주석 처리된 곳에  View넣어주세요
 struct ContentView: View {
     ///Tag에서 사용할 탭 열거형
     enum Tab: Hashable {
@@ -25,16 +25,16 @@ struct ContentView: View {
         ZStack(alignment: .bottom) {
             TabView(selection: $selected) {
                 Group {
-                    CategoryManagementView() //TODO: HomeView() 넣어주세요
+                    CategoryView() //TODO: HomeView() 넣어주세요
                         .tag(Tab.home)
 
-                    Test2_View()// searchView() 넣어주세요
+                    CategoryTestView()// searchView() 넣어주세요
                         .tag(Tab.search)
 
                     StatisticsView()
                         .tag(Tab.statistic)
 
-                    StatisticsView()
+                    SettingView()
                         .tag(Tab.setting)
                 }
                 .toolbar(.hidden, for: .tabBar)
@@ -118,32 +118,32 @@ struct ContentView: View {
 
     }
 
-    ///각 탭에서 보여지는 실제 화면
+    ///다른뷰에서 불러올때 사용
 
-    struct  HomeView: View {
-        var body: some View {
-            CategoryManagementView()//TODO: HomeView() 넣어주세요
-
-        }
-    }
-
-    struct SearchView: View {
-        var body: some View {
-            WritingView()// searchView() 넣어주세요
-        }
-    }
-
-    struct statisticView: View {
-        var body: some View {
-            Test3_View()// statistiView() 넣어주세요
-        }
-    }
-
-    struct SettingView: View {
-        var body: some View {// settingView() 넣어주세요
-            Test4_View()
-        }
-    }
+//    struct  HomeView: View {
+//        var body: some View {
+//            CategoryView()//TODO: HomeView() 넣어주세요
+//
+//        }
+//    }
+//
+//    struct SearchView: View {
+//        var body: some View {
+//            WritingView()// searchView() 넣어주세요
+//        }
+//    }
+//
+//    struct statisticView: View {
+//        var body: some View {
+//            Test3_View()// statistiView() 넣어주세요
+//        }
+//    }
+//
+//    struct SettingView: View {
+//        var body: some View {// settingView() 넣어주세요
+//            Test4_View()
+//        }
+//    }
 }
 
 #Preview {
