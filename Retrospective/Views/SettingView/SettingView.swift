@@ -8,56 +8,38 @@
 import SwiftUI
 
 struct SettingView: View {
-    @Environment(\.dismiss) var dismiss: DismissAction
 
     var body: some View {
         RetrospectiveNavigationStack {
-            ZStack {
 
-                Color(.appLightPeach)
-                    .ignoresSafeArea()
+            NavigationLink(destination: CategoryView()) {
 
-                VStack(alignment: .leading, spacing: 40) {
-                    HStack(spacing: 10) {
-                        Image(systemName: "gearshape")
-                            .font(.title3)
-
-                        Text("설정")
-                            .font(.system(size: 30, weight: .semibold))
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal, 30)
-                    .padding(.vertical)
-
-                    VStack {
-                        NavigationLink(destination: CategoryView()) {
-                            HStack {
-                                Text("카테고리")
-                                    .font(.headline)
-
-                                Spacer()
-
-                                Image(systemName: "chevron.right")
-                            }
-                            .foregroundStyle(.label)
-                            .padding(.horizontal, 30)
-                        }
-
-                        Divider()
-                            .background(Color.appLightGray)
-                            .padding(.horizontal, 30)
-                    }
-                    .padding(.horizontal, 10)
+                HStack {
+                    Text("카테고리")
+                        .font(.headline)
+                        .foregroundStyle(.label)
 
                     Spacer()
-                }
-                .padding(.top, 50)
 
+                    Image(systemName: "chevron.right")
+                }
+                .foregroundStyle(.label)
+                .padding(.horizontal, 30)
+                .frame(width: .infinity, height: 60)
+                .background(Color.appLightSkyBlue)
+                .clipShape(RoundedRectangle(cornerRadius: 18))
+                .padding()
             }
+            .frame(maxWidth: .infinity, maxHeight:.infinity, alignment: .top)
+            .background(Color.appLightPeach)
+            .ignoresSafeArea(.all)
+
             .retrospectiveNavigationTitle("설정")
             .retrospectiveNavigationBarColor(.appLightPeach)
-        }
+            .retrospectiveLeadingToolBar {
 
+            }
+        }
     }
 }
 
