@@ -35,8 +35,8 @@ struct DonutChartsView: View {
                             .stroke(data.color, lineWidth: 3.5)
                             .frame(width: 10, height: 10)
                         HStack(alignment: .firstTextBaseline) {
-                            Text("\(data.name)")
-                            Text(String(format: "(%.1f%%)", data.rate * 100))
+                            Text(data.name)
+                            Text(data.ratePercentage)
                                 .font(.caption)
                                 .fontWeight(.light)
                         }

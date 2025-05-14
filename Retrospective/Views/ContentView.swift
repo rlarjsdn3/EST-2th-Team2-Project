@@ -16,32 +16,31 @@ struct ContentView: View {
 
     @State private var selected: Tab = .home
 
+    init() {
+        UITabBar.appearance().isHidden = true
+    }
+
     ///탭바 커스텀을 위해 탭바의 고정된 자리 삭제
     var body: some View {
         ZStack(alignment: .bottom) {
             TabView(selection: $selected) {
                 Group {
-                    NavigationStack {
-                        CategoryManagementView() //TODO: HomeView() 넣어주세요
-                    }
-                    .tag(Tab.home)
+                    CategoryManagementView() //TODO: HomeView() 넣어주세요
+                        .tag(Tab.home)
 
-                    NavigationStack {
-                        Test2_View()// searchView() 넣어주세요
-                    }
-                    .tag(Tab.search)
+                    Test2_View()// searchView() 넣어주세요
+                        .tag(Tab.search)
 
-                    NavigationStack {
-                        Test3_View()// statistiView() 넣어주세요
-                    }
-                    .tag(Tab.statistic)
+                    StatisticsView()
+                        .tag(Tab.statistic)
 
                     StatisticsView()
                         .tag(Tab.setting)
                 }
                 .toolbar(.hidden, for: .tabBar)
-
             }
+            
+
             tabBar
                 .padding(.bottom, -10)
         }
@@ -77,7 +76,7 @@ struct ContentView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 30)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.label)
                 }
             }
             Spacer()
@@ -91,7 +90,7 @@ struct ContentView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 30)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.label)
                 }
             }
             Spacer()
@@ -105,7 +104,7 @@ struct ContentView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 30)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.label)
                 }
 
             }
@@ -114,7 +113,7 @@ struct ContentView: View {
         }
 
         .frame(width: 350 , height: 80)
-        .background(Color.white)
+        .background(.background)
         .clipShape(RoundedRectangle(cornerRadius: 30))
         .shadow(color: .black.opacity(0.33), radius: 15, x: 5, y: 5)
 
@@ -131,7 +130,7 @@ struct ContentView: View {
 
     struct SearchView: View {
         var body: some View {
-            Test2_View()// searchView() 넣어주세요
+            WritingView()// searchView() 넣어주세요
         }
     }
 
@@ -147,61 +146,6 @@ struct ContentView: View {
         }
     }
 }
-
-
-//        VStack {
-//            Button("FloatingSheet") {
-//                isPresented.toggle()
-//                
-//                
-//            }
-//        }
-//        .padding()
-//        .floatingSheet(isPresented: $isPresented, onDismiss: { print("dismissed") }) {
-//            VStack(alignment: .leading, spacing: 8) {
-//                Text("Marget Caplitalization")
-//                    .font(.title2)
-//                    .fontWeight(.bold)
-//
-//                Text("As of February 3rd, US Time")
-//                    .font(.footnote)
-//                    .foregroundStyle(.secondary)
-//
-//                VStack {
-//                    Text("Stock Price * Shares Outstanding")
-//                        .font(.headline)
-//                        .foregroundStyle(.secondary)
-//                }
-//                .frame(maxWidth: .infinity, alignment: .center)
-//                .padding(.horizontal)
-//                .padding(.vertical, 16)
-//                .cornerRadius(Color(UIColor.systemGray6), radius: 16)
-//                .padding(.top, 24)
-//
-//                Text("Market capitalization represents the total value of a company's stock. It helps compare the size of companies in the stock market")
-//                    .font(.footnote)
-//                    .fontWeight(.semibold)
-//                    .padding(.top, 24)
-//
-//                Button { }
-//                label: {
-//                    Text("Confirm")
-//                        .fontWeight(.bold)
-//                        .foregroundStyle(.white)
-//                }
-//                .frame(maxWidth: .infinity)
-//                .padding(.vertical, 14)
-//                .cornerRadius(.blue, radius: 14)
-//                .padding(.top, 12)
-//
-//            }
-//            .frame(maxWidth: .infinity, alignment: .leading)
-//            .padding(.vertical, 4)
-//            .padding(.horizontal, 4)
-//
-//        }
-
-
 
 #Preview {
     ContentView()

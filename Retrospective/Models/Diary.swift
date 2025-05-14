@@ -185,11 +185,11 @@ extension Diary {
             createdDate: Date(year: 2025, month: 4, day: 24)!
         ),
         Diary(
-              title: "여름 밤의 산책",
-              contents: "더운 여름 밤, 시원한 바람을 맞으며 한적한 길을 걸었습니다. 달빛이 어두운 길을 밝혀주었습니다.",
-              categories: [.mock[1], .mock[2]],
-              createdDate: Date(year: 2025, month: 4, day: 23)!
-             ),
+            title: "여름 밤의 산책",
+            contents: "더운 여름 밤, 시원한 바람을 맞으며 한적한 길을 걸었습니다. 달빛이 어두운 길을 밝혀주었습니다.",
+            categories: [.mock[1], .mock[2]],
+            createdDate: Date(year: 2025, month: 4, day: 23)!
+        ),
         Diary(
             title: "고양이와의 만남",
             contents: "골목길에서 만난 작은 고양이가 내 발밑에 와서 몸을 비볐습니다. 따뜻한 온기가 전해졌습니다.",
@@ -243,6 +243,7 @@ extension Diary {
             contents: "작은 꽃 한 송이가 피어 있는 걸 발견했습니다. 그 작은 생명에서 큰 기쁨을 느꼈습니다.",
             categories: [.mock[0], .mock[4]],
             createdDate: Date(year: 2025, month: 4, day: 14)!
+
         )
     ]
 }
