@@ -17,16 +17,16 @@ import SwiftData
 import SwiftUI
 
 struct SearchView: View {
-    
+
     @State var isPresentedFilterSelectView: Bool = false
     @State var isPresentedWritingView: Bool = false
     @State var isDescending: Bool = true
     @State var filteringCategories: Set<String> = []
     @State var searchText: String = ""
-    
+
     @State var searchingInTitle: Bool = true
     @State var searchingInContents: Bool = false
-    
+
     @Query var allDiaries: [Diary]
     @Query var allCategories: [Category]
 
@@ -37,22 +37,22 @@ struct SearchView: View {
             filteringCategories.contains(category.name)
         }
     }
-    
+
     var filteredDiaries: [Diary] {
         guard !filteringCategories.isEmpty else { return allDiaries }
-        
+
         return allDiaries.filter { diary in
             // 하나라도 겹치면 통과
             let categoryNames = diary.categories.map { $0.name }
             return !filteringCategories.isDisjoint(with: categoryNames)
         }
     }
-    
+
     var searchedDiaries: [Diary] {
         return filteredDiaries.filter { diary in
             let isSearchedInTitle = diary.title.localizedCaseInsensitiveContains(searchText)
             let isSearchedInContents = diary.contents.localizedCaseInsensitiveContains(searchText)
-            
+
             switch (searchingInTitle, searchingInContents) {
             case (true, true):
                 return isSearchedInTitle || isSearchedInContents
@@ -65,11 +65,11 @@ struct SearchView: View {
             }
         }
     }
-    
+
     var groupedByMonthAndDay: [String: [String: [Diary]]] {
         searchedDiaries.groupByMonthAndDay()
     }
-    
+
     var currentSearchScopeText: String {
         switch (searchingInTitle, searchingInContents) {
         case (true, true): return "제목 + 내용 "
@@ -78,30 +78,41 @@ struct SearchView: View {
         default: return "검색범위 선택"
         }
     }
-    
+
     var body: some View {
         RetrospectiveNavigationStack {
             VStack {
-                
-                HStack {
-                    Image(systemName: "magnifyingglass")
-                        .foregroundStyle(Color.secondary)
-                        .bold()
-                    
-                    TextField("Search", text: $searchText, prompt: Text("Search")
-                        .foregroundStyle(Color.secondary))
-                    
+                HStack(spacing: 0) {
+                    HStack {
+                        Image(systemName: "magnifyingglass")
+                            .foregroundStyle(Color.secondary)
+                            .bold()
+
+                        TextField("Search", text: $searchText, prompt: Text("Search")
+                            .foregroundStyle(Color.secondary))
+                    }
+                    .padding()
+                    .frame(width: .infinity, height: 40)
+                    .background {
+                        RoundedRectangle(cornerRadius: 18)
+                            .fill(Color.appSkyBlue.opacity(0.5))
+                    }
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 18)
+                            .stroke(Color.appLightGray.opacity(0.5), lineWidth: 1) // 테두리 색상 및 두께
+                    }
+
                     Menu {
                         Button("제목만") {
                             searchingInTitle = true
                             searchingInContents = false
                         }
-                        
+
                         Button("내용만") {
                             searchingInTitle = false
                             searchingInContents = true
                         }
-                        
+
                         Button("제목 + 내용") {
                             searchingInTitle = true
                             searchingInContents = true
@@ -111,14 +122,13 @@ struct SearchView: View {
                             Text(currentSearchScopeText)
                             Image(systemName: "arrowtriangle.down")
                         }
-
+                        .padding(.leading, 15)
                     }
                     .foregroundStyle(Color.label)
                 }
-                .padding()
-                .background(Color.appLightGray.opacity(0.33))
-                .clipShape(RoundedRectangle(cornerRadius: 18))
-                .padding(.top, hSizeClass == .regular ? 20 : 0)
+                .padding(.top, hSizeClass == .regular ? 20 : 5)
+                .padding(.horizontal, hSizeClass == .regular ? 30 : 15)
+
 
                 HStack {
                     ScrollView(.horizontal) {
@@ -130,9 +140,9 @@ struct SearchView: View {
                             }
                         }
                         .padding(.vertical, 5)
-                        
+
                     }
-                    
+
                     Button {
                         isDescending.toggle()
                     } label: {
@@ -147,23 +157,21 @@ struct SearchView: View {
                                 Image(systemName: "arrowtriangle.up")
                             }
                         }
-                        
+
                     }
                     .foregroundStyle(Color.label)
-                    .padding(.horizontal, 15)
                 }
                 .padding(.top, 5)
+                .padding(.horizontal, hSizeClass == .regular ? 30 : 15)
 
                 if searchText.isEmpty {
-                    VStack {
-                        Image(systemName: "magnifyingglass")
-                        Text("\n검색어를 입력해주세요!")
-                    }
-                    .font(.largeTitle)
-                    .bold()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .foregroundStyle(Color.secondary)
-                    
+                        EmptyStateView(
+                            systemName: "swiftdata",
+                            title: "검색어가 없습니다.",
+                            description: "키워드를 통해 원하는 다이어리를 찾아보세요 ."
+                        )
+                        .padding(.bottom, 150)
+
                 } else {
                     if hSizeClass == .regular {
                         CardScrollViewForPad(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
@@ -171,9 +179,8 @@ struct SearchView: View {
                         CardScrollView(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
                     }
                 }
-                
+
             }
-            .padding(.horizontal, hSizeClass == .regular ? 30 : 15)
             .background(Color.appLightPeach)
             .floatingSheet(isPresented: $isPresentedFilterSelectView) {
                 FilterSelectView(filteringCategories: $filteringCategories, isPresentedFilterSelectView: $isPresentedFilterSelectView)

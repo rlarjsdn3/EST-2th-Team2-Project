@@ -26,6 +26,7 @@ struct CardScrollView: View {
                                             VStack(alignment: .leading) {
                                                 CardUIView(diary: diary)
                                             }
+                                            .padding(.horizontal)
                                             .padding(.bottom, 20)
                                             .frame(maxWidth: .infinity, alignment: .leading)
                                         }
@@ -37,5 +38,6 @@ struct CardScrollView: View {
                 }
             }
         }
+        .contentMargins(.bottom, 80, for: .scrollContent)
     }
 }

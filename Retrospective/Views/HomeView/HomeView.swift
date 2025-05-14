@@ -43,7 +43,7 @@ struct HomeView: View {
 
     var body: some View {
         RetrospectiveNavigationStack {
-            VStack {
+            VStack(spacing: 0) {
                 HStack {
                     ScrollView(.horizontal) {
                         HStack {
@@ -71,7 +71,8 @@ struct HomeView: View {
                     }
                     .foregroundStyle(Color.label)
                 }
-                .padding(.top, 10)
+                .padding(.top, 20)
+                .padding(.horizontal, hSizeClass == .regular ? 30 : 15)
 
                 if hSizeClass == .regular {
                     CardScrollViewForPad(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
@@ -79,7 +80,6 @@ struct HomeView: View {
                     CardScrollView(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
                 }
             }
-            .padding(.horizontal, hSizeClass == .regular ? 30 : 15)
             .background(Color.appLightPeach)
             .floatingSheet(isPresented: $isPresentedFilterSelectView) {
                 FilterSelectView(filteringCategories: $filteringCategories, isPresentedFilterSelectView: $isPresentedFilterSelectView)

@@ -7,6 +7,8 @@
 import SwiftUI
 
 struct MonthHeader: View {
+    @Environment(\.horizontalSizeClass) var hSizeClass
+
     let title: String
     var body: some View {
         HStack {
@@ -20,8 +22,10 @@ struct MonthHeader: View {
             Spacer()
 
         }
+        .padding(.vertical, 15)
+        .padding(.horizontal, hSizeClass == .regular ? 30 : 15)
         .frame(maxWidth: .infinity)
         .background(Color.appLightPeach)
-        .padding(.bottom)
+
     }
 }

@@ -7,6 +7,8 @@
 import SwiftUI
 
 struct DayHeader: View {
+    @Environment(\.horizontalSizeClass) var hSizeClass
+    
     let title: String
     var body: some View {
         HStack {
@@ -21,5 +23,6 @@ struct DayHeader: View {
             Divider()
         }
         .padding(.bottom)
+        .padding(.horizontal, hSizeClass == .regular ? 30 : 15)
     }
 }
