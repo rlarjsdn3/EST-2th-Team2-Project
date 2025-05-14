@@ -28,7 +28,7 @@ struct ContentView: View {
                     CategoryManagementView() //TODO: HomeView() 넣어주세요
                         .tag(Tab.home)
 
-                    Test2_View()// searchView() 넣어주세요
+                    WritingView(diary: .mock[0])// searchView() 넣어주세요
                         .tag(Tab.search)
 
                     StatisticsView()
