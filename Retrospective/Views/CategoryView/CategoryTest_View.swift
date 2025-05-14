@@ -21,13 +21,21 @@ struct CategoryTestView: View {
     @State private var showingDuplicateAlert: Bool = false
     @State private var categoryToDelete: Category? = nil
     @State private var showingDeleteAlert: Bool = false
+    @State private var textLength: String = ""
+    @State private var showingMinimumCategoryAlert = false
 
     var body: some View {
         NavigationStack {
             VStack(spacing: -20) {
-                /// 새 카테고리 입력 필드
+
                 HStack{
                     CustomTextField(placeholder: "카테고리 이름을 작성해주세요.", text: $newCategoryName)
+                        .onChange(of: newCategoryName) { newValue in
+                            if newValue.count > 15 {
+                                newCategoryName = String(newValue.prefix(15))
+                            }
+                        }
+                        .padding(.leading,-20)
 
                     Button(action: {
                         addCategory()
@@ -35,6 +43,7 @@ struct CategoryTestView: View {
                         Image(systemName: "plus")
                             .font(.title3)
                             .font(.headline)
+                            
                     }
 
                     .disabled(newCategoryName.isEmpty)
@@ -42,7 +51,7 @@ struct CategoryTestView: View {
                 }
 
                 .padding(.vertical, 0)
-                .padding(.horizontal, 10)
+                .padding(.horizontal, 25)
                 /// 카테고리 리스트
 
                 ScrollView{
@@ -57,20 +66,24 @@ struct CategoryTestView: View {
                                 Spacer()
 
                                 NavigationLink(destination: EditCategoryView(category: category)) {
-                                    Image(systemName: "square.and.pencil")
+                                    Image(systemName: "pencil")
                                         .font(.title3)
                                         .foregroundStyle(.label)
                                         .padding(.horizontal,20)
                                 }
 
                                 Button {
-                                    categoryToDelete = category
-                                    showingDeleteAlert = true
+                                    if categories.count <= 1 {
+                                        showingMinimumCategoryAlert = true
+                                    } else {
+                                        categoryToDelete = category
+                                        showingDeleteAlert = true
+                                    }
                                 } label: {
                                     Image(systemName: "trash")
                                         .font(.title3)
                                 }
-                                .foregroundStyle(.label)
+                                .foregroundStyle(.red)
 
                             }
                             .frame(maxWidth: .infinity, maxHeight: .infinity ,alignment: .leading)
@@ -83,6 +96,7 @@ struct CategoryTestView: View {
 
                 }
                 .padding()
+                .contentMargins(.bottom,80, for: .scrollContent)
             }
         }
 
@@ -93,16 +107,20 @@ struct CategoryTestView: View {
             Button("확인", role: .cancel) { }
         }
         .alert("이 카테고리를 삭제하시겠습니까?", isPresented: $showingDeleteAlert) {
-                    Button("예", role: .destructive) {
-                        if let category = categoryToDelete {
-                            context.delete(category)
-                            categoryToDelete = nil
-                        }
-                    }
-                    Button("아니오", role: .cancel) {
-                        categoryToDelete = nil
-                    }
+            Button("예", role: .destructive) {
+                if let category = categoryToDelete {
+                    context.delete(category)
+                    categoryToDelete = nil
                 }
+            }
+            Button("아니오", role: .cancel) {
+                categoryToDelete = nil
+            }
+        }
+
+        .alert("최소 한개 이상의 카테고리가 필요합니다.", isPresented: $showingMinimumCategoryAlert) {
+            Button("확인", role: .cancel) { }
+        }
             }
 
 
