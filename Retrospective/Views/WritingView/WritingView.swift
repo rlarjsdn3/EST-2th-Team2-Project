@@ -175,7 +175,7 @@ struct WritingView: View {
                 RetrospectiveToolBarItem(.symbol("chevron.left")) { }
             }
             .retrospectiveTrailingToolbar {
-                if !isEditMode {
+                if isEditMode {
                     let config = ToolBarConfiguration(symbolTint: .red)
                     RetrospectiveToolBarItem(.symbol("trash"), configuration: config) {
                     }
