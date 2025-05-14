@@ -35,6 +35,7 @@ struct CategoryTestView: View {
                                 newCategoryName = String(newValue.prefix(15))
                             }
                         }
+                        .padding(.leading,-20)
 
                     Button(action: {
                         addCategory()
