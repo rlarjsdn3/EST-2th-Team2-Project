@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct settingView: View {
+struct SettingView: View {
     @Environment(\.dismiss) var dismiss: DismissAction
 
     var body: some View {
@@ -32,7 +32,7 @@ struct settingView: View {
                     VStack {
                         NavigationLink(destination: CategoryView()) {
                             HStack {
-                                Text("카테고리설정")
+                                Text("카테고리")
                                     .font(.headline)
 
                                 Spacer()
@@ -64,6 +64,6 @@ struct settingView: View {
 
 
 #Preview {
-    settingView()
+    SettingView()
         .modelContainer(PersistenceManager.previewContainer)
 }

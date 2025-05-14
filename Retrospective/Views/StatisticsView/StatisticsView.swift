@@ -75,15 +75,10 @@ extension StatisticsView {
 
                 Divider()
 
-                VStack {
-                    Text("세부 정보")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
+                CategoryChartsListView(datas: chartsDatas.prefix(length: 5))
+                    .padding(.top)
 
-                    categoryDetailCardView
-                }
-                .padding()
+                moreLinkButton
             }
         }
         .background(.appLightPeach)
@@ -92,27 +87,57 @@ extension StatisticsView {
     }
 
     var categoryDetailCardView: some View {
-        ForEach(chartsDatas) { data in
+        VStack {
+            Text("세부 정보")
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+
+            ForEach(chartsDatas.prefix(5)) { data in
+                HStack {
+                    HStack(alignment: .firstTextBaseline) {
+                        Circle()
+                            .stroke(data.color, lineWidth: 3.5)
+                            .frame(width: 10, height: 10)
+
+                        Text("\(data.name)")
+                            .fontWeight(.bold)
+                        Spacer()
+                        Text("\(data.count)개")
+                        Text("(\(data.ratePercentage))")
+                            .font(.caption)
+                            .fontWeight(.light)
+                    }
+
+                }
+                .padding(8)
+                .padding(.horizontal, 14)
+                .cornerRadius(.background, radius: 8)
+                .defaultShadow(.black.opacity(0.11))
+            }
+        }
+        .padding()
+    }
+
+    var moreLinkButton: some View {
+        NavigationLink {
+            StatisticsListView(datas: chartsDatas)
+        } label: {
             HStack {
                 HStack(alignment: .firstTextBaseline) {
-                    Circle()
-                        .stroke(data.color, lineWidth: 3.5)
-                        .frame(width: 10, height: 10)
-
-                    Text("\(data.name)")
+                    Text("더보기")
                         .fontWeight(.bold)
                     Spacer()
-                    Text("\(data.count)개")
-                    Text("(\(data.ratePercentage))")
-                        .font(.caption)
+                    Image(systemName: "chevron.right")
                         .fontWeight(.light)
                 }
-
+                .foregroundStyle(.label)
             }
             .padding(8)
             .padding(.horizontal, 14)
             .cornerRadius(.background, radius: 8)
             .defaultShadow(.black.opacity(0.11))
+            .padding(.horizontal)
         }
     }
 
