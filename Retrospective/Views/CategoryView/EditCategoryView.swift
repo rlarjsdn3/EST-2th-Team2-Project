@@ -76,20 +76,14 @@ struct EditCategoryView: View {
                         sliderView(value: $b, label: "Blue", color: .blue)
                     }
 
-                    Button("저장") {
+                    RoundedRectButton(title: "저장") {
                         let rgb = editedColor.rgbComponents()
                         category.name = editedName
                         category.setColor(red: rgb.red, green: rgb.green, blue: rgb.blue)
                         dismiss()
                     }
-                    .buttonStyle(.plain)
-                    .padding()
-                    .frame(maxWidth: .infinity, maxHeight: 60)
-                    .background(Color.appLightGray.opacity(0.3))
-                    .foregroundColor(.label)
-                    .cornerRadius(15)
-                    .disabled(dragging)
-                    .padding()
+                    .padding([.top, .horizontal])
+
                     Spacer()
                 }
                 .background(Color.appLightPeach)

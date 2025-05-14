@@ -9,7 +9,8 @@ import Foundation
 
 extension Date {
     
-    /// <#Description#>
+    /// 현재 날짜가 속한 주의 전체 범위를 나타내는 Date Range입니다.
+    /// - Returns: 주의 시작일부터 종료일까지의 Date 범위
     var weekRange: Range<Date>? {
         guard let startOfWeek = startOfWeek,
               let endOfWeek = endOfWeek else { return nil }
@@ -57,7 +58,8 @@ extension Date {
 
 extension Date {
 
-    /// <#Description#>
+    /// 현재 날짜가 월의 시작일과 종료일을 튜플로 반환합니다.
+    /// - Returns: 월의 시작일 (`startOfMonth`)과 종료일 (`endOfMonth`)을 포함하는 튜플
     var monthRange: Range<Date>? {
         guard let startOfMonth = self.startOfMonth,
               let endOfMonth = self.endOfMonth
@@ -66,23 +68,27 @@ extension Date {
         return startOfMonth ..< endOfMonth.addingTimeInterval(1)
     }
 
+    /// 현재 날짜의 월 시작일과 종료일을 튜플로 반환합니다.
+    /// - Returns: (startOfMonth: 월의 첫 번째 날, endOfMonth: 월의 마지막 날)
     var startAndEndOfMonth: (startOfMonth: Date?, endOfMonth: Date?) {
         (startOfMonth, endOfMonth)
     }
 
-    /// <#Description#>
+    /// 현재 날짜의 월 시작일을 반환합니다.
+    /// - Returns: 월의 시작일 (Date)
     var startOfMonth: Date? {
         let gregorian = Calendar(identifier: .gregorian)
         guard let startOfMonth = gregorian.date(from: gregorian.dateComponents([.year, .month], from: self)) else { return nil }
         return startOfMonth
     }
 
-    /// <#Description#>
+    /// 현재 날짜의 월 종료일을 반환합니다.
+    /// - Returns: 월의 종료일 (Date)
     var endOfMonth: Date? {
         let gregorian = Calendar(identifier: .gregorian)
 
         guard let startOfMonth = self.startOfMonth,
-              let endOfMonth = gregorian.date(byAdding: DateComponents(month: +1, day: -1), to: self.startOfMonth!)
+              let endOfMonth = gregorian.date(byAdding: DateComponents(month: +1, day: -1), to: startOfMonth)
         else { return nil }
         return endOfMonth
     }
@@ -122,17 +128,18 @@ extension Date {
 
 extension Date {
 
-    /// <#Description#>
-    /// - Parameter interval: <#interval description#>
+    /// 지정된 일(day) 단위의 간격을 현재 날짜에 추가하여 반환합니다.
+    ///
+    /// - Parameter interval: 추가할 일(day) 수를 나타내는 TimeInterval입니다.
+    ///   - 양수 값: 미래 날짜로 이동 (예: 1 → 내일)
+    ///   - 음수 값: 과거 날짜로 이동 (예: -1 → 어제)
+    /// - Returns: 지정된 일(day) 수가 추가된 새로운 Date 객체
     func addingDayInterval(_ interval: TimeInterval) -> Date {
         self.addingTimeInterval(interval * 86_400)
     }
 
-    /// <#Description#>
-    /// - Parameters:
-    ///   - lhs: <#lhs description#>
-    ///   - rhs: <#rhs description#>
-    /// - Returns: <#description#>
+    /// 두 날짜(Date) 사이의 지정된 일(day) 간격을 더한 날짜를 반환합니다.
+    /// - Returns: 지정된 일(day) 수가 추가된 새로운 Date 객체
     @available(*, deprecated, renamed: "addingDayInterval")
     static func + (lhs: Date, rhs: TimeInterval) -> Date {
         lhs.addingTimeInterval(rhs * 86_400)

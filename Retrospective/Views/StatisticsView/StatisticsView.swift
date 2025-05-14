@@ -21,12 +21,12 @@ struct StatisticsView: View {
     @State private var isPresentDateRangePicker: Bool = false
     @State private var periodSelection: StatisticsPeriod = .week
     @State private var dateRange: Range<Date>? = Date.now.weekRange
-    @State private var chartsData: [CategoryChartsData] = []
+    @State private var chartsDatas: [CategoryChartsData] = []
 
     var body: some View {
         RetrospectiveNavigationStack {
             Group {
-                if chartsData.isEmpty {
+                if chartsDatas.isEmpty {
                     emptyStateView
                 } else {
                     donutChartsScrollView
@@ -34,7 +34,7 @@ struct StatisticsView: View {
             }
             .onChange(of: dateRange, initial: true) { _, _ in
                 guard let dateRange else { return }
-                chartsData = groupDiariesByCategory(range: dateRange)
+                chartsDatas = groupDiariesByCategory(range: dateRange)
             }
             .overlay(alignment: .topLeading) {
                 dateRangeSelectionButton
@@ -68,14 +68,15 @@ extension StatisticsView {
     var donutChartsScrollView: some View {
         ScrollView {
             VStack {
-                DonutChartsView(datas: chartsData)
+                DonutChartsView(datas: chartsDatas)
                     .padding(.horizontal)
                     .padding(.top, 50)
+                    .padding(.bottom, 20)
 
                 Divider()
 
                 VStack {
-                    Text("자세히 보기")
+                    Text("세부 정보")
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .font(.footnote)
                         .foregroundStyle(.secondary)
@@ -91,7 +92,7 @@ extension StatisticsView {
     }
 
     var categoryDetailCardView: some View {
-        ForEach(chartsData) { data in
+        ForEach(chartsDatas) { data in
             HStack {
                 HStack(alignment: .firstTextBaseline) {
                     Circle()
@@ -102,7 +103,7 @@ extension StatisticsView {
                         .fontWeight(.bold)
                     Spacer()
                     Text("\(data.count)개")
-                    Text(data.ratePercentage)
+                    Text("(\(data.ratePercentage))")
                         .font(.caption)
                         .fontWeight(.light)
                 }

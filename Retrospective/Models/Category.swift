@@ -84,17 +84,39 @@ final class Category {
 }
 
 extension Category {
+    
+    /// RGB 값으로 색상을 설정합니다.
+    ///
+    /// - Parameters:
+    ///   - red: 빨간색(Red) 구성 요소 값 (0.0 ~ 255.0)
+    ///   - green: 초록색(Green) 구성 요소 값 (0.0 ~ 255.0)
+    ///   - blue: 파란색(Blue) 구성 요소 값 (0.0 ~ 255.0)
+    /// - Note: 각 구성 요소 값은 0.0에서 255.0 사이여야 합니다.
     func setColor(red: Double, green: Double, blue: Double) {
+        guard (0...255) ~= red,
+              (0...255) ~= green,
+              (0...255) ~= blue else {
+            fatalError("RGB 값은 0.0에서 255.0 사이여야 합니다.")
+        }
         self.red = red
         self.green = green
         self.blue = blue
     }
+}
+
+
+extension Category {
 
     static let mock: [Category] = [
-        .init(name: "음식", color: .cyan),
-        .init(name: "운동", color: .mint),
-        .init(name: "일상", color: .orange),
-        .init(name: "휴식", color: .purple),
-        .init(name: "기타", color: .pink),
+        .init(name: "음식", color: .init(r: 255, g: 204, b: 102)),  // 밝은 오렌지
+        .init(name: "운동", color: .init(r: 102, g: 204, b: 255)),  // 밝은 하늘색
+        .init(name: "해외 여행", color: .init(r: 153, g: 102, b: 255)),  // 연보라색
+        .init(name: "국내 여행", color: .init(r: 255, g: 153, b: 204)),  // 핑크
+        .init(name: "독서", color: .init(r: 255, g: 102, b: 102)),  // 밝은 빨간색
+        .init(name: "공부", color: .init(r: 102, g: 255, b: 178)),  // 밝은 초록색
+        .init(name: "음악", color: .init(r: 204, g: 102, b: 255)),  // 보라색
+        .init(name: "게임", color: .init(r: 255, g: 178, b: 102)),  // 밝은 주황색
+        .init(name: "취미", color: .init(r: 102, g: 102, b: 255)),  // 파란색
+        .init(name: "일기", color: .init(r: 153, g: 255, b: 102))   // 밝은 연두색
     ]
 }

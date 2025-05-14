@@ -11,6 +11,10 @@ struct DonutChartsView: View {
 
     let datas: [CategoryChartsData]
 
+    var countOfCategories: Int {
+        datas.reduce(0, { $0 + $1.count })
+    }
+
     var body: some View {
         VStack {
             ZStack {
@@ -25,9 +29,20 @@ struct DonutChartsView: View {
                         .rotationEffect(.degrees(-90))
                 }
             }
+            .overlay {
+                VStack {
+                    Text("Total")
+                        .font(.title3)
+                        .fontWeight(.medium)
+                        .foregroundStyle(.secondary)
+                    Text("\(countOfCategories)")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                }
+            }
             .padding(50)
 
-            ChipLayout(horizontalSpacing: 50) {
+            ChipLayout(horizontalSpacing: 18) {
                 Spacer()
                 ForEach(datas) { data in
                     HStack {
