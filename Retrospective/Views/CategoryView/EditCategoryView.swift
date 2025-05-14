@@ -10,6 +10,8 @@ import SwiftUI
 import SwiftData
 
 struct EditCategoryView: View {
+    var placeholder: String = ""
+
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
 
@@ -23,15 +25,14 @@ struct EditCategoryView: View {
     @State private var showAlert = false
 
     init(category: Category) {
-        self.category = category
-        _editedName = State(initialValue: category.name)
+            self.category = category
+            _editedName = State(initialValue: category.name)
 
-        // 0~1 값을 0~255로 변환해서 초기화
-        let components = category.color.rgbComponents()
-        _r = State(initialValue: components.red)
-        _g = State(initialValue: components.green)
-        _b = State(initialValue: components.blue)
-    }
+            let components = category.color.rgbComponents()
+            _r = State(initialValue: components.red)
+            _g = State(initialValue: components.green)
+            _b = State(initialValue: components.blue)
+        }
 
     var editedColor: Color {
         Color(red: r / 255, green: g / 255, blue: b / 255)
@@ -41,21 +42,24 @@ struct EditCategoryView: View {
         RetrospectiveNavigationStack {
             VStack(spacing: 0) {
                 VStack {
-                    HStack(alignment: .center){
+                    HStack{
+                        HStack {
+                            TextField(placeholder, text: $editedName)
+                        }
+                        .padding()
+                        .frame(width: .infinity, height: 45)
+                        .background(
+                            RoundedRectangle(cornerRadius: 18)
+                                .fill(Color.appLightGray.opacity(0.33)) // 내부 배경색
 
-                        TextField("카테고리 이름", text: $editedName)
-                            .font(.title)
-
-                            .multilineTextAlignment(.center)
-                            .frame(maxWidth: .infinity, minHeight: 10)
-                            .padding(.top, 30)
-
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 18)
+                                .stroke(Color.appLightGray.opacity(0.33), lineWidth: 1) // 테두리 색상 및 두께
+                        )
+                        .padding()
                     }
-                    RoundedRectangle(cornerRadius: 1)
-                        .stroke(Color.appLightGray.opacity(0.3), lineWidth: 1)
-                        .frame(height: 1)
-                        .padding(.horizontal, 30)
-                        .padding(.vertical, 10)
+
                 }
                 .frame(width: .infinity ,height: 80 , alignment: .top)
                 .padding(.bottom,20)
@@ -133,7 +137,7 @@ struct EditCategoryView: View {
 }
 
 #Preview {
-    let previewCategory = Category(name: "샘플 카테고리", color: .blue)
+    let previewCategory = Category(name: "카테고리 이름", color: .blue)
 
     return EditCategoryView(category: previewCategory)
         .modelContainer(for: Category.self, inMemory: true)
