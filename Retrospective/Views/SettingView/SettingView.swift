@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct SettingView: View {
-    @Environment(\.dismiss) var dismiss: DismissAction
 
     var body: some View {
         RetrospectiveNavigationStack {
@@ -26,7 +25,7 @@ struct SettingView: View {
                 }
                 .foregroundStyle(.label)
                 .padding(.horizontal, 30)
-                .frame(width: .infinity, height: 80)
+                .frame(width: .infinity, height: 60)
                 .background(Color.appLightSkyBlue)
                 .clipShape(RoundedRectangle(cornerRadius: 18))
                 .padding()
@@ -38,9 +37,7 @@ struct SettingView: View {
             .retrospectiveNavigationTitle("설정")
             .retrospectiveNavigationBarColor(.appLightPeach)
             .retrospectiveLeadingToolBar {
-                RetrospectiveToolBarItem(.symbol("chevron.left")) {
-                    dismiss()
-                }
+
             }
         }
     }
