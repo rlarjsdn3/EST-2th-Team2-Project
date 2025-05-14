@@ -83,8 +83,12 @@ final class Category {
     }
 }
 
-
 extension Category {
+    func setColor(red: Double, green: Double, blue: Double) {
+        self.red = red
+        self.green = green
+        self.blue = blue
+    }
 
     static let mock: [Category] = [
         .init(name: "음식", color: .cyan),

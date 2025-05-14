@@ -58,7 +58,7 @@ struct CardUIView: View {
 
             ChipLayout {
                 ForEach (diary.categories) { category in
-                    CategoryButton(isCategoryOn: .constant(true), category: category.name, categoryColor: category.color)
+                    CategoryButton(category: category.name, categoryColor: category.color, alwaysShowCategoryHighlight: true) { }
                 }
             }
         }

@@ -56,3 +56,23 @@ extension View {
         }
     }
 }
+
+extension View {
+
+    /// 지정된 조건에 따라 View를 조건부로 변환하여 반환합니다.
+    /// - Parameters:
+    ///   - conditional: 변환 조건을 나타내는 불리언 값입니다. (true일 경우 변환 적용)
+    ///   - transform: 조건이 true일 때 View를 변환할 클로저입니다.
+    /// - Returns: 조건에 따라 변환된 View를 반환합니다.
+    @ViewBuilder
+    func `if`<Content>(
+        _ conditional: Bool,
+        trasform: (Self) -> Content
+    ) -> some View where Content: View {
+        if conditional {
+            trasform(self)
+        } else {
+            self
+        }
+    }
+}
