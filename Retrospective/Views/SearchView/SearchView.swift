@@ -70,15 +70,6 @@ struct SearchView: View {
         searchedDiaries.groupByMonthAndDay()
     }
 
-    var currentSearchScopeText: String {
-        switch (searchingInTitle, searchingInContents) {
-        case (true, true): return "제목 + 내용 "
-        case (true, false): return "제목만 "
-        case (false, true): return "내용만 "
-        default: return "검색범위 선택"
-        }
-    }
-
     var body: some View {
         RetrospectiveNavigationStack {
             VStack(spacing: 0) {
@@ -104,11 +95,11 @@ struct SearchView: View {
                         }
                     } label: {
                         HStack(spacing: 0) {
-                            Text(currentSearchScopeText)
                             Image(systemName: "line.3.horizontal.decrease.circle.fill")
                         }
                         .lineLimit(1)
                         .minimumScaleFactor(0.8)
+                        .font(.title)
                         .fontWeight(.medium)
                         .foregroundStyle(Color.label)
                         .padding(.trailing)
