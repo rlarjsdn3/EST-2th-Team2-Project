@@ -59,6 +59,7 @@ struct WritingView: View {
     let diary: Diary?
 
     @State private var categoryButtons: [CategoryButton] = []
+    @State private var sortedCategoryButtons: [CategoryButton] = []
 
     /// WritingView를 초기화합니다.
     ///
@@ -70,11 +71,22 @@ struct WritingView: View {
         self.diary = diary
     }
 
+    var sortCategoryButtons: [CategoryButton] {
+        let selectedButtons = categoryButtons.filter { button in
+            categoriesSelection.contains(where: { $0.name == button.category })
+        }
+
+        let unselectedButtons = categoryButtons.filter { button in
+            !categoriesSelection.contains(where: { $0.name == button.category })
+        }
+
+        return selectedButtons + unselectedButtons
+    }
 
     // ⭐️ TODO: .contentMargins을 추가하려고 했는데, 스크롤뷰로 감싸면 높이가 짜부됨
     var body: some View {
         RetrospectiveNavigationStack {
-            NavigationStack {
+//            NavigationStack {
                 VStack(spacing: 10) {
                     VStack(alignment: .trailing, spacing: 0) {
                         VStack {
@@ -240,8 +252,8 @@ struct WritingView: View {
                                     if categories.isEmpty {
                                         EmptyView()
                                     } else {
-                                        ForEach (diary!.categories) { category in
-                                            CategoryButton(category: category.name, categoryColor: category.color) { }
+                                        ForEach (categoryButtons) { button in
+                                            button
                                         }
                                     }
                                 }
@@ -286,7 +298,8 @@ struct WritingView: View {
                             updateDiary()
                             isEditMode = false
                         }
-                        .disabled(title.isEmpty || content.isEmpty)
+                        .opacity((textfieldTitle.isEmpty || textfieldContent.isEmpty) ? 0.1 : 1.0)
+                        .disabled(textfieldTitle.isEmpty || textfieldContent.isEmpty)
 
                     } else {
                         if let _ = diary {
@@ -294,43 +307,63 @@ struct WritingView: View {
                                 isEditMode = true
                                 self.textfieldTitle = diary!.title
                                 self.textfieldContent = diary!.contents
+                                self.categoriesSelection = diary!.categories
                             }
                         } else {
                             RetrospectiveToolBarItem(.symbol("checkmark")) {
                                 dismiss()
                                 createDiary()
                             }
-                            .disabled(title.isEmpty || content.isEmpty)
+                            .disabled(textfieldTitle.isEmpty || textfieldContent.isEmpty)
                         }
+                    }
+                }
+                .onChange(of: isEditMode) { _, _ in
+                    print("isEditmode", isEditMode)
+                    categoriesSelection.forEach { c in
+                        print(c.name)
+                    }
+
+                    if isEditMode {
+                        initializeCategoryButtons()
                     }
                 }
                 .retrospectiveNavigationTitle(diary == nil ? "새로운 글 작성" : "")
                 .retrospectiveNavigationBarColor(.appLightPeach)
-            }
+//            }
         }
         .background(.appLightPeach)
         .onAppear {
-            categoryButtons = categories.map { category in
-                CategoryButton(
-                    category: category.name,
-                    categoryColor: category.color,
-                    action: {
-                        if let firstIndex = categoriesSelection.firstIndex(where: { $0.name == category.name }) {
-                            self.categoriesSelection.remove(at: firstIndex)
-                        } else {
-                            self.categoriesSelection.append(category)
-                        }
-                        print(categoriesSelection)
-                    })
+            if let diary = diary {
+                self.categoriesSelection = diary.categories
+                print("셀력샨 추가됨!")
             }
-        }
-        .onChange(of: categoriesSelection) { _, _ in
-            withAnimation {
-                self.categoryButtons = categoryButtons.sorted(by: { e1, e2 in
-                    self.categoriesSelection.contains(where: { $0.name == e1.category })
-                    && !self.categoriesSelection.contains(where: { $0.name == e2.category })
-                })
-            }
+
+            categoryButtons = categories
+                    .map { category in
+                        let isSelected = categoriesSelection.contains(where: { $0.name == category.name })
+                        print("선택 상태:", isSelected)
+
+                        return CategoryButton(
+                            category: category.name,
+                            categoryColor: category.color,
+                            initialCategoryHighlightStatus: isSelected,
+                            action: {
+                                if let firstIndex = categoriesSelection.firstIndex(where: { $0.name == category.name }) {
+                                    print("제거됨", firstIndex)
+                                    self.categoriesSelection.remove(at: firstIndex)
+                                    print(self.categoriesSelection)
+                                } else {
+                                    print("추가됨", category)
+                                    self.categoriesSelection.append(category)
+                                }
+                            }
+                        )
+                    }
+                    .sorted { e1, e2 in
+                        categoriesSelection.contains(where: { $0.name == e1.category })
+                        && !categoriesSelection.contains(where: { $0.name == e2.category })
+                    }
         }
         .alert("이 글을 삭제하시겠습니까?", isPresented: $showingDeleteAlert) {
             Button("예", role: .destructive) {
@@ -346,11 +379,44 @@ struct WritingView: View {
 
 extension WritingView {
 
+    private func initializeCategoryButtons() {
+        categoryButtons = categories
+            .map { category in
+                let isSelected = categoriesSelection.contains(where: { $0.name == category.name })
+
+                return CategoryButton(
+                    category: category.name,
+                    categoryColor: category.color,
+                    initialCategoryHighlightStatus: isSelected,
+                    action: {
+                        if let firstIndex = categoriesSelection.firstIndex(where: { $0.name == category.name }) {
+                            print("제거됨:", firstIndex)
+                            self.categoriesSelection.remove(at: firstIndex)
+                        } else {
+                            print("추가됨:", category.name)
+                            self.categoriesSelection.append(category)
+                        }
+                        // 갱신된 상태를 반영
+                        withAnimation {
+                            initializeCategoryButtons()
+                        }
+                    }
+                )
+            }
+            .sorted { e1, e2 in
+                categoriesSelection.contains(where: { $0.name == e1.category })
+                && !categoriesSelection.contains(where: { $0.name == e2.category })
+            }
+    }
+}
+
+extension WritingView {
+
     /// 새로운 다이어리를 생성하고 저장합니다.
     ///
     /// - 다이어리 객체를 생성하여 지정된 카테고리와 함께 저장합니다.
     /// - 저장 후 자동으로 컨텍스트가 저장됩니다.
-    func createDiary() {
+    private func createDiary() {
         let diary = Diary(
             title: title,
             contents: content,
@@ -359,15 +425,16 @@ extension WritingView {
         modelContext.insert(andSave: diary)
     }
 
-    /// 기존 다이어리를 수정하고 저장합니다. > ⭐️ 카테고리 수정도 저장되는 거지요?
+    /// 기존 다이어리를 수정하고 저장합니다.
     ///
     /// - 현재 편집 중인 다이어리(`diary`)의 제목과 내용을 수정합니다.
     /// - 수정된 내용은 자동으로 저장됩니다.
     /// - 만약 다이어리가 존재하지 않을 경우 아무 작업도 수행하지 않습니다.
-    func updateDiary() {
+    private func updateDiary() {
         guard let diary else { return }
-        diary.title = title
-        diary.contents = content
+        diary.title = textfieldTitle
+        diary.contents = textfieldContent
+        diary.categories = categoriesSelection
         modelContext.save(onFailure: nil)
     }
 
@@ -376,7 +443,7 @@ extension WritingView {
     /// - 지정된 다이어리(`diary`)를 데이터베이스에서 삭제합니다.
     /// - 삭제된 후 자동으로 저장됩니다.
     /// - 만약 다이어리가 존재하지 않을 경우 아무 작업도 수행하지 않습니다.
-    func deleteDiary() {
+    private func deleteDiary() {
         guard let diary else { return }
         modelContext.delete(andSave: diary)
     }

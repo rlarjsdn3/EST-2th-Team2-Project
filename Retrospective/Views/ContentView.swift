@@ -22,29 +22,30 @@ struct ContentView: View {
 
     ///탭바 커스텀을 위해 탭바의 고정된 자리 삭제
     var body: some View {
-        ZStack(alignment: .bottom) {
-            TabView(selection: $selected) {
-                Group {
-                    CategoryView() //TODO: HomeView() 넣어주세요
-                        .tag(Tab.home)
-
-                    SearchView() // searchView() 넣어주세요
-                        .tag(Tab.search)
-
-                    StatisticsView()
-                        .tag(Tab.statistic)
-
-                    WritingView(diary: .mock[0])
-                        .tag(Tab.setting)
-                }
-                .toolbar(.hidden, for: .tabBar)
-            }
-            
-
-            tabBar
-                .padding(.bottom, -10)
-        }
-        .ignoresSafeArea(.keyboard)
+        WritingView(diary: .mock[0])
+//        ZStack(alignment: .bottom) {
+//            TabView(selection: $selected) {
+//                Group {
+//                    CategoryView() //TODO: HomeView() 넣어주세요
+//                        .tag(Tab.home)
+//
+//                    SearchView() // searchView() 넣어주세요
+//                        .tag(Tab.search)
+//
+//                    StatisticsView()
+//                        .tag(Tab.statistic)
+//
+//                    WritingView(diary: .mock[0])
+//                        .tag(Tab.setting)
+//                }
+//                .toolbar(.hidden, for: .tabBar)
+//            }
+//            
+//
+//            tabBar
+//                .padding(.bottom, -10)
+//        }
+//        .ignoresSafeArea(.keyboard)
     }
 
 

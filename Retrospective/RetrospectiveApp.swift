@@ -16,6 +16,6 @@ struct RetrospectiveApp: App {
         WindowGroup {
             ContentView()
         }
-        .modelContext(persistenceManager.mainContext)
+        .modelContainer(PersistenceManager.previewContainer)
     }
 }
