@@ -67,11 +67,11 @@ struct DateRangeSelectionView: View {
                     case .week:
                         VStack {
                             HStack {
-                                Text(dateSelection?.previousWeek?.formatted(.yyyyMMdd) ?? "Nil")
+                                Text(dateSelection?.startOfWeek?.formatted(.yyyyMMdd) ?? "Nil")
                                 Text("~")
                             }
                             .offset(x: -15)
-                            Text(dateSelection?.nextWeek?.formatted(.yyyyMMdd) ?? "Nil")
+                            Text(dateSelection?.endOfWeek?.formatted(.yyyyMMdd) ?? "Nil")
                                 .offset(x: 15)
                         }
                         .font(.headline)
