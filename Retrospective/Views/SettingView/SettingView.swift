@@ -10,70 +10,73 @@ import SwiftUI
 struct SettingView: View {
     var body: some View {
         RetrospectiveNavigationStack {
-            VStack(spacing: 20) {
-                NavigationLink(destination: CategoryView()) {
-                    HStack {
+            ScrollView {
+                VStack(spacing: 50) {
+                    VStack(spacing: -5) {
                         Text("카테고리")
-                            .font(.headline)
-                            .foregroundStyle(.label)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                            .padding(.horizontal, 30)
 
-                        Spacer()
+                        NavigationLink(destination: CategoryView()) {
+                            HStack {
+                                Text("카테고리")
+                                    .font(.headline)
+                                    .foregroundStyle(.label)
 
-                        Image(systemName: "chevron.right")
+                                Spacer()
+
+                                Image(systemName: "chevron.right")
+                                    .foregroundStyle(.label)
+                            }
+                            .padding(.horizontal, 30)
+                            .frame(height: 60)
+                            .background(Color.appLightSkyBlue)
+                            .clipShape(RoundedRectangle(cornerRadius: 18))
+                            .padding()
+                        }
+                        .padding(.bottom, -40)
                     }
-                    .padding(.horizontal, 30)
-                    .frame(height: 60)
-                    .background(Color.appLightSkyBlue)
-                    .clipShape(RoundedRectangle(cornerRadius: 18))
-                    .padding()
-                }
-                .padding(.bottom, -40)
+                    .padding(.top)
 
-                Button(action: {
-//                    UIApplication.shared.open(gmailURL)
-                }) {
-                    HStack {
-                        Text("문의하기")
-                            .font(.headline)
-                            .foregroundStyle(.label)
+                    VStack(spacing: -5) {
+                        Text("문의")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                            .padding(.horizontal, 30)
 
-                        Spacer()
+                        Button(action: {
+                            MailComposeViewController.shared.sendEmail()
+                        }) {
+                            HStack {
+                                Text("이메일로 문의하기")
+                                    .font(.headline)
+                                    .foregroundStyle(.label)
 
-                        Image(systemName: "chevron.right")
+                                Spacer()
+
+                                Image(systemName: "chevron.right")
+                                    .foregroundStyle(.label)
+                            }
+                            .padding(.horizontal,30)
+                            .frame(height: 60)
+                            .background(Color.appLightSkyBlue)
+                            .clipShape(RoundedRectangle(cornerRadius: 18))
+                            .padding()
+                        }
                     }
-                    .padding(.horizontal,30)
-                    .frame(height: 60)
-                    .background(Color.appLightSkyBlue)
-                    .clipShape(RoundedRectangle(cornerRadius: 18))
-                    .padding()
                 }
-
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                .retrospectiveNavigationTitle("설정")
+                .retrospectiveNavigationBarColor(.appLightPeach)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .background(Color.appLightPeach)
             .ignoresSafeArea()
-
-            .retrospectiveNavigationTitle("설정")
-            .retrospectiveNavigationBarColor(.appLightPeach)
+            .scrollIndicators(.hidden)
         }
     }
-//    var gmailURL: URL {
-//        let to = "OurDiary@gmail.com"
-//        let subject = "Our Diary 문의사항"
-//        let body = """
-//        아래에 내용을 입력해주세요.
-//        
-//        단말기 명:
-//        앱 버전:
-//        문의사항:
-//        """
-//
-//        let encodedSubject = subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-//        let encodedBody = body.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-//
-//        let urlString = "https://mail.google.com/mail/?view=cm&fs=1&to=\(to)&su=\(encodedSubject)&body=\(encodedBody)"
-//        return URL(string: urlString)!
-//    }
 }
 
 #Preview {
