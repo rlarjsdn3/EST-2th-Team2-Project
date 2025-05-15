@@ -107,8 +107,6 @@ struct SearchView: View {
                     }
                 }
 
-                CategoryAndDateSortView(filteredCategories: filteredCategories, isDescending: $isDescending)
-                    .padding(.bottom)
 
                 if searchText.isEmpty {
                     EmptyStateView(
@@ -127,13 +125,21 @@ struct SearchView: View {
                         )
                         .padding(.bottom, 150)
                     } else {
-                        if hSizeClass == .regular {
-                            CardScrollViewForPad(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
-                        } else {
-                            CardScrollView(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
+                        Group {
+                            if hSizeClass == .regular {
+                                CardScrollViewForPad(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
+                            } else {
+                                CardScrollView(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
+                            }
                         }
+                        .padding(.top, 25)
                     }
                 }
+            }
+            .overlay(alignment: .topTrailing) {
+                CategoryAndDateSortView(filteredCategories: filteredCategories, isDescending: $isDescending)
+                    .padding(.bottom)
+                    .padding(.top, 63)
             }
             .background(Color.appLightPeach)
             .floatingSheet(isPresented: $isPresentedFilterSelectView) {

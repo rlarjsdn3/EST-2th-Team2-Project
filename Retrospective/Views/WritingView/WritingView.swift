@@ -273,8 +273,9 @@ struct WritingView: View, KeyboardReadable {
         }
         .background(.appLightPeach)
         .onAppear {
-            guard let diary else { return }
-            categoriesSelection = diary.categories
+            if let diary = diary {
+                categoriesSelection = diary.categories
+            }
 
             initializeCategoryButtons()
         }
