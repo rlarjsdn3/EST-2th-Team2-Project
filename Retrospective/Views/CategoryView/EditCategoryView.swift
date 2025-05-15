@@ -24,15 +24,16 @@ struct EditCategoryView: View {
     @State private var dragging = false
     @State private var showAlert = false
     @State private var showingMinimumCategoryAlert = false
+    @State private var showEmptyNameAlert = false
     init(category: Category) {
-            self.category = category
-            _editedName = State(initialValue: category.name)
+        self.category = category
+        _editedName = State(initialValue: category.name)
 
-            let components = category.color.rgbComponents()
-            _r = State(initialValue: components.red)
-            _g = State(initialValue: components.green)
-            _b = State(initialValue: components.blue)
-        }
+        let components = category.color.rgbComponents()
+        _r = State(initialValue: components.red)
+        _g = State(initialValue: components.green)
+        _b = State(initialValue: components.blue)
+    }
 
     var editedColor: Color {
         Color(red: r / 255, green: g / 255, blue: b / 255)
@@ -40,88 +41,84 @@ struct EditCategoryView: View {
 
     var body: some View {
         RetrospectiveNavigationStack {
-            VStack(spacing: 0) {
-                VStack {
-                    HStack{
-                        HStack {
-                            TextField(placeholder, text: $editedName)
-                                .autocapitalization(.none)
-                                .onChange(of: editedName) { newValue in
-                                    if newValue.count > 15 {
-                                        editedName = String(newValue.prefix(15))
+            ZStack {
+                Color.appLightPeach
+                    .ignoresSafeArea()
+
+                ScrollView {
+                    VStack(spacing: 0) {
+                        VStack {
+                            HStack {
+                                TextField(placeholder, text: $editedName)
+                                    .autocapitalization(.none)
+                                    .onChange(of: editedName) { newValue in
+                                        if newValue.count > 15 {
+                                            editedName = String(newValue.prefix(15))
+                                        }
                                     }
-                                }
+                                    .padding()
+                                    .frame(height: 45)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 18)
+                                            .fill(Color.appLightGray.opacity(0.33))
+                                    )
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 18)
+                                            .stroke(Color.appLightGray.opacity(0.33), lineWidth: 1)
+                                    )
+                                    .padding()
+                            }
                         }
-                        .padding()
-                        .frame(width: .infinity, height: 45)
-                        .background(
-                            RoundedRectangle(cornerRadius: 18)
-                                .fill(Color.appLightGray.opacity(0.33)) // 내부 배경색
+                        .frame(maxWidth: .infinity, minHeight: 80, alignment: .top)
+                        .padding(.bottom, 20)
+                        .background(Color.appLightPeach)
 
-                        )
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 18)
-                                .stroke(Color.appLightGray.opacity(0.33), lineWidth: 1) // 테두리 색상 및 두께
-                        )
-                        .padding()
-                    }
+                        VStack {
+                            Circle()
+                                .fill(editedColor)
+                                .frame(width: 200, height: 200)
 
-                }
-                .frame(width: .infinity ,height: 80 , alignment: .top)
-                .padding(.bottom,20)
-                .background(Color.appLightPeach)
+                            Group {
+                                sliderView(value: $r, label: "Red", color: .red)
+                                sliderView(value: $g, label: "Green", color: .green)
+                                sliderView(value: $b, label: "Blue", color: .blue)
+                            }
+                            .padding()
 
-
-
-                VStack{
-                    Circle()
-                        .fill(editedColor)
-                        .frame(width: 200, height: 200)
-
-
-
-                    Group {
-                        sliderView(value: $r, label: "Red", color: .red)
-                        sliderView(value: $g, label: "Green", color: .green)
-                        sliderView(value: $b, label: "Blue", color: .blue)
-                    }
-                    .padding()
-
-//                    RoundedRectButton(title: "저장") {
-//                        let rgb = editedColor.rgbComponents()
-//                        category.name = editedName
-//                        category.setColor(red: rgb.red, green: rgb.green, blue: rgb.blue)
-//                        dismiss()
-//                    }
-//                    .padding([.top, .horizontal])
-
-                    Spacer()
-                }
-                .background(Color.appLightPeach)
-
-
-                .retrospectiveNavigationTitle("카테고리 편집")
-                .retrospectiveNavigationBarColor(.appLightPeach)
-                .retrospectiveLeadingToolBar {
-                    RetrospectiveToolBarItem(.symbol("chevron.left")) {
-                        dismiss()
+                            Spacer(minLength: 100)
+                        }
+                        .background(Color.appLightPeach)
+                        .padding(.vertical,0)
                     }
                 }
-                .retrospectiveTrailingToolbar {
-                    RetrospectiveToolBarItem(.symbol("checkmark")) {
-                        let rgb = editedColor.rgbComponents()
-                        category.name = editedName
-                        category.setColor(red: rgb.red, green: rgb.green, blue: rgb.blue)
-                        dismiss()
-                    }
-                }
-
+                .scrollDismissesKeyboard(.interactively)
+                .scrollDisabled(true)
             }
+            .retrospectiveNavigationTitle("카테고리 편집")
+            .retrospectiveNavigationBarColor(.appLightPeach)
+            .retrospectiveLeadingToolBar {
+                RetrospectiveToolBarItem(.symbol("chevron.left")) {
+                    dismiss()
+                }
+            }
+            .retrospectiveTrailingToolbar {
+                RetrospectiveToolBarItem(.symbol("checkmark")) {
+                    if editedName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        showEmptyNameAlert = true
+                        return
+                    }
 
+                    let rgb = editedColor.rgbComponents()
+                    category.name = editedName
+                    category.setColor(red: rgb.red, green: rgb.green, blue: rgb.blue)
+                    dismiss()
+                }
+            }
         }
-        .frame(maxWidth: .infinity ,maxHeight: .infinity)
-        .background(Color.appLightPeach)
         .alert("최소 한개 이상의 카테고리가 필요합니다.", isPresented: $showingMinimumCategoryAlert) {
+            Button("확인", role: .cancel) { }
+        }
+        .alert("한 글자 이상 입력해 주세요.", isPresented: $showEmptyNameAlert) {
             Button("확인", role: .cancel) { }
         }
     }

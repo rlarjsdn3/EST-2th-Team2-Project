@@ -75,7 +75,7 @@ struct SearchView: View {
             VStack(spacing: 0) {
                 HStack(spacing: 0) {
                     HStack {
-                        CustomTextField(placeholder: "Search", text: $searchText)
+                        CustomTextField(placeholder: "검색 키워드를 작성해주세요.", text: $searchText)
                     }
 
                     Menu {
@@ -141,6 +141,7 @@ struct SearchView: View {
                         description: "키워드를 통해 원하는 다이어리를 찾아보세요."
                     )
                     .padding(.bottom, 150)
+                    .ignoresSafeArea(.keyboard)
 
                 } else {
                     if searchedDiaries.isEmpty {
@@ -150,6 +151,7 @@ struct SearchView: View {
                             description: "다른 키워드를 입력해주세요."
                         )
                         .padding(.bottom, 150)
+                        .ignoresSafeArea(.keyboard)
                     } else {
                         Group {
                             if hSizeClass == .regular {
@@ -158,9 +160,12 @@ struct SearchView: View {
                                 CardScrollView(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
                             }
                         }
-                        .padding(.top, 25)
+                        .padding(.top, 30)
                     }
                 }
+            }
+            .onAppear {
+                UIApplication.shared.hideKeyboard()
             }
             .overlay(alignment: .topTrailing) {
                 CategoryAndDateSortView(filteredCategories: filteredCategories, isDescending: $isDescending)
@@ -168,9 +173,6 @@ struct SearchView: View {
                     .padding(.top, 63)
             }
             .background(Color.appLightPeach)
-            .floatingSheet(isPresented: $isPresentedFilterSelectView) {
-                FilterSelectView(filteringCategories: $filteringCategories, isPresentedFilterSelectView: $isPresentedFilterSelectView)
-            }
             .retrospectiveNavigationTitle("검색")
             .retrospectiveNavigationBarColor(.appLightPeach)
             .retrospectiveLeadingToolBar {
@@ -186,6 +188,9 @@ struct SearchView: View {
             .navigationDestination(isPresented: $isPresentedWritingView, destination: {
                 WritingView(diary: nil)
             })
+        }
+        .floatingSheet(isPresented: $isPresentedFilterSelectView) {
+            FilterSelectView(filteringCategories: $filteringCategories, isPresentedFilterSelectView: $isPresentedFilterSelectView)
         }
     }
 }
