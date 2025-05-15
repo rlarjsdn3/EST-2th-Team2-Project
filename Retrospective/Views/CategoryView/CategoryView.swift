@@ -8,16 +8,12 @@
 import SwiftUI
 import SwiftData
 
-
 struct CategoryView: View {
-    /// SwiftData 모델 컨텍스트
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
-    //  저장된 Category 목록을 가져옴 (이름순 정렬)
-    @Query(sort: \Category.name) private var categories: [Category] //기본 카테고리 항목으로 설정
+    @Query(sort: \Category.name) private var categories: [Category]
 
     @State private var newCategoryName: String = ""
-    // @State private var newCategoryColor: Bool = false
     @State private var showingDuplicateAlert: Bool = false
     @State private var categoryToDelete: Category? = nil
     @State private var showingDeleteAlert: Bool = false
@@ -45,14 +41,10 @@ struct CategoryView: View {
                     }
                     .disabled(newCategoryName.isEmpty)
                     .foregroundStyle(.label)
-
-            CategoryListView()
-                .retrospectiveLeadingToolBar {
-                    RetrospectiveToolBarItem(.symbol("chevron.left")) { }
-
                 }
                 .padding(.vertical, 0)
                 .padding(.horizontal, 25)
+
 
                 ScrollView {
                     LazyVStack {
@@ -93,7 +85,6 @@ struct CategoryView: View {
                 .padding()
                 .contentMargins(.bottom, 80, for: .scrollContent)
             }
-
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
             .background(Color.appLightPeach)
             .ignoresSafeArea(.all)
@@ -103,14 +94,10 @@ struct CategoryView: View {
             .alert("삭제 확인", isPresented: $showingDeleteAlert) {
                 Button("삭제", role: .destructive) {
                     if let category = categoryToDelete {
-                        // 연결된 다이어리에서 해당 카테고리 제거
                         for diary in category.diaries {
                             diary.categories.removeAll { $0 == category }
                         }
-                        // 카테고리 삭제
                         context.delete(category)
-
-                        // 선택 해제
                         categoryToDelete = nil
                     }
                     dismiss()
@@ -121,7 +108,6 @@ struct CategoryView: View {
             } message: {
                 Text("삭제된 카테고리는 되돌릴 수 없으며, 영구적으로 사라집니다.")
             }
-
             .alert("최소 한개 이상의 카테고리가 필요합니다.", isPresented: $showingMinimumCategoryAlert) {
                 Button("확인", role: .cancel) { }
             }
@@ -135,12 +121,8 @@ struct CategoryView: View {
         }
     }
 
-
-
-    ///  카테고리 추가 메서드
     private func addCategory() {
-
-        guard !categories.contains(where: { $0.name == newCategoryName }) else {//중복된 값 작성시 경고창 표시
+        guard !categories.contains(where: { $0.name == newCategoryName }) else {
             showingDuplicateAlert = true
             return
         }
@@ -157,23 +139,16 @@ struct CategoryView: View {
         newCategoryName = ""
     }
 
-    ///  카테고리 삭제 메서드
     private func deleteCategories(at offsets: IndexSet) {
         for index in offsets {
             let category = categories[index]
-
-            // 연결된 다이어리에서 이 카테고리를 제거
             for diary in category.diaries {
                 diary.categories.removeAll { $0 == category }
             }
-
-            // 카테고리 삭제
             context.delete(category)
         }
     }
-
 }
-
 
 #Preview {
     CategoryView()
