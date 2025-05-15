@@ -51,27 +51,25 @@ struct FilterSelectView: View {
                                     .foregroundColor(.gray)
                             }
                         }
+                        .padding(.vertical, 20)
                         .contentShape(Rectangle())
                         .onTapGesture {
                             toggle(category.name)
                         }
-
                         if index != allCategories.count - 1 {
                             Rectangle()
                                 .fill(Color.appLightGray)
                                 .frame(height: 1)
-                                .padding(.vertical, 20)
                         } else {
                             Rectangle()
                                 .fill(.clear)
                                 .frame(height: 1)
-                                .padding(.vertical, 20)
                         }
                     }
+                    .listRowInsets(EdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15))
+                    .listRowSeparator(.hidden)
+                    .padding(.horizontal, 10)
                 }
-                .listRowInsets(EdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15))
-                .listRowSeparator(.hidden)
-                .padding(.horizontal, 10)
             }
             .listStyle(.plain)
 

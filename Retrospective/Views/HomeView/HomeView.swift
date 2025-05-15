@@ -44,37 +44,40 @@ struct HomeView: View {
     var body: some View {
         RetrospectiveNavigationStack {
             VStack(spacing: 0) {
-                HStack {
-                    ScrollView(.horizontal) {
-                        HStack {
-                            ForEach (filteredCategories, id: \.self ) { category in
-                                CategoryButton(
-                                    category: category.name,
-                                    categoryColor: category.color,
-                                    alwaysShowCategoryHighlight: true
-                                ) { }
-                            }
+
+                CategoryAndDateSortView(filteredCategories: filteredCategories, isDescending: $isDescending)
+                    .padding(.top, 5)
+                    .padding(.bottom, 15)
+
+                if allDiaries.isEmpty {
+                        EmptyStateView(
+                            systemName: "swiftdata",
+                            title: "저장된 다이어리가 없습니다.",
+                            description: "새로운 기록을 남겨보세요."
+                        )
+                        .padding(.bottom, 150)
+
+                } else {
+
+                    if filteredDiaries.isEmpty {
+                        EmptyStateView(
+                            systemName: "swiftdata",
+                            title: "검색된 다이어리가 없습니다.",
+                            description: "카테고리의 첫 기록을 남겨보세요."
+                        )
+                        .padding(.bottom, 150)
+                        
+                    } else {
+                        if hSizeClass == .regular {
+                            CardScrollViewForPad(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
+                        } else {
+                            CardScrollView(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
                         }
                     }
-
-                    ToggleSortOrder { isDescending in
-                        self.isDescending = isDescending
-                    }
                 }
-                .padding(.top, 20)
-                .padding(.horizontal, hSizeClass == .regular ? 30 : 15)
-
-                Group {
-                    if hSizeClass == .regular {
-                        CardScrollViewForPad(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
-                    } else {
-                        CardScrollView(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
-                    }
-                }
-//                .animation(.smooth, value: isDescending)
             }
             .background(Color.appLightPeach)
-            .retrospectiveNavigationTitle("홈") // TODO: - 제목 변경
+            .retrospectiveNavigationTitle("Home")
             .retrospectiveNavigationBarColor(.appLightPeach)
             .retrospectiveLeadingToolBar {
                 RetrospectiveToolBarItem(.symbol("slider.horizontal.3")) {

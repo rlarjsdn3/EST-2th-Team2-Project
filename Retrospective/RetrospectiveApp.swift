@@ -10,12 +10,34 @@ import SwiftData
 
 @main
 struct RetrospectiveApp: App {
+
+    @AppStorage(\.hasLoadedInitialData) private var hasLoadedInitialData: Bool
+    @AppStorage(\.hasCompletedOnboarding) private var hasCompletedOnboarding: Bool
+    @State private var isShowingOnboarding: Bool = false
     let persistenceManager = PersistenceManager()
 
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .onAppear {
+                    if !hasCompletedOnboarding {
+                        isShowingOnboarding = true
+                        hasCompletedOnboarding = true
+                    }
+
+                    if !hasLoadedInitialData {
+                        persistenceManager.createInitialCategories {
+                            hasLoadedInitialData = true
+                        }
+                    }
+                }
+                .sheet(isPresented: $isShowingOnboarding) {
+                    Text("온보딩 화면")
+                }
+                .dynamicTypeSize(.small ... .xxxLarge)
         }
         .modelContext(persistenceManager.mainContext)
+//        .modelContainer(PersistenceManager.previewContainer)
     }
 }
+
