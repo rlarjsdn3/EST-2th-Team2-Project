@@ -53,6 +53,12 @@ extension Diary {
             createdDate: Date(year: 2025, month: 5, day: 13)!
         ),
         Diary(
+            title: "내용에만 있어요.",
+            contents: "따뜻한 햇살과 꽃향기가 가득한 봄, 주말마다 가까운 도시로 소소한 여행을 떠나요. 벚꽃 구경도 하고, 한적한 시골 마을도 걸어요. 짧은 여행이지만 마음이 환기되는 시간이 돼요.",
+            categories: [.mock[3]],
+            createdDate: Date(year: 2025, month: 5, day: 11)!
+        ),
+        Diary(
             title: "봄에는 여행을 가요",
             contents: "따뜻한 햇살과 꽃향기가 가득한 봄, 주말마다 가까운 도시로 소소한 여행을 떠나요. 벚꽃 구경도 하고, 한적한 시골 마을도 걸어요. 짧은 여행이지만 마음이 환기되는 시간이 돼요.",
             categories: [.mock[3]],
