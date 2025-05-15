@@ -9,6 +9,13 @@ import SwiftUI
 
 struct OnboardingView: View {
 
+    @Environment(\.dismiss) var dismiss
+
+    init() {
+        UIPageControl.appearance().currentPageIndicatorTintColor = .label
+        UIPageControl.appearance().pageIndicatorTintColor = .secondaryLabel
+    }
+
     var body: some View {
         TabView {
             VStack {
@@ -60,22 +67,25 @@ struct OnboardingView: View {
 
                 Text("그날의 추억을 기록해보세요")
                     .font(.title2)
+
+                Button {
+                    dismiss()
+                } label: {
+                    HStack {
+                        Text("기록 시작하기")
+                        Image(systemName: "arrow.right.circle.fill")
+                    }
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.label)
+                    .padding()
+                    .cornerRadius(.appLightGray.opacity(0.33), radius: 36)
+
+                }
+                .padding(.top, 30)
             }
         }
-        .tabViewStyle(PageTabViewStyle())
+        .tabViewStyle(.page)
     }
-
-//    /// 사용자 안내 온보딩 페이지를 앱 설치 후 최초 실행할 때만 띄우도록 하는 변수
-//    /// @AppStorage에 저장되어 앱 종료 후에도 유지됨
-//    @AppStorage("_isFirstLaunching") var isFirstLaunching: Bool = true
-//
-//    var body: some View {
-//        HomeView()
-//            // 앱 최초 구동 시 전체화면으로 OnboardingTabView 띄우기
-//            .fullScreenCover(isPresented: $isFirstLaunching) {
-//                OnboardingTabView(isFirstLaunching: $isFirstLaunching)
-//            }
-//    }
 }
 
 #Preview {

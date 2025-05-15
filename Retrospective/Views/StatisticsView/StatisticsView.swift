@@ -24,7 +24,7 @@ struct StatisticsView: View {
     @State private var chartsDatas: [CategoryChartsData] = []
 
     private let etcString = "기타"
-    private var etc: Category = Category(name: "기타", color: .black)
+    private var etc: Category = Category(name: "기타", color: .secondary)
 
     var body: some View {
         RetrospectiveNavigationStack {
