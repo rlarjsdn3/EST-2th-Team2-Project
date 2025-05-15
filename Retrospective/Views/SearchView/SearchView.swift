@@ -160,7 +160,7 @@ struct SearchView: View {
                                 CardScrollView(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
                             }
                         }
-                        .padding(.top, 25)
+                        .padding(.top, 30)
                     }
                 }
             }
