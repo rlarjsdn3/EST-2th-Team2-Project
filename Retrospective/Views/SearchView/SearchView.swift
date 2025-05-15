@@ -141,6 +141,7 @@ struct SearchView: View {
                         description: "키워드를 통해 원하는 다이어리를 찾아보세요."
                     )
                     .padding(.bottom, 150)
+                    .ignoresSafeArea(.keyboard)
 
                 } else {
                     if searchedDiaries.isEmpty {
@@ -150,6 +151,7 @@ struct SearchView: View {
                             description: "다른 키워드를 입력해주세요."
                         )
                         .padding(.bottom, 150)
+                        .ignoresSafeArea(.keyboard)
                     } else {
                         Group {
                             if hSizeClass == .regular {
