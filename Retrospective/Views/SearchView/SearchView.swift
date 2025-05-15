@@ -75,7 +75,7 @@ struct SearchView: View {
             VStack(spacing: 0) {
                 HStack(spacing: 0) {
                     HStack {
-                        CustomTextField(placeholder: "Search", text: $searchText)
+                        CustomTextField(placeholder: "검색 키워드를 작성해주세요.", text: $searchText)
                     }
 
                     Menu {
