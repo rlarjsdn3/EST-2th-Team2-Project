@@ -6,12 +6,11 @@
 //
 
 import SwiftUI
-#warning("카테고리 버튼")
+
 struct CategoryButton: View {
 
     @State private var isCategoryOn: Bool = false
 
-    /// 
     var isOn: Bool {
         self.isCategoryOn
     }
@@ -20,7 +19,7 @@ struct CategoryButton: View {
     let category: String
 
     /// 카테고리 강조 색상 (선택된 상태에서 표시될 색상)
-    let categoryColor: Color
+    @State var categoryColor: Color
 
     /// 카테고리 폰트
     let font: Font
@@ -44,10 +43,12 @@ struct CategoryButton: View {
         category: String,
         categoryColor: Color,
         font: Font = .body,
+        initialCategoryHighlightStatus: Bool = false,
         alwaysShowCategoryHighlight: Bool = false,
         action: @escaping () -> Void
     ) {
         self.category = category
+        self._isCategoryOn = State(initialValue: initialCategoryHighlightStatus)
         self.categoryColor = categoryColor
         self.font = font
         self.alwaysShowCategoryHighlight = alwaysShowCategoryHighlight
@@ -56,8 +57,8 @@ struct CategoryButton: View {
 
     var body: some View {
         Button {
-            action()
             isCategoryOn.toggle()
+            action()
         } label: {
             HStack {
                 Text("# \(category)")
@@ -91,7 +92,7 @@ extension CategoryButton: Identifiable {
     ScrollView(.horizontal) {
         HStack(spacing: 10) {
             CategoryButton(category: "카테고리", categoryColor: .blue, alwaysShowCategoryHighlight: true) { }
-            CategoryButton(category: "카테고리", categoryColor: .green) { }
+            CategoryButton(category: "카테고리", categoryColor: .green, initialCategoryHighlightStatus: true) { }
             CategoryButton(category: "카테고리", categoryColor: .red) { }
             CategoryButton( category: "카테고리", categoryColor: .yellow) { }
         }
