@@ -7,6 +7,21 @@
 
 import SwiftUI
 
+/// 단일 `Diary` 데이터를 카드 형태로 표시하는 UI 뷰입니다.
+///
+/// 제목, 본문 내용, 카테고리를 표시하며,
+/// 카드를 탭하면 해당 다이어리를 수정할 수 있는 `WritingView`로 이동합니다.
+///
+/// - 구성:
+///   - 제목 영역: 상단 반원 모양 배경 + 한 줄 제한 제목 텍스트
+///   - 본문 내용: 하단 반원 모양 배경 + 최대 7줄 제한 텍스트
+///   - 하단: 다이어리의 카테고리들을 `ChipLayout`으로 표시
+///
+/// - 인터랙션:
+///   - 카드를 누르면 `WritingView(diary: diary)로 Push
+///
+/// - Parameters:
+///   - diary: 렌더링할 `Diary` 데이터 객체
 struct CardUIView: View {
 
     @Environment(\.modelContext) private var modelContext

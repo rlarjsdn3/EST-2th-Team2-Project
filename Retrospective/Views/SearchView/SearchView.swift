@@ -111,21 +111,29 @@ struct SearchView: View {
                     .padding(.bottom)
 
                 if searchText.isEmpty {
-                        EmptyStateView(
-                            systemName: "swiftdata",
-                            title: "검색어가 없습니다.",
-                            description: "키워드를 통해 원하는 다이어리를 찾아보세요 ."
-                        )
-                        .padding(.bottom, 150)
+                    EmptyStateView(
+                        systemName: "swiftdata",
+                        title: "검색어가 없습니다.",
+                        description: "키워드를 통해 원하는 다이어리를 찾아보세요."
+                    )
+                    .padding(.bottom, 150)
 
                 } else {
-                    if hSizeClass == .regular {
-                        CardScrollViewForPad(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
+                    if searchedDiaries.isEmpty {
+                        EmptyStateView(
+                            systemName: "swiftdata",
+                            title: "검색된 다이어리가 없습니다.",
+                            description: "다른 키워드를 입력해주세요."
+                        )
+                        .padding(.bottom, 150)
                     } else {
-                        CardScrollView(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
+                        if hSizeClass == .regular {
+                            CardScrollViewForPad(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
+                        } else {
+                            CardScrollView(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
+                        }
                     }
                 }
-
             }
             .background(Color.appLightPeach)
             .floatingSheet(isPresented: $isPresentedFilterSelectView) {

@@ -56,7 +56,6 @@ struct FilterSelectView: View {
                         .onTapGesture {
                             toggle(category.name)
                         }
-
                         if index != allCategories.count - 1 {
                             Rectangle()
                                 .fill(Color.appLightGray)
@@ -67,10 +66,10 @@ struct FilterSelectView: View {
                                 .frame(height: 1)
                         }
                     }
+                    .listRowInsets(EdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15))
+                    .listRowSeparator(.hidden)
+                    .padding(.horizontal, 10)
                 }
-                .listRowInsets(EdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15))
-                .listRowSeparator(.hidden)
-                .padding(.horizontal, 10)
             }
             .listStyle(.plain)
 
