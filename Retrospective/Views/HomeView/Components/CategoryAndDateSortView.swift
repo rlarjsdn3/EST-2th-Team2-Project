@@ -31,6 +31,8 @@ struct CategoryAndDateSortView: View {
                 }
                 .frame(height: 40)
             }
+            .scrollIndicators(.hidden)
+            
             ToggleSortOrder { isDescending in
                 self.isDescending = isDescending
             }

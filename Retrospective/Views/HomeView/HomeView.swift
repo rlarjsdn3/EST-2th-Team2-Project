@@ -84,7 +84,7 @@ struct HomeView: View {
                     .padding(.bottom, 15)
             }
             .background(Color.appLightPeach)
-            .retrospectiveNavigationTitle("Home")
+            .retrospectiveNavigationTitle("홈")
             .retrospectiveNavigationBarColor(.appLightPeach)
             .retrospectiveLeadingToolBar {
                 RetrospectiveToolBarItem(.symbol("slider.horizontal.3")) {
