@@ -30,23 +30,21 @@ struct CustomTextEditorStyle: ViewModifier {
             .autocorrectionDisabled()
             .scrollContentBackground(.hidden)
 
-        if isEditMode {
-            HStack {
-                Spacer()
+        HStack {
+            Spacer()
 
-                Text("\(text.count) / 300")
-                    .font(.footnote)
-                    .foregroundColor(.secondary.opacity(0.7))
-                    .padding(.trailing, 15)
-                    .onChange(of: text) { newValue in
-                        if newValue.count > 300 {
-                            text = String(newValue.prefix(300))
-                        }
+            Text("\(text.count) / 300")
+                .font(.footnote)
+                .foregroundColor(.secondary.opacity(0.7))
+                .padding(.trailing, 15)
+                .onChange(of: text) { newValue in
+                    if newValue.count > 300 {
+                        text = String(newValue.prefix(300))
                     }
-            }
-            .frame(minHeight: 30)
-            .padding(.bottom, 5)
+                }
         }
+        .frame(minHeight: 30)
+        .padding(.bottom, 5)
     }
 }
 
