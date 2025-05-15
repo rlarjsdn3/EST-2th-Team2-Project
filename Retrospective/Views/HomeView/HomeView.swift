@@ -58,9 +58,6 @@ struct HomeView: View {
                 }
             }
             .background(Color.appLightPeach)
-            .floatingSheet(isPresented: $isPresentedFilterSelectView) {
-                FilterSelectView(filteringCategories: $filteringCategories, isPresentedFilterSelectView: $isPresentedFilterSelectView)
-            }
             .retrospectiveNavigationTitle("Home")
             .retrospectiveNavigationBarColor(.appLightPeach)
             .retrospectiveLeadingToolBar {
