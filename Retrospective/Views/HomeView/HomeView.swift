@@ -45,9 +45,9 @@ struct HomeView: View {
         RetrospectiveNavigationStack {
             VStack(spacing: 0) {
 
-                CategoryAndDateSortView(filteredCategories: filteredCategories, isDescending: $isDescending)
-                    .padding(.top, 5)
-                    .padding(.bottom, 15)
+//                CategoryAndDateSortView(filteredCategories: filteredCategories, isDescending: $isDescending)
+//                    .padding(.top, 5)
+//                    .padding(.bottom, 15)
 
                 if allDiaries.isEmpty {
                         EmptyStateView(
@@ -68,13 +68,20 @@ struct HomeView: View {
                         .padding(.bottom, 150)
                         
                     } else {
-                        if hSizeClass == .regular {
-                            CardScrollViewForPad(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
-                        } else {
-                            CardScrollView(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
-                        }
+                        Group {
+                            if hSizeClass == .regular {
+                                CardScrollViewForPad(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
+                            } else {
+                                CardScrollView(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
+                            }
+                        }.padding(.top, 38)
                     }
                 }
+            }
+            .overlay(alignment: .topTrailing) {
+                CategoryAndDateSortView(filteredCategories: filteredCategories, isDescending: $isDescending)
+                    .padding(.top, 5)
+                    .padding(.bottom, 15)
             }
             .background(Color.appLightPeach)
             .retrospectiveNavigationTitle("Home")
