@@ -29,8 +29,8 @@ struct CategoryAndDateSortView: View {
                         CategoryButton(category: category.name, categoryColor: category.color, alwaysShowCategoryHighlight: true) { }
                     }
                 }
+                .frame(height: 40)
             }
-            
             ToggleSortOrder { isDescending in
                 self.isDescending = isDescending
             }
