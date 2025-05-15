@@ -108,6 +108,7 @@ struct SearchView: View {
                             Image(systemName: "line.3.horizontal.decrease.circle.fill")
                         }
                         .padding(.trailing)
+                        .padding(.vertical)
                     }
                     .fontWeight(.medium)
                     .foregroundStyle(Color.label)
