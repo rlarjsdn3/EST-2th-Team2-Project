@@ -47,8 +47,12 @@ struct HomeView: View {
                 HStack {
                     ScrollView(.horizontal) {
                         HStack {
-                            ForEach (filteredCategories, id: \.self ) {category in
-                                CategoryButton(category: category.name, categoryColor: category.color, alwaysShowCategoryHighlight: true) { }
+                            ForEach (filteredCategories, id: \.self ) { category in
+                                CategoryButton(
+                                    category: category.name,
+                                    categoryColor: category.color,
+                                    alwaysShowCategoryHighlight: true
+                                ) { }
                             }
                         }
                     }
@@ -70,10 +74,7 @@ struct HomeView: View {
 //                .animation(.smooth, value: isDescending)
             }
             .background(Color.appLightPeach)
-            .floatingSheet(isPresented: $isPresentedFilterSelectView) {
-                FilterSelectView(filteringCategories: $filteringCategories, isPresentedFilterSelectView: $isPresentedFilterSelectView)
-            }
-            .retrospectiveNavigationTitle("Our Camp Diary")
+            .retrospectiveNavigationTitle("홈") // TODO: - 제목 변경
             .retrospectiveNavigationBarColor(.appLightPeach)
             .retrospectiveLeadingToolBar {
                 RetrospectiveToolBarItem(.symbol("slider.horizontal.3")) {
@@ -88,6 +89,9 @@ struct HomeView: View {
             .navigationDestination(isPresented: $isPresentedWritingView, destination: {
                 WritingView(diary: nil)
             })
+        }
+        .floatingSheet(isPresented: $isPresentedFilterSelectView) {
+            FilterSelectView(filteringCategories: $filteringCategories, isPresentedFilterSelectView: $isPresentedFilterSelectView)
         }
     }
 }

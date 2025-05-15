@@ -27,8 +27,8 @@ struct CardUIView: View {
                         HStack {
                             Text(diary.title)
                                 .foregroundStyle(Color.label)
-                                .font(.title2)
-                                .bold()
+                                .font(.title3)
+                                .fontWeight(.semibold)
                                 .lineLimit(1)
 
                             Spacer()
