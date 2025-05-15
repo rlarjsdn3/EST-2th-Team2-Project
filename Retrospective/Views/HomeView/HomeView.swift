@@ -49,11 +49,30 @@ struct HomeView: View {
                     .padding(.top, 5)
                     .padding(.bottom, 15)
 
-                Group {
-                    if hSizeClass == .regular {
-                        CardScrollViewForPad(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
+                if allDiaries.isEmpty {
+                        EmptyStateView(
+                            systemName: "swiftdata",
+                            title: "저장된 다이어리가 없습니다.",
+                            description: "새로운 기록을 남겨보세요."
+                        )
+                        .padding(.bottom, 150)
+
+                } else {
+
+                    if filteredDiaries.isEmpty {
+                        EmptyStateView(
+                            systemName: "swiftdata",
+                            title: "검색된 다이어리가 없습니다.",
+                            description: "카테고리의 첫 기록을 남겨보세요."
+                        )
+                        .padding(.bottom, 150)
+                        
                     } else {
-                        CardScrollView(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
+                        if hSizeClass == .regular {
+                            CardScrollViewForPad(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
+                        } else {
+                            CardScrollView(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
+                        }
                     }
                 }
             }
