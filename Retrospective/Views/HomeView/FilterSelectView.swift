@@ -51,6 +51,7 @@ struct FilterSelectView: View {
                                     .foregroundColor(.gray)
                             }
                         }
+                        .padding(.vertical, 20)
                         .contentShape(Rectangle())
                         .onTapGesture {
                             toggle(category.name)
@@ -60,12 +61,10 @@ struct FilterSelectView: View {
                             Rectangle()
                                 .fill(Color.appLightGray)
                                 .frame(height: 1)
-                                .padding(.vertical, 20)
                         } else {
                             Rectangle()
                                 .fill(.clear)
                                 .frame(height: 1)
-                                .padding(.vertical, 20)
                         }
                     }
                 }
