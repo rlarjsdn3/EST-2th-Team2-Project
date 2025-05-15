@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
 
+    @Environment(\.verticalSizeClass) var verticalSizeClass
     @State private var selected: Tab = .home
 
     init() {
@@ -38,7 +39,7 @@ struct ContentView: View {
             
 
             roundedRectTabBar
-                .padding(.bottom, -10)
+                .padding(.bottom, verticalSizeClass == .regular ? -5 : -10)
         }
         .ignoresSafeArea(.keyboard)
     }
