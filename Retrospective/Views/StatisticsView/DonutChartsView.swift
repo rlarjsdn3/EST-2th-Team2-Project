@@ -38,7 +38,7 @@ extension DonutChartsView {
     var donutChartsView: some View {
         ZStack {
             ForEach(0..<datas.count, id: \.self) { index in
-                Circle()
+                return Circle()
                     .trim(
                         from: fromTrimValue(index),
                         to: toTrimValue(index)

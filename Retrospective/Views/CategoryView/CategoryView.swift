@@ -30,7 +30,8 @@ struct CategoryView: View {
                                 newCategoryName = String(newValue.prefix(15))
                             }
                         }
-                        .padding(.leading, -20)
+                        //.padding(.leading, -20)
+                        .autocapitalization(.none)
 
                     Button(action: {
                         addCategory()
@@ -80,12 +81,17 @@ struct CategoryView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding()
                         }
+
                     }
+
                 }
                 .padding()
-                .contentMargins(.bottom, 80, for: .scrollContent)
+                .scrollIndicators(.hidden)
+
+
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+
             .background(Color.appLightPeach)
             .ignoresSafeArea(.all)
             .alert("중복된 이름입니다.", isPresented: $showingDuplicateAlert) {
@@ -100,7 +106,7 @@ struct CategoryView: View {
                         context.delete(category)
                         categoryToDelete = nil
                     }
-                    dismiss()
+
                 }
                 Button("취소", role: .cancel) {
                     categoryToDelete = nil
@@ -119,6 +125,8 @@ struct CategoryView: View {
                 }
             }
         }
+
+
     }
 
     private func addCategory() {

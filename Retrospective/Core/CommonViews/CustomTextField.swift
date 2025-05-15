@@ -18,9 +18,16 @@ struct CustomTextField: View {
                 Image(systemName: "magnifyingglass")
                     .foregroundStyle(.secondary)
                 TextField(placeholder, text: $text)
+                Button {
+                    text = ""
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundStyle(.label)
+                }
             }
             .padding()
-            .frame(width: .infinity, height: 45)
+            .frame(height: 45)
+            .frame(maxWidth: .infinity)
             .background(
                 RoundedRectangle(cornerRadius: 18)
                     .fill(Color.appLightGray.opacity(0.33)) // 내부 배경색
@@ -35,15 +42,6 @@ struct CustomTextField: View {
     }
 }
 #Preview {
-    /// 사용 예시
-    struct PreviewWrapper: View {
-            @State private var nameInput: String = ""
-
-            var body: some View {
-                CustomTextField(placeholder: "이름을 입력해주세요", text: $nameInput)
-                    .modelContainer(PersistenceManager.previewContainer)
-            }
-        }
-
-    return PreviewWrapper()
+    @Previewable @State var input: String = ""
+    CustomTextField(placeholder: "Placeholder", text: $input)
 }
