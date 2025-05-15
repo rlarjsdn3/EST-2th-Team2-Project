@@ -23,9 +23,7 @@ struct ContentView: View {
                     HomeView()
                         .tag(Tab.home)
 
-        
                     SearchView()
-                  
                         .tag(Tab.search)
 
                     StatisticsView()

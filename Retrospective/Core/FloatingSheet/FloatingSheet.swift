@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FloatingSheet<Content>: View where Content: View {
 
-    @Environment(\.verticalSizeClass) var verticalSizeClass
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
 
     /// 사용자가 드래그할 때, 처음 드래그 위치와 이후 드래그 위치의 차이를 저장하는 상태 변수입니다.
     @State private var dragOffsetX: CGFloat = 0.0
@@ -69,7 +69,7 @@ struct FloatingSheet<Content>: View where Content: View {
                         )
                     )
                     .padding()
-                    .padding(.horizontal, verticalSizeClass == .compact
+                    .padding(.horizontal, horizontalSizeClass == .compact
                              ? 10 : 100)
                     .safeAreaPadding(.bottom, bottomOffset)
                     .offset(x: dragOffsetX, y: dragOffsetY)
