@@ -32,7 +32,7 @@ struct RetrospectiveApp: App {
                     }
                 }
                 .sheet(isPresented: $isShowingOnboarding) {
-                    Text("온보딩 화면")
+                    OnboardingView()
                 }
                 .dynamicTypeSize(.small ... .xxxLarge)
         }

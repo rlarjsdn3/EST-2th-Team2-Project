@@ -23,6 +23,8 @@ struct WritingView: View, KeyboardReadable {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.horizontalSizeClass) var hSizeClass
 
+    /// 글 작성 부분 구성요소 입니다.
+    /// - placeholder: text
     private let placeholder: String = "내용"
     @State private var title: String = ""
     @State private var content: String = ""
@@ -91,7 +93,7 @@ struct WritingView: View, KeyboardReadable {
                         }
 
                         /// 2. 상세 글 보기 모드일 때
-                        else if (diary != nil && isEditMode == false) {
+                        else if isEditMode == false {
                             HStack {
                                 Text(diary!.title)
                                     .foregroundColor(.label)
@@ -105,7 +107,7 @@ struct WritingView: View, KeyboardReadable {
                         }
 
                         /// 3. 글 편집 모드일 때
-                        else if (diary != nil && isEditMode == true) {
+                        else if isEditMode == true {
                             TextField("", text: $title)
                                 .focused($focused, equals: .title)
                                 .onAppear {
@@ -148,14 +150,14 @@ struct WritingView: View, KeyboardReadable {
                         }
 
                         /// 2. 상세 글 보기 모드일 때
-                        else if (diary != nil && isEditMode == false) {
+                        else if isEditMode == false {
                             TextEditor(text: $content)
                                 .customTextEditor(placeholder: placeholder, text: $content, isEditMode: $isEditMode)
                                 .disabled(true)
                         }
 
                         /// 3. 글 편집 모드일 때
-                        else if (diary != nil && isEditMode == true) {
+                        else if isEditMode == true {
                             TextEditor(text: $content)
                                 .customTextEditor(placeholder: placeholder, text: $content, isEditMode: $isEditMode)
                                 .disabled(false)
@@ -175,52 +177,45 @@ struct WritingView: View, KeyboardReadable {
                 .padding(.top, 10)
 
                 HStack {
-                    /// 카테고리 버튼
+                    /// 카테고리 버튼이 뜨는 곳
                     ScrollView(.horizontal) {
                         HStack(spacing: 10) {
                             /// 1. 새 글 작성 모드일 때
+                            // TODO: 왜 안뜨니.....
                             if diary == nil {
-                                ForEach (categoryButtons) { categoryButton in
-                                    categoryButton
+                                ForEach (categoryButtons) { button in
+                                    button
                                 }
                             }
 
                             /// 2. 상세 글 보기 모드일 때
-                            else if (diary != nil && isEditMode == false) {
-                                if categories.isEmpty {
-                                    EmptyView()
-                                } else {
-                                    ForEach (diary!.categories) { category in
-                                        CategoryButton(category: category.name, categoryColor: category.color, alwaysShowCategoryHighlight: true) { }
-                                            .disabled(true)
-                                    }
+                            else if isEditMode == false {
+                                ForEach (diary!.categories) { category in
+                                    CategoryButton(category: category.name, categoryColor: category.color, alwaysShowCategoryHighlight: true) { }
+                                        .disabled(true)
                                 }
                             }
 
                             /// 3. 글 편집 모드일 때
-                            else if (diary != nil && isEditMode == true) {
-                                if categories.isEmpty {
-                                    EmptyView()
-                                } else {
-                                    ForEach (categoryButtons) { button in
-                                        button
-                                    }
+                            else if isEditMode == true {
+                                ForEach (categoryButtons) { button in
+                                    button
                                 }
                             }
                         }
                     }
                     .scrollIndicators(.hidden)
 
-                    NavigationLink(destination: CategoryView()) {
-                        Image(systemName: "plus")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 18, height: 18)
-                            .foregroundColor(.label)
-                            .opacity((diary != nil && isEditMode == false) ? 0.1 : 1.0)
-                            .padding(.leading, 5)
+                    if (diary == nil || isEditMode == true) {
+                        NavigationLink(destination: CategoryView()) {
+                            Image(systemName: "plus")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 18, height: 18)
+                                .foregroundColor(.label)
+                                .padding(.leading, 5)
+                        }
                     }
-                    .disabled(diary != nil && isEditMode == false)
                 }
                 .padding(.horizontal, 20)
                 .padding(.bottom, 25)
@@ -243,7 +238,6 @@ struct WritingView: View, KeyboardReadable {
                     }
                     .padding(.trailing, 12)
                     RetrospectiveToolBarItem(.symbol("checkmark")) {
-                        dismiss()
                         updateDiary()
                         isEditMode = false
                     }
@@ -268,7 +262,7 @@ struct WritingView: View, KeyboardReadable {
                     }
                 }
             }
-            .retrospectiveNavigationTitle(diary == nil ? "새로운 글 작성" : "")
+            .retrospectiveNavigationTitle(diary == nil ? "새로운 글 작성" : (isEditMode == true ? "수정하기" : "상세보기"))
             .retrospectiveNavigationBarColor(.appLightPeach)
         }
         .background(.appLightPeach)
@@ -276,7 +270,7 @@ struct WritingView: View, KeyboardReadable {
             if let diary = diary {
                 categoriesSelection = diary.categories
             }
-
+          
             initializeCategoryButtons()
         }
         .onChange(of: isEditMode) { _, _ in

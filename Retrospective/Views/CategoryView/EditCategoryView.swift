@@ -16,14 +16,14 @@ struct EditCategoryView: View {
     @Environment(\.dismiss) private var dismiss
 
     @Bindable var category: Category
-
+    @State private var newCategoryName: String = ""
     @State private var editedName: String
     @State private var r: Double
     @State private var g: Double
     @State private var b: Double
     @State private var dragging = false
     @State private var showAlert = false
-
+    @State private var showingMinimumCategoryAlert = false
     init(category: Category) {
             self.category = category
             _editedName = State(initialValue: category.name)
@@ -45,6 +45,12 @@ struct EditCategoryView: View {
                     HStack{
                         HStack {
                             TextField(placeholder, text: $editedName)
+                                .autocapitalization(.none)
+                                .onChange(of: editedName) { newValue in
+                                    if newValue.count > 15 {
+                                        editedName = String(newValue.prefix(15))
+                                    }
+                                }
                         }
                         .padding()
                         .frame(width: .infinity, height: 45)
@@ -115,7 +121,9 @@ struct EditCategoryView: View {
         }
         .frame(maxWidth: .infinity ,maxHeight: .infinity)
         .background(Color.appLightPeach)
-
+        .alert("최소 한개 이상의 카테고리가 필요합니다.", isPresented: $showingMinimumCategoryAlert) {
+            Button("확인", role: .cancel) { }
+        }
     }
     @ViewBuilder
     private func sliderView(value: Binding<Double>, label: String, color: Color) -> some View {
