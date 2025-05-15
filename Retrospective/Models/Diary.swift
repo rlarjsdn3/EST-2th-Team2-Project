@@ -42,20 +42,20 @@ extension Diary {
     static let mock: [Diary] = [
         Diary(
             title: "임의 침묵",
-            contents: "님은 갔습니다. 아아, 사랑하는 나의 님은 갔습니다. 푸른 산빛을 깨치고 단풍나무 숲을 향하여 난 작은 길을 걸어서, 차마 떨치고 갔습니다.",
+            contents: "님님은 갔습니다 아아 사랑하는 나의 님은 갔습니다 푸른 산빛을 깨치고 단풍나무 숲을 향하여 난 작은 길을 걸어서 차마 떨치고 갔습니다 나는 눈물 속에 님의 뒷모습을 지켜보았습니다 한 발 또 한 발 바스락이는 낙엽 위로 님은 아무 말 없이 떠났습니다 내 마음의 문을 두드리던 따뜻한 손길도 그 마지막 인사조차 남기지 않았습니다 산새도 잠시 울음을 멈추고 나무들도 바람을 붙잡은 듯 고요했습니다 그 길은 짧았지만 영원처럼 멀게 느껴졌고 나는 발을 떼지 못한 채 그 자리에 서 있었습니다",
             categories: [.mock[0], .mock[1], .mock[2]],
             createdDate: Date(year: 2025, month: 5, day: 13)!
         ),
         Diary(
             title: "아침의 햇살",
             contents: "어느 아침, 햇살이 창을 가득 채웠습니다. 그 빛은 나를 따뜻하게 감싸며, 새로운 하루를 맞이할 용기를 주었습니다.",
-            categories: [.mock[3], .mock[4]],
+            categories: [],
             createdDate: Date(year: 2025, month: 5, day: 13)!
         ),
         Diary(
-            title: "봄의 노래",
-            contents: "새싹이 돋아나는 소리, 부드러운 바람이 불어옵니다. 꽃들은 피어나며 향기를 퍼트리고, 나는 그 속에서 미소 지었습니다.",
-            categories: [.mock[0], .mock[5], .mock[6]],
+            title: "봄에는 여행을 가요",
+            contents: "따뜻한 햇살과 꽃향기가 가득한 봄, 주말마다 가까운 도시로 소소한 여행을 떠나요. 벚꽃 구경도 하고, 한적한 시골 마을도 걸어요. 짧은 여행이지만 마음이 환기되는 시간이 돼요.",
+            categories: [.mock[3]],
             createdDate: Date(year: 2025, month: 5, day: 11)!
         ),
         Diary(
@@ -119,6 +119,12 @@ extension Diary {
             createdDate: Date(year: 2025, month: 5, day: 1)!
         ),
         Diary(
+            title: "봄에는 축구를 해요",
+            contents: "날씨가 선선해지면 친구들과 공원에 모여 축구를 해요. 땀이 나도 기분 좋은 계절이라 더 열심히 뛰게 돼요. 팀을 나눠서 미니 게임을 하며 스트레스를 날려요.",
+            categories: [.mock[1]],
+            createdDate: Date(year: 2025, month: 4, day: 25)!
+        ),
+        Diary(
             title: "고양이와의 만남",
             contents: "골목길에서 만난 작은 고양이가 내 발밑에 와서 몸을 비볐습니다. 따뜻한 온기가 전해졌습니다.",
             categories: [.mock[4], .mock[9]],
@@ -134,6 +140,12 @@ extension Diary {
             title: "커피 향 가득한 카페",
             contents: "따뜻한 커피 한 잔을 마시며 창밖을 바라봤습니다. 사람들의 움직임을 보며 생각에 잠겼습니다.",
             categories: [.mock[0], .mock[5], .mock[9]],
+            createdDate: Date(year: 2025, month: 4, day: 18)!
+        ),
+        Diary(
+            title: "봄에는 집에 있어요",
+            contents: "봄이면 바깥도 좋지만, 오히려 조용한 집에서 쉬는 시간이 더 좋아요. 창문을 열면 바람과 햇살이 들어오고, 따뜻한 차 한 잔과 책 한 권이면 완벽한 하루가 돼요.",
+            categories: [.mock[9]],
             createdDate: Date(year: 2025, month: 4, day: 18)!
         ),
         Diary(

@@ -79,19 +79,45 @@ struct SearchView: View {
                     }
 
                     Menu {
-                        Button("제목만") {
+                        Button {
                             searchingInTitle = true
                             searchingInContents = false
+                        } label: {
+                            HStack {
+                                Text("제목만")
+
+                                Spacer()
+
+                                if searchingInTitle && !searchingInContents {
+                                    Image(systemName: "checkmark")
+                                }
+                            }
                         }
 
-                        Button("내용만") {
+                        Button {
                             searchingInTitle = false
                             searchingInContents = true
+                        } label: {
+                            Text("내용만")
+
+                            Spacer()
+
+                            if !searchingInTitle && searchingInContents {
+                                Image(systemName: "checkmark")
+                            }
                         }
 
-                        Button("제목 + 내용") {
+                        Button {
                             searchingInTitle = true
                             searchingInContents = true
+                        } label: {
+                            Text("제목 + 내용")
+
+                            Spacer()
+
+                            if searchingInTitle && searchingInContents {
+                                Image(systemName: "checkmark")
+                            }
                         }
                     } label: {
                         HStack(spacing: 0) {
@@ -107,8 +133,6 @@ struct SearchView: View {
                     }
                 }
 
-                CategoryAndDateSortView(filteredCategories: filteredCategories, isDescending: $isDescending)
-                    .padding(.bottom)
 
                 if searchText.isEmpty {
                     EmptyStateView(
@@ -127,19 +151,27 @@ struct SearchView: View {
                         )
                         .padding(.bottom, 150)
                     } else {
-                        if hSizeClass == .regular {
-                            CardScrollViewForPad(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
-                        } else {
-                            CardScrollView(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
+                        Group {
+                            if hSizeClass == .regular {
+                                CardScrollViewForPad(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
+                            } else {
+                                CardScrollView(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
+                            }
                         }
+                        .padding(.top, 25)
                     }
                 }
+            }
+            .overlay(alignment: .topTrailing) {
+                CategoryAndDateSortView(filteredCategories: filteredCategories, isDescending: $isDescending)
+                    .padding(.bottom)
+                    .padding(.top, 63)
             }
             .background(Color.appLightPeach)
             .floatingSheet(isPresented: $isPresentedFilterSelectView) {
                 FilterSelectView(filteringCategories: $filteringCategories, isPresentedFilterSelectView: $isPresentedFilterSelectView)
             }
-            .retrospectiveNavigationTitle("Search")
+            .retrospectiveNavigationTitle("검색")
             .retrospectiveNavigationBarColor(.appLightPeach)
             .retrospectiveLeadingToolBar {
                 RetrospectiveToolBarItem(.symbol("slider.horizontal.3")) {

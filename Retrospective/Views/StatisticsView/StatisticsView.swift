@@ -23,6 +23,9 @@ struct StatisticsView: View {
     @State private var dateRange: Range<Date>? = Date.now.weekRange
     @State private var chartsDatas: [CategoryChartsData] = []
 
+    private let etcString = "기타"
+    private var etc: Category = Category(name: "기타", color: .black)
+
     var body: some View {
         RetrospectiveNavigationStack {
             Group {
@@ -170,9 +173,18 @@ extension StatisticsView {
         let chartsDatas = prepareDonutChartData(from: categoryDict, total: total)
 
         return chartsDatas.sorted {
+            // '카테고리 없음' 범례를 제일 뒤로 보내기
+            let isEqual1 = $0.name == etcString
+            let isEqual2 = $1.name == etcString
+            if isEqual1 || isEqual2 {
+                return !isEqual1 && isEqual2
+            }
+            // 카테고리 개수가 같다면
             if $0.count == $1.count {
+                // 이름 오름차순 정렬
                 return $0.name < $1.name
             }
+            // 개수 내림차순 정렬
             return $0.count > $1.count
         }
     }
@@ -181,9 +193,14 @@ extension StatisticsView {
         var total: Int = 0
         var categoryDict: CategoryDict = [:]
         for diary in diaries {
-            for category in diary.categories {
+            if diary.categories.isEmpty {
                 total += 1
-                categoryDict[category] = categoryDict[category, default: 0] + 1
+                categoryDict[etc] = categoryDict[etc, default: 0] + 1
+            } else {
+                for category in diary.categories {
+                    total += 1
+                    categoryDict[category] = categoryDict[category, default: 0] + 1
+                }
             }
         }
         return (categoryDict, total)
@@ -210,7 +227,7 @@ extension StatisticsView {
 
         var filterdDiary: [Diary] = []
         for diary in self.diary {
-            if (diary.createdDate >= lowerBound && diary.createdDate <= upperBound) {
+            if (diary.createdDate >= lowerBound && diary.createdDate < upperBound) {
                 filterdDiary.append(diary)
             }
         }
