@@ -74,7 +74,7 @@ struct HomeView: View {
                             } else {
                                 CardScrollView(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
                             }
-                        }.padding(.top, 38)
+                        }.padding(.top, 50)
                     }
                 }
             }

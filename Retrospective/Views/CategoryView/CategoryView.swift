@@ -44,7 +44,7 @@ struct CategoryView: View {
                     .foregroundStyle(.label)
                 }
                 .padding(.vertical, 0)
-                .padding(.horizontal, 25)
+                .padding(.trailing, 25)
 
 
                 ScrollView {
