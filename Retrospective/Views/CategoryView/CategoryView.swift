@@ -45,7 +45,6 @@ struct CategoryView: View {
                 .padding(.vertical, 0)
                 .padding(.horizontal, 25)
 
-                // CategoryListView() // 필요 시 여기에 위치시킬 수 있어요
 
                 ScrollView {
                     LazyVStack {
