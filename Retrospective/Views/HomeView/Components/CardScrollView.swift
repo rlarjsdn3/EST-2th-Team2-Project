@@ -35,7 +35,7 @@ struct CardScrollView: View {
                             ForEach(days.keys.sorted(by: { isDescending ? $0 > $1 : $0 < $1 }), id: \.self) { dayKey in
                                 if let diaries = days[dayKey] {
                                     Section(header: DayHeader(title: dayKey)) {
-                                        ForEach(diaries.sorted(by: { $0.title > $1.title })) { diary in
+                                        ForEach(diaries.sorted(by: { $0.title < $1.title })) { diary in
                                             VStack(alignment: .leading) {
                                                 CardUIView(diary: diary)
                                             }
