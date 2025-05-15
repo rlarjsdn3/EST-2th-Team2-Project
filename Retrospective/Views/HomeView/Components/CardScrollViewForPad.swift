@@ -15,6 +15,22 @@
 
 import SwiftUI
 
+/// 월/일 기준으로 그룹화된 다이어리 항목을 2열로 스크롤 표시하는 뷰입니다.
+///
+/// 월(MonthHeader) → 일(DayHeader) → 카드(CardUIView)의 계층 구조로 구성되며,
+/// 두 개의 컬럼으로 구성된 `LazyVGrid` 형태로 카드가 정렬되어 나타납니다.
+///
+/// - 기능:
+///   - 날짜 순서를 정렬방향을 정할 수 있도록 `isDescending`을 바인딩으로 받습니다.
+///   - 각 년/월 헤더는 `pinnedViews`로 고정되어 스크롤 시 따라옵니다.
+///   - 같은 날에 생성된 카드들은 제목(title) 내림차순으로 정렬됩니다.
+///
+/// - Parameters:
+///   - groupedByMonthAndDay: `[월: [일: [Diary]]]` 구조의 정렬된 다이어리 데이터
+///   - isDescending: 정렬 순서 설정 바인딩 (true일 경우 최신순)
+///
+/// - Notes:
+///   - 이 뷰는 `CardScrollView`의 아이패드용 대응 버전입니다.
 struct CardScrollViewForPad: View {
     @Binding var isDescending: Bool
 
