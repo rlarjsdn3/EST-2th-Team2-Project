@@ -109,7 +109,18 @@ struct CategoryListView: View {
         .alert("이 카테고리를 삭제하시겠습니까?", isPresented: $showingDeleteAlert) {
             Button("예", role: .destructive) {
                 if let category = categoryToDelete {
+                    // ✅ 1. 이 카테고리를 참조하고 있는 다이어리들에서 직접 제거
+                    for diary in category.diaries {
+                        diary.categories.removeAll { $0.id == category.id }
+                    }
+
+                    // ✅ 2. 카테고리 삭제
                     context.delete(category)
+
+                    // ✅ 3. 즉시 저장 (optional, 강력 추천)
+                    try? context.save()
+
+                    // ✅ 4. 상태 초기화
                     categoryToDelete = nil
                 }
             }
