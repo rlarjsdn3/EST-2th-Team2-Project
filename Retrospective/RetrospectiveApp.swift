@@ -15,7 +15,9 @@ struct RetrospectiveApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .dynamicTypeSize(.small ... .xxxLarge)
         }
-        .modelContext(persistenceManager.mainContext)
+//        .modelContext(persistenceManager.mainContext)
+        .modelContainer(PersistenceManager.previewContainer)
     }
 }

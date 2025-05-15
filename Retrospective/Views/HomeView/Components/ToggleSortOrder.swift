@@ -30,11 +30,13 @@ struct ToggleSortOrder: View {
             action(isDescending)
         } label: {
             HStack(spacing: 0) {
-                Text(isDescending ? "최신순" : "과거순")
+                Text(isDescending ? "최신순 " : "과거순 ")
                 Image(systemName: "arrow.down")
                     .rotationEffect(.degrees(isDescending ? 0 : 180))
                     .animation(.bouncy, value: isDescending)
             }
+            .lineLimit(1)
+            .minimumScaleFactor(0.8)
             .fontWeight(.medium)
         }
         .foregroundStyle(.label)
