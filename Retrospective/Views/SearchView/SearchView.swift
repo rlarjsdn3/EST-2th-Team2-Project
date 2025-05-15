@@ -164,6 +164,9 @@ struct SearchView: View {
                     }
                 }
             }
+            .onAppear {
+                UIApplication.shared.hideKeyboard()
+            }
             .overlay(alignment: .topTrailing) {
                 CategoryAndDateSortView(filteredCategories: filteredCategories, isDescending: $isDescending)
                     .padding(.bottom)
