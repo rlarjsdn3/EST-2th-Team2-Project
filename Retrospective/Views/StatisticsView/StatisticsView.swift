@@ -133,7 +133,7 @@ extension StatisticsView {
                 }
                 .foregroundStyle(.label)
             }
-            .padding(8)
+            .padding(.vertical, 12)
             .padding(.horizontal, 14)
             .cornerRadius(.background, radius: 8)
             .defaultShadow(.black.opacity(0.11))
