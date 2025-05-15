@@ -22,7 +22,7 @@ struct MonthHeader: View {
             Spacer()
 
         }
-        .padding(.vertical, 15)
+        .padding(.vertical, 8)
         .padding(.horizontal, hSizeClass == .regular ? 30 : 15)
         .frame(maxWidth: .infinity)
         .background(Color.appLightPeach)
