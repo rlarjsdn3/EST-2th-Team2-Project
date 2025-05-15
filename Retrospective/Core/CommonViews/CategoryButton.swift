@@ -11,7 +11,6 @@ struct CategoryButton: View {
 
     @State private var isCategoryOn: Bool = false
 
-    /// 
     var isOn: Bool {
         self.isCategoryOn
     }
