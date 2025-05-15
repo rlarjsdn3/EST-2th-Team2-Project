@@ -32,6 +32,17 @@ final class PersistenceManager {
             fatalError(error.localizedDescription)
         }
     }()
+
+
+    func createInitialCategories(completion: (() -> Void)? = nil) {
+        let categories = [Category(name: "카테고리 1", color: .red),
+                          Category(name: "카테고리 2", color: .blue),
+                          Category(name: "카테고리 3", color: .yellow),
+                          Category(name: "카테고리 4", color: .green),
+                          Category(name: "카테고리 5", color: .black)]
+        categories.forEach(mainContext.insert(andSave:))
+        completion?()
+    }
 }
 
 extension PersistenceManager {
