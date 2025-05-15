@@ -114,7 +114,7 @@ struct CategoryView: View {
                     categoryToDelete = nil
                 }
             } message: {
-                Text("삭제된 다이어리는 되돌릴 수 없으며, 영구적으로 사라집니다.")
+                Text("삭제된 카테고리는 되돌릴 수 없으며, 영구적으로 사라집니다.")
             }
 
             .alert("최소 한개 이상의 카테고리가 필요합니다.", isPresented: $showingMinimumCategoryAlert) {
