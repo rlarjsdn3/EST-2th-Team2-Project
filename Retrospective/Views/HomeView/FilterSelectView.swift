@@ -70,8 +70,8 @@ struct FilterSelectView: View {
                     .listRowSeparator(.hidden)
                     .padding(.horizontal, 10)
                 }
-                .listStyle(.plain)
             }
+            .listStyle(.plain)
 
             RoundedRectButton(title: "확인") {
                 filteringCategories = tempSelection
