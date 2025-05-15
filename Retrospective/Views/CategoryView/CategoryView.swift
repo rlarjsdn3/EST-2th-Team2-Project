@@ -50,6 +50,7 @@ struct CategoryView: View {
                 ScrollView {
                     LazyVStack {
                         ForEach(categories) { category in
+
                             HStack {
                                 Circle()
                                     .fill(category.color)
@@ -81,19 +82,20 @@ struct CategoryView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding()
                         }
-
+                        Spacer().frame(height: 50)
                     }
 
                 }
                 .padding()
                 .scrollIndicators(.hidden)
 
+                .contentMargins(.bottom, 80, for: .scrollIndicators)
 
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
 
             .background(Color.appLightPeach)
-            .ignoresSafeArea(.all)
+            //.ignoresSafeArea(.all)
             .alert("중복된 이름입니다.", isPresented: $showingDuplicateAlert) {
                 Button("확인", role: .cancel) { }
             }
