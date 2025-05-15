@@ -15,7 +15,7 @@ struct DayHeader: View {
             Text(title)
                 .foregroundStyle(Color.label)
                 .font(.title3)
-                .fontWeight(.bold)
+                .fontWeight(.semibold)
 
 
             Spacer()

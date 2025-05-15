@@ -44,6 +44,7 @@ struct HomeView: View {
     var body: some View {
         RetrospectiveNavigationStack {
             VStack(spacing: 0) {
+
                 CategoryAndDateSortView(filteredCategories: filteredCategories, isDescending: $isDescending)
                     .padding(.top, 5)
                     .padding(.bottom, 15)
@@ -55,7 +56,6 @@ struct HomeView: View {
                         CardScrollView(isDescending: $isDescending, groupedByMonthAndDay: groupedByMonthAndDay)
                     }
                 }
-//                .animation(.smooth, value: isDescending)
             }
             .background(Color.appLightPeach)
             .floatingSheet(isPresented: $isPresentedFilterSelectView) {
@@ -76,6 +76,9 @@ struct HomeView: View {
             .navigationDestination(isPresented: $isPresentedWritingView, destination: {
                 WritingView(diary: nil)
             })
+        }
+        .floatingSheet(isPresented: $isPresentedFilterSelectView) {
+            FilterSelectView(filteringCategories: $filteringCategories, isPresentedFilterSelectView: $isPresentedFilterSelectView)
         }
     }
 }
