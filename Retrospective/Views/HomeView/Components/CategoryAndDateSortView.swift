@@ -27,7 +27,7 @@ struct CategoryAndDateSortView: View {
             }
             .padding(.leading)
         }
-        .frame(height: 40)
+        .frame(minHeight: 40)
         .padding(.horizontal, hSizeClass == .regular ? 30 : 15)
     }
 }

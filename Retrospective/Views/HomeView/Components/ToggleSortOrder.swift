@@ -35,6 +35,8 @@ struct ToggleSortOrder: View {
                     .rotationEffect(.degrees(isDescending ? 0 : 180))
                     .animation(.bouncy, value: isDescending)
             }
+            .lineLimit(1)
+            .minimumScaleFactor(0.8)
             .fontWeight(.medium)
         }
         .foregroundStyle(.label)

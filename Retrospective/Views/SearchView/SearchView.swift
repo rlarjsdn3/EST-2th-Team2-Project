@@ -107,11 +107,13 @@ struct SearchView: View {
                             Text(currentSearchScopeText)
                             Image(systemName: "line.3.horizontal.decrease.circle.fill")
                         }
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.8)
+                        .fontWeight(.medium)
+                        .foregroundStyle(Color.label)
                         .padding(.trailing)
                         .padding(.vertical)
                     }
-                    .fontWeight(.medium)
-                    .foregroundStyle(Color.label)
                 }
 
                 CategoryAndDateSortView(filteredCategories: filteredCategories, isDescending: $isDescending)

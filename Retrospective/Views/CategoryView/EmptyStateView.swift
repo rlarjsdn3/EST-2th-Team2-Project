@@ -23,6 +23,8 @@ struct EmptyStateView: View {
                     .font(.title2)
                     .fontWeight(.bold)
                 Text(description)
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.8)
                     .font(.callout)
                     .foregroundStyle(.secondary)
             }
