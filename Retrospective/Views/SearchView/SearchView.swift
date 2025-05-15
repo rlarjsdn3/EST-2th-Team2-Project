@@ -173,9 +173,6 @@ struct SearchView: View {
                     .padding(.top, 63)
             }
             .background(Color.appLightPeach)
-            .floatingSheet(isPresented: $isPresentedFilterSelectView) {
-                FilterSelectView(filteringCategories: $filteringCategories, isPresentedFilterSelectView: $isPresentedFilterSelectView)
-            }
             .retrospectiveNavigationTitle("검색")
             .retrospectiveNavigationBarColor(.appLightPeach)
             .retrospectiveLeadingToolBar {
@@ -191,6 +188,9 @@ struct SearchView: View {
             .navigationDestination(isPresented: $isPresentedWritingView, destination: {
                 WritingView(diary: nil)
             })
+        }
+        .floatingSheet(isPresented: $isPresentedFilterSelectView) {
+            FilterSelectView(filteringCategories: $filteringCategories, isPresentedFilterSelectView: $isPresentedFilterSelectView)
         }
     }
 }
