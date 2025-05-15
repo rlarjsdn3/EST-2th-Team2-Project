@@ -44,21 +44,9 @@ struct HomeView: View {
     var body: some View {
         RetrospectiveNavigationStack {
             VStack(spacing: 0) {
-                HStack {
-                    ScrollView(.horizontal) {
-                        HStack {
-                            ForEach (filteredCategories, id: \.self ) {category in
-                                CategoryButton(category: category.name, categoryColor: category.color, alwaysShowCategoryHighlight: true) { }
-                            }
-                        }
-                    }
-
-                    ToggleSortOrder { isDescending in
-                        self.isDescending = isDescending
-                    }
-                }
-                .padding(.top, 20)
-                .padding(.horizontal, hSizeClass == .regular ? 30 : 15)
+                CategoryAndDateSortView(filteredCategories: filteredCategories, isDescending: $isDescending)
+                    .padding(.top, 5)
+                    .padding(.bottom, 15)
 
                 Group {
                     if hSizeClass == .regular {
@@ -73,7 +61,7 @@ struct HomeView: View {
             .floatingSheet(isPresented: $isPresentedFilterSelectView) {
                 FilterSelectView(filteringCategories: $filteringCategories, isPresentedFilterSelectView: $isPresentedFilterSelectView)
             }
-            .retrospectiveNavigationTitle("Our Camp Diary")
+            .retrospectiveNavigationTitle("Home")
             .retrospectiveNavigationBarColor(.appLightPeach)
             .retrospectiveLeadingToolBar {
                 RetrospectiveToolBarItem(.symbol("slider.horizontal.3")) {

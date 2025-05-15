@@ -81,25 +81,10 @@ struct SearchView: View {
 
     var body: some View {
         RetrospectiveNavigationStack {
-            VStack {
+            VStack(spacing: 0) {
                 HStack(spacing: 0) {
                     HStack {
-                        Image(systemName: "magnifyingglass")
-                            .foregroundStyle(Color.secondary)
-                            .bold()
-
-                        TextField("Search", text: $searchText, prompt: Text("Search")
-                            .foregroundStyle(Color.secondary))
-                    }
-                    .padding()
-                    .frame(width: .infinity, height: 40)
-                    .background {
-                        RoundedRectangle(cornerRadius: 18)
-                            .fill(Color.appSkyBlue.opacity(0.5))
-                    }
-                    .overlay {
-                        RoundedRectangle(cornerRadius: 18)
-                            .stroke(Color.appLightGray.opacity(0.5), lineWidth: 1) // 테두리 색상 및 두께
+                        CustomTextField(placeholder: "Search", text: $searchText)
                     }
 
                     Menu {
@@ -120,49 +105,16 @@ struct SearchView: View {
                     } label: {
                         HStack(spacing: 0) {
                             Text(currentSearchScopeText)
-                            Image(systemName: "arrowtriangle.down")
+                            Image(systemName: "line.3.horizontal.decrease.circle.fill")
                         }
-                        .padding(.leading, 15)
+                        .padding(.trailing)
                     }
+                    .fontWeight(.medium)
                     .foregroundStyle(Color.label)
                 }
-                .padding(.top, hSizeClass == .regular ? 20 : 5)
-                .padding(.horizontal, hSizeClass == .regular ? 30 : 15)
 
-
-                HStack {
-                    ScrollView(.horizontal) {
-                        HStack {
-                            ForEach (filteredCategories, id: \.self ) {category in
-
-                                CategoryButton(category: category.name, categoryColor: category.color, alwaysShowCategoryHighlight: true) { }
-
-                            }
-                        }
-                        .padding(.vertical, 5)
-
-                    }
-
-                    Button {
-                        isDescending.toggle()
-                    } label: {
-                        if isDescending {
-                            HStack(spacing: 0) {
-                                Text("최신순 ")
-                                Image(systemName: "arrowtriangle.down")
-                            }
-                        } else {
-                            HStack(spacing: 0) {
-                                Text("오래된순 ")
-                                Image(systemName: "arrowtriangle.up")
-                            }
-                        }
-
-                    }
-                    .foregroundStyle(Color.label)
-                }
-                .padding(.top, 5)
-                .padding(.horizontal, hSizeClass == .regular ? 30 : 15)
+                CategoryAndDateSortView(filteredCategories: filteredCategories, isDescending: $isDescending)
+                    .padding(.bottom)
 
                 if searchText.isEmpty {
                         EmptyStateView(
@@ -184,9 +136,8 @@ struct SearchView: View {
             .background(Color.appLightPeach)
             .floatingSheet(isPresented: $isPresentedFilterSelectView) {
                 FilterSelectView(filteringCategories: $filteringCategories, isPresentedFilterSelectView: $isPresentedFilterSelectView)
-                //                    .presentationDetents([.height(200), .fraction(0.7)])
             }
-            .retrospectiveNavigationTitle("Our Camp Diary")
+            .retrospectiveNavigationTitle("Search")
             .retrospectiveNavigationBarColor(.appLightPeach)
             .retrospectiveLeadingToolBar {
                 RetrospectiveToolBarItem(.symbol("slider.horizontal.3")) {
