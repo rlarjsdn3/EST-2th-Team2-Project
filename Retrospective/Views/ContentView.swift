@@ -6,13 +6,8 @@
 //
 
 import SwiftUI
-///탭바 구현 코드입니다.
-///주석 처리된 곳에  View넣어주세요
+
 struct ContentView: View {
-    ///Tag에서 사용할 탭 열거형
-    enum Tab: Hashable {
-        case search, home, statistic, setting
-    }
 
     @State private var selected: Tab = .home
 
@@ -20,40 +15,43 @@ struct ContentView: View {
         UITabBar.appearance().isHidden = true
     }
 
-    ///탭바 커스텀을 위해 탭바의 고정된 자리 삭제
     var body: some View {
-        WritingView(diary: .mock[0])
-//        ZStack(alignment: .bottom) {
-//            TabView(selection: $selected) {
-//                Group {
-//                    CategoryView() //TODO: HomeView() 넣어주세요
-//                        .tag(Tab.home)
-//
-//                    SearchView() // searchView() 넣어주세요
-//                        .tag(Tab.search)
-//
-//                    StatisticsView()
-//                        .tag(Tab.statistic)
-//
-//                    WritingView(diary: .mock[0])
-//                        .tag(Tab.setting)
-//                }
-//                .toolbar(.hidden, for: .tabBar)
-//            }
-//            
-//
-//            tabBar
-//                .padding(.bottom, -10)
-//        }
-//        .ignoresSafeArea(.keyboard)
+        ZStack(alignment: .bottom) {
+            TabView(selection: $selected) {
+                Group {
+                    HomeView()
+                        .tag(Tab.home)
+
+                    SearchView()
+                        .tag(Tab.search)
+
+                    StatisticsView()
+                        .tag(Tab.statistic)
+
+                    SettingView()
+                        .tag(Tab.setting)
+                }
+                .toolbar(.hidden, for: .tabBar)
+            }
+            
+
+            roundedRectTabBar
+                .padding(.bottom, -10)
+        }
+        .ignoresSafeArea(.keyboard)
+    }
+}
+
+extension ContentView {
+
+    private enum Tab: Hashable {
+        case search, home, statistic, setting
     }
 
-
-    ///탭바 커스텀
-    var tabBar: some View {
+    private var roundedRectTabBar: some View {
         HStack {
             Spacer()
-            ///홈버튼
+
             Button{
                 selected = .home
             } label: {
@@ -65,7 +63,6 @@ struct ContentView: View {
             }
             Spacer()
 
-            ///검색버튼
             Button{
                 selected = .search
             } label: {
@@ -77,7 +74,6 @@ struct ContentView: View {
             }
             Spacer()
 
-            ///통계버튼
             Button{
                 selected = .statistic
             } label: {
@@ -89,7 +85,6 @@ struct ContentView: View {
             }
             Spacer()
 
-            ///설정버튼
             Button{
                 selected = .setting
             } label: {
@@ -101,7 +96,6 @@ struct ContentView: View {
 
             }
             Spacer()
-
         }
         .frame(width: 350 , height: 80)
         .background(.background)
@@ -109,6 +103,7 @@ struct ContentView: View {
         .shadow(color: .black.opacity(0.33), radius: 15, x: 5, y: 5)
     }
 }
+
 
 #Preview {
     ContentView()

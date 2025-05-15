@@ -13,7 +13,7 @@ struct CategoryView: View {
     var body: some View {
         RetrospectiveNavigationStack{
 
-            CategoryTestView()
+            CategoryListView()
                 .retrospectiveLeadingToolBar {
                     RetrospectiveToolBarItem(.symbol("chevron.left")) { }
                 }

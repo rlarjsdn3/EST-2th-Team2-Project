@@ -17,6 +17,7 @@ struct RetrospectiveApp: App {
             ContentView()
                 .dynamicTypeSize(.small ... .xxxLarge)
         }
+//        .modelContext(persistenceManager.mainContext)
         .modelContainer(PersistenceManager.previewContainer)
     }
 }
