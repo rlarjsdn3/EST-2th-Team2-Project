@@ -325,11 +325,15 @@ struct WritingView: View {
                 initializeCategoryButtons()
             }
         }
-        .alert("이 글을 삭제하시겠습니까?", isPresented: $showingDeleteAlert) {
-            Button("예", role: .destructive) {
+        .alert("삭제 확인", isPresented: $showingDeleteAlert) {
+            Button("삭제", role: .destructive) {
+                dismiss()
                 deleteDiary()
+
             }
-            Button("아니오", role: .cancel) { }
+            Button("취소", role: .cancel) { }
+        } message: {
+            Text("삭제된 다이어리는 되돌릴 수 없으며, 영구적으로 사라집니다.")
         }
     }
 }
