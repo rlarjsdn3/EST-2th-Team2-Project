@@ -153,9 +153,18 @@
 
 ## 📁 주요 뷰 화면
 
-| 🏠 홈 화면 | 🔍 검색 화면 | 📊 통계 화면 | 🏷️ 카테고리 화면 |
-|:--:|:--:|:--:|:--:|
-| <img src="./docs/ScreenShots/IMG_0354(홈뷰).png" width="200px"> | <img src="./docs/ScreenShots/IMG_0347(검색뷰).png" width="200px"> | <img src="./docs/ScreenShots/IMG_0338(통계뷰).png" width="200px"> | <img src="./docs/ScreenShots/IMG_0335.(카테고리뷰).png" width="200px"> |
+### 🏠 홈 화면 & 🔍 검색 화면
+| 🏠 홈 화면 | 🔍 검색 화면 |
+| :--: | :--: |
+| <img src="./docs/ScreenShots/home.png" width="250px"> | <img src="./docs/ScreenShots/search.png" width="250px"> |
+
+---
+
+### 📊 통계 화면 & 🏷️ 카테고리 화면
+| 📊 통계 화면 | 🏷️ 카테고리 화면 |
+| :--: | :--: |
+| <img src="./docs/ScreenShots/statistics.png" width="250px"> | <img src="./docs/ScreenShots/category.png" width="250px"> |
+
 
 
 
