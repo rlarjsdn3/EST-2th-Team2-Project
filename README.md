@@ -1,10 +1,11 @@
 
+
 <h1 align="center">
 
    
 
 <p align="center">
-  <img src="https://private-user-images.githubusercontent.com/207238979/444243801-4ebf3378-73a0-410e-8818-e0a8081bfa22.gif?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDczMzMyNDgsIm5iZiI6MTc0NzMzMjk0OCwicGF0aCI6Ii8yMDcyMzg5NzkvNDQ0MjQzODAxLTRlYmYzMzc4LTczYTAtNDEwZS04ODE4LWUwYTgwODFiZmEyMi5naWY_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNTE1JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDUxNVQxODE1NDhaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1kYjliMmU4YWI3Yjk5MjFkOGJmM2FhMTg5NzczNmIwOGM1MTI2ZDU1OWFiMWEwNTc4MzhlNGRmNWQzMDg5Nzg4JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.yzEKJZr0aKZZbOXrFM9_2HNa-Ds1OG0buDGgUjzwgRI" width="300" />
+  <img src="./screenshots/온보딩 영상.gif" width="250px">
 
 </p>
 
@@ -81,7 +82,7 @@
 
 ## 📁 폴더 구조
 
-
+```swift
 📁 ProjectRoot
 ├ 📁 Core                       
 │   ├ 📁 CommonViewControllers  (공통으로 사용하는 뷰 컨트롤러)
@@ -94,13 +95,13 @@
 │   │   └ 📁 Extensions
 │   │       └ 📝 FloatingSheet.swift       
 │   ├ 📁 Layout               
-│   │   └ 📝 ChipLayout.swift               ( 칩 스타일 레이아웃)
+│   │   └ 📝 ChipLayout.swift              ( 칩 스타일 레이아웃)
 │   ├ 📁 Modifiers          
 │   │   └ 📝 DefaultShadow+Modifier.swift  ( 기본 그림자 Modifier)
 │   ├ 📁 Protocols         
 │   │   └ 📝 KeyboardReadable.swift         
 │   ├ 📁 Resources             
-│   │   ├ 📝 AppColors.swift               (  앱 공통 색상 정의)
+│   │   ├ 📝 AppColors.swift           (  앱 공통 색상 정의)
 │   │   └ 📁 Assets.xcassets                
 │   ├ 📁 RetrospectiveNavigationStack  ( 네비게이션 스택 관련 커스텀 구현)
 │   │   ├ 📁 Extensions
@@ -148,30 +149,12 @@
 │   ├ 📁 StatisticsView      
 │   ├ 📁 WritingView       
 │   └ 📝 ContentView.swift    
-
+```
 
 ## 📁 주요 뷰 화면
-
-
-### 1. 🏠 홈 화면
-<img src="https://private-user-images.githubusercontent.com/207238979/444250445-41e8a65a-8ae6-4f98-8c62-63371b6f0951.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDczMzQ0ODQsIm5iZiI6MTc0NzMzNDE4NCwicGF0aCI6Ii8yMDcyMzg5NzkvNDQ0MjUwNDQ1LTQxZThhNjVhLThhZTYtNGY5OC04YzYyLTYzMzcxYjZmMDk1MS5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNTE1JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDUxNVQxODM2MjRaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0yMzk5OThmOWJjMDI2MWRiZWY0MGQyZTM1NzY2YjA3YjVjY2MwY2ExMjE4ZmI5Yjk1MjU2OTc5YjczNjgwNzA3JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.ny1dJqPtJWcBmGAlzzlEpgpnfQp_uvsDDdmod8CgE-M" alt="OurDiary" width="250">
-
-
-
-### 2. 🔍 검색화면
-<img src="https://private-user-images.githubusercontent.com/207238979/444250442-24a496c3-2ccc-493c-be3a-908c428078d5.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDczMzQ0ODQsIm5iZiI6MTc0NzMzNDE4NCwicGF0aCI6Ii8yMDcyMzg5NzkvNDQ0MjUwNDQyLTI0YTQ5NmMzLTJjY2MtNDkzYy1iZTNhLTkwOGM0MjgwNzhkNS5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNTE1JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDUxNVQxODM2MjRaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0xNTAwZTk1ODNiNDQ0MzNmNGUwNGMzMmQ2YzBiZWYwYjkxZGYwMzFkNzc0ZDViNjM1YjAyYWYyNDk3NGUwZmQ4JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.lSlTzzs1PZPa_NAxd4rNtc4LHslWRoXjevP9r_5dCig" alt="OurDiary" width="250">
-
-
-
-### 3. 📊 통계 화면
-<img src="https://private-user-images.githubusercontent.com/207238979/444250444-3182e8e4-caf7-432c-98f2-3ed11e312dfb.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDczMzQ0ODQsIm5iZiI6MTc0NzMzNDE4NCwicGF0aCI6Ii8yMDcyMzg5NzkvNDQ0MjUwNDQ0LTMxODJlOGU0LWNhZjctNDMyYy05OGYyLTNlZDExZTMxMmRmYi5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNTE1JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDUxNVQxODM2MjRaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1jMzhkYTRlOGZkZjE3MWQ0YmNjZGQzMjI2YzE3ZTlkZTQyYjNjNmY0MDI4ZTFhOGJhYThiNTg1YTkzOGNkZGRiJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.0OkxhOpgKckU7I1iThkFHVhY0yU9ftDsZXYqlRxtEao" alt="OurDiary" width="250">
-
-
-
-### 4. 🏷️  카테고리 설정 화면
-<img src="https://private-user-images.githubusercontent.com/207238979/444250443-e53e00d1-1cce-4958-b931-4060dd72c29e.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDczMzQ3NTgsIm5iZiI6MTc0NzMzNDQ1OCwicGF0aCI6Ii8yMDcyMzg5NzkvNDQ0MjUwNDQzLWU1M2UwMGQxLTFjY2UtNDk1OC1iOTMxLTQwNjBkZDcyYzI5ZS5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNTE1JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDUxNVQxODQwNThaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT04ZmQ3NmM0OGY0NWMyMzFkYmU0Y2M3YTIwYzc5ODIwMWU1YzcyOWZlMWU1OWE3NDUxMmM4MmE4ZDBhYTVkYWQ1JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.x1T4nqK1WjnMk0Gp2es2b6UwJX7tnu4mDI3YQ7b3kUE" alt="OurDiary" width="250">
-
-
+| 🏠 홈 화면 | 🔍검색 화면 | 📊통계 화면 | 🏷️카테고리 화면 |
+| :--: | :--: | :--: | :--: | :--: |
+| <img src="./screenshots/IMG_0354(홈뷰)" width="250px"> | <img src="./screenshots/IMG_0347(검색뷰).png" width="250px"> | <img src="./screenshots/IMG_0338.(통계뷰).png" width="250px"> | <img src="./screenshots/IMG_0335.(카테고리뷰).png" width="250px"> | 이미지 |
 
 
 
